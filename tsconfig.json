@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "commonjs",
+    "module": "es2015",
     "declaration": true,
     "outDir": "./lib",
-    "strict": true
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true
   },
   "include": [
     "src"

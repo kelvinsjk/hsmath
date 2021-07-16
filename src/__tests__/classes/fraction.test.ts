@@ -10,11 +10,14 @@ const oneSixth = new Fraction(3, 18);
 const negativeThreeQuarter = new Fraction(-6, 8);
 const negativeTwoFifth = new Fraction(2, -5);
 const twentyTwoOverSeven = new Fraction(22, 7);
+const oneSixthFloat = 1 / 6;
+const threePointOneFourFraction = new Fraction(3.14);
 
 test('fraction arithmetic', () => {
   expect(() => { new Fraction(1,0) }).toThrow();
   expect(() => { new Fraction(1.5,3) }).toThrow();
   expect(() => { new Fraction(1, 3.1) }).toThrow();
+  expect(() => { new Fraction(oneSixthFloat) }).toThrow();
   
   expect(negativeThree.num).toBe(-3);
   expect(negativeThree.den).toBe(1);
@@ -26,6 +29,8 @@ test('fraction arithmetic', () => {
   expect(negativeThreeQuarter.den).toBe(4);
   expect(negativeTwoFifth.num).toBe(-2);
   expect(negativeTwoFifth.den).toBe(5);
+  expect(threePointOneFourFraction.num).toBe(157);
+  expect(threePointOneFourFraction.den).toBe(50);
   
   expect(two.isEqual(2)).toBe(true);
   expect(one.divide(two).isEqual(oneHalf)).toBe(true);
@@ -70,12 +75,12 @@ test('fraction arithmetic', () => {
 
 test('string methods', () => {
   expect(one.toString()).toBe('1');
-  expect(`${negativeThree}`).toBe('-3');
+  expect(`${negativeThree}`).toBe('- 3');
   expect(`${oneHalf}`).toBe('\\frac{1}{2}');
-  expect(`${negativeThreeQuarter}`).toBe('-\\frac{3}{4}');
-  expect(negativeThreeQuarter.toString(true)).toBe('\\displaystyle -\\frac{3}{4}');
-  expect(negativeThreeQuarter.toString(false)).toBe('-\\frac{3}{4}');
-  expect(negativeThreeQuarter.toTerm().toString()).toBe('-\\frac{3}{4}');
+  expect(`${negativeThreeQuarter}`).toBe('- \\frac{3}{4}');
+  expect(negativeThreeQuarter.toString({displayMode: true})).toBe('\\displaystyle - \\frac{3}{4}');
+  expect(negativeThreeQuarter.toString({displayMode: false})).toBe('- \\frac{3}{4}');
+  expect(negativeThreeQuarter.toTerm().toString()).toBe('- \\frac{3}{4}');
   expect(two.toFixed()).toBe('2');
   expect(twentyTwoOverSeven.toFixed()).toBe('3');
   expect(twentyTwoOverSeven.toFixed(2)).toBe('3.14');
@@ -89,12 +94,14 @@ test('static methods', () => {
   expect(Fraction.abs(oneSixth).den).toBe(6);
   expect(Fraction.abs(negativeTwoFifth).num).toBe(2);
   expect(Fraction.abs(negativeTwoFifth).den).toBe(5);
-  expect(Fraction.floor(twentyTwoOverSeven)).toBe(3);
-  expect(Fraction.ceil(twentyTwoOverSeven)).toBe(4);
-  expect(Fraction.round(twentyTwoOverSeven)).toBe(3);
+  expect(`${Fraction.floor(twentyTwoOverSeven)}`).toBe('3');
+  expect(`${Fraction.ceil(twentyTwoOverSeven)}`).toBe('4');
+  expect(`${Fraction.round(twentyTwoOverSeven)}`).toBe('3');
   expect(Fraction.sign(negativeTwoFifth)).toBe(-1);
   expect(Fraction.sign(twentyTwoOverSeven)).toBe(1);
   expect(Fraction.sign(zero)).toBe(0);
+  expect(Fraction.compare(1, '>', oneHalf)).toBe(true);
+  expect(Fraction.compare(oneSixth, '>', 2)).toBe(false);
   expect(Fraction.compare(oneSixth, '>', oneHalf)).toBe(false);
   expect(Fraction.compare(oneSixth, '>', negativeTwoFifth)).toBe(true);
   expect(Fraction.compare(oneSixth, '>', oneSixth)).toBe(false);
@@ -110,5 +117,6 @@ test('static methods', () => {
   expect(Fraction.compare(oneSixth, '==', oneHalf)).toBe(false);
   expect(Fraction.compare(oneSixth, '==', oneSixth)).toBe(true);
   expect(Fraction.compare(oneSixth, '===', oneSixth)).toBe(true);
-  expect(Fraction.compare(oneSixth, '===', oneHalf)).toBe(false);
+  expect(Fraction.compare(1, '===', 2)).toBe(false);
+
 })

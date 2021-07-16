@@ -4,8 +4,9 @@
   "description": "a mathematics library",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "type": "module",
   "scripts": {
-    "docs": "typedoc",
+    "docs": "typedoc --sort instance-first --sort source-order",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
@@ -14,7 +15,7 @@
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint --ignore-path .gitignore",
-    "test": "jest --config jestconfig.json"
+    "test": "jest --config jestconfig.json --coverage"
   },
   "repository": {
     "type": "git",

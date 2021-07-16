@@ -49,17 +49,17 @@ class NthRoot extends Term{
     // extract nth-powers
     const [a, b] = extractPowers(radicand, n); // radicand = a^2 * b
 
-    // calls Term constructor and termString for rational answers
+    // calls Term constructor and variable for rational answers
     super(coeff.times(a), `\\sqrt[${n}]{${b}}`);
     this.n = n;
     this.radicand = b;
     if (this.radicand === 0) { // 0 term
       this.coeff = Fraction.ZERO;
-      this.termString = '';
+      this.variable = '';
     } else if (this.radicand === 1) { // a sqrt{1} = a
-      this.termString = '';
+      this.variable = '';
     } else {
-      this.termString = `\\sqrt[${n}]{${this.radicand}}`;
+      this.variable = `\\sqrt[${n}]{${this.radicand}}`;
     }
   }
 }
@@ -87,22 +87,22 @@ class SquareRoot extends NthRoot{
   constructor(radicand: number | Fraction, coeff?: number | Fraction) {
     super(radicand, 2, coeff);
     if (this.radicand !== 0 && this.radicand !== 1) { // valid square root radical
-      this.termString = `\\sqrt{${this.radicand}}`;
+      this.variable = `\\sqrt{${this.radicand}}`;
     }
   }
 }
 
 // takes an integer x, and returns [a, b] such that x = a^n b and b is n-power free (up to 100)
 function extractPowers(x: number, n=2, y=1): [number, number] {
-  if (!Number.isInteger(x) || x < 0 || !Number.isInteger(n) || n < 2) {
-    throw 'only non-negative integers supported, n must be an integer more than 2'
+  if (!Number.isInteger(n) || n < 2) {
+    throw 'n must be an integer more than 2'
   }
   if (x == 0) {
     return [0, 0];
   }
   // primes up to 100
   const primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97];
-  for (let prime of primes) {
+  for (const prime of primes) {
     if (x % (Math.pow(prime,n)) === 0) {
       return extractPowers((x / Math.pow(prime,n)), n, y * prime)
     } else if (x < Math.pow(prime, n)) {

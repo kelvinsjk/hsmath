@@ -1,7 +1,7 @@
-import gcd from '../fns-arithmetic/gcd';
+import gcd from '../fns/arithmetic/gcd';
 import Term from './termClass';
 /**
- * fraction class `{num: numerator, den: denominator}`
+ * Fraction class `{num: numerator, den: denominator}`
  * 
  * `num` is an integer and `den` is a positive integer (any negative signs are "hoisted" to `num`)
  */
@@ -15,20 +15,31 @@ export default class Fraction {
   //// constructor
   /**
    * Creates a new fraction instance, 'simplifying' the fraction to the form a/b such that a is an integer, b is a positive integer and gcd(a,b)=1.
-   * @param num numerator (integer)
-   * @param den denominator (non-negative integer). default value: `1`
+   * @param num numerator.
+   * @param den denominator (non-negative integer). default value: `1`. If `num` is not an integer, then must be `1`.
    */
   constructor(num: number, den = 1) {
     if (den === 0) {
       throw 'denominator cannot be zero'
     }
-    if (!Number.isInteger(num) || !Number.isInteger(den)) {
-      throw 'both numerator and denominator must be integers'
+    if (!Number.isInteger(den)) {
+      throw 'denominator must be an integer'
     }
-    const divisor = gcd(num, den);
-    const sign = Math.sign(num) * Math.sign(den);
-    this.num = sign * Math.abs(num) / divisor;
-    this.den = Math.abs(den) / divisor;
+    if (Number.isInteger(num)) {
+      const divisor = gcd(num, den);
+      const sign = Math.sign(num) * Math.sign(den);
+      this.num = sign * Math.abs(num) / divisor;
+      this.den = Math.abs(den) / divisor;
+    } else { // num is non-integer
+      if (den === 1) {
+        [num, den] = convertDecimalToFraction(num);
+        const divisor = gcd(num, den);
+        this.num = Math.abs(num) / divisor;
+        this.den = Math.abs(den) / divisor;
+      } else {
+        throw 'when using a non-integer numerator, only a denominator of 1 is supported';
+      }
+    }
   }
 
   //// instance methods
@@ -93,15 +104,14 @@ export default class Fraction {
     }
     return new Fraction(Math.pow(this.num, n), Math.pow(this.den, n));
   }
-  /**
-   * converts to Javascript built-in Number type
-   * @returns the float representation of this fraction in the JavaScript number format
-   */
-  valueOf(): number {
-    return this.num / this.den;
-  }
 
   /// comparison
+  /**
+   * checks if this fraction is an integer
+   */
+  isInteger(): boolean {
+    return (this.den === 1);
+  }
   /**
    * checks if this fraction is equal to `f2`
    */
@@ -111,26 +121,30 @@ export default class Fraction {
     }
     return (this.num === f2.num && this.den == f2.den);
   }
-  /**
-   * checks if this fraction is an integer
-   */
-  isInteger(): boolean {
-    return (this.den === 1);
-  }
 
   /// string methods
   /**
    * @param displayMode if `true`, adds `\displaystyle` at the start of the string
    * @returns the LaTeX string representation of the fraction
    */
-  toString(displayMode = false): string {
-    if (this.den === 1) { // integer
-      return this.num.toString();
+  toString(options?: toStringOptions): string {
+    if (this.den === 1) { // integer      
+      return (this.num >= 0) ? this.num.toString() : `- ${Math.abs(this.num)}`;
     } else { // fraction
-      const sign = this.num < 0 ? '-' : '';
+      const displayMode = (options === undefined) ? '' : options.displayMode;
       const displayText = displayMode ? '\\displaystyle ' : '';
+      const sign = this.num < 0 ? '- ' : '';
       return `${displayText}${sign}\\frac{${Math.abs(this.num)}}{${this.den}}`;
     }
+  }
+
+  /// methods relating to the primitive number type
+  /**
+   * converts to Javascript built-in Number type
+   * @returns the float representation of this fraction in the JavaScript number format
+   */
+  valueOf(): number {
+    return this.num / this.den;
   }
   /**
    * invokes the JavaScript `Number.prototype.toFixed()` method
@@ -168,38 +182,38 @@ export default class Fraction {
   /**
    * @returns the absolute value of `f`
    */
-  static abs(f: Fraction) {
+  static abs(f: Fraction):Fraction {
     return new Fraction(Math.abs(f.num), f.den);
   }
   /**
    * invokes the built-in `Math.ceil(f)` function
    */
-  static ceil(f: Fraction) {
-    return Math.ceil(f.valueOf());
+  static ceil(f: Fraction):Fraction {
+    return new Fraction(Math.ceil(f.valueOf()));
   }
   /**
    * invokes the built-in `Math.floor(f)` function
    */
-  static floor(f: Fraction) {
-    return Math.floor(f.valueOf());
+  static floor(f: Fraction):Fraction {
+    return new Fraction(Math.floor(f.valueOf()));
   }
   /**
    * invokes the built-in `Math.round(f)` function
    */
-  static round(f: Fraction) {
-    return Math.round(f.valueOf());
+  static round(f: Fraction):Fraction{
+    return new Fraction(Math.round(f.valueOf()));
   }
   /**
    * invokes the built-in `Math.sign(f)` function
    */
-  static sign(f: Fraction) {
+  static sign(f: Fraction): number {
     return Math.sign(f.valueOf());
   }
+
   /// comparison methods
-  /**
-   * compares `f1` to `f2`
+  /**new Fraction(
    */
-  static compare(f1: Fraction | number, compare: ">"|">="|"<"|"<="|"=="|"===", f2: Fraction | number) {
+  static compare(f1: Fraction | number, compare: ">"|">="|"<"|"<="|"=="|"===", f2: Fraction | number): boolean {
     if (typeof f1 === 'number') {
       f1 = new Fraction(f1);
     }
@@ -214,11 +228,36 @@ export default class Fraction {
       return f1.valueOf() < f2.valueOf();
     } else if (compare === "<=") {
       return f1.valueOf() <= f2.valueOf();
-    } else if (compare === "==" || compare === "===") {
+    } else { //if (compare === "==" || compare === "===")
       return f1.isEqual(f2);
     } 
   }
 }
 
-// TODO: implement a compare function 
+// returns [a, b], where we have converted num = a/b
+// warning: make sure num is not an integer before calling
+function convertDecimalToFraction(num: number): [number, number] { 
+  const x = num.toString(); //// x of the form 'aaaa.bbb'
+  const decimalIndex = x.indexOf('.');
+  const powerOfTen = Math.pow(10, x.length - decimalIndex - 1)
+  const numerator = num * powerOfTen;
+  if (Number.isSafeInteger(numerator) && Number.isSafeInteger(powerOfTen)) {
+    return [numerator, powerOfTen];
+  } else {
+    throw 'conversion of decimal to Fraction failed (unsafe integer encountered)';
+  }
+}
+
+
+/**
+ * Options for converting to string
+ */
+interface toStringOptions {
+  /** `displayMode`: if `true`, adds '\\displaystyle' at the start of the string */
+  displayMode: boolean,
+}
+
+
+
+// TODO: implement a compare function (to be combined with other Classes)
 // TODO: implement the max and min static methods. possibly a clone instance method
