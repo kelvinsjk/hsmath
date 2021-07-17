@@ -5,7 +5,7 @@ const negativeTwoFifth = new Fraction(2, -5);
 
 const oneX = new Term(1, 'x');
 const half = new Term(oneHalf);
-const negativeTwoFifthSqrt2 = new Term(negativeTwoFifth, '\\sqrt{2}')
+const negativeTwoFifthSqrt2 = new Term(negativeTwoFifth, '\\sqrt{2}');
 const zeroX2 = new Term(0, 'x^2');
 const negativeOne = new Term(-1, '');
 const negativeX = new Term(-1, 'x');
@@ -23,7 +23,7 @@ test('toString', () => {
   expect(zeroX2.toString()).toBe('0');
   expect(negativeX.toString()).toBe('- x');
   expect(negativeOne.toString()).toBe('-1');
-})
+});
 
 test('multiplication', () => {
   expect(`${oneX.multiply(3)}`).toBe('3 x');
@@ -34,4 +34,4 @@ test('multiplication', () => {
   expect(`${half.multiply(negativeX)}`).toBe('- \\frac{1}{2} x');
 
   expect(`${halfX.negative()}`).toBe('- \\frac{1}{2} x');
-})
+});

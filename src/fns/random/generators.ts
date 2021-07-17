@@ -4,9 +4,9 @@ import gcd from '../arithmetic/gcd';
 
 /**
  * Generates a random integer between `min` and `max`
- * 
+ *
  * @param options we can specify an array of numbers to avoid
- * 
+ *
  * warning: we do not check if the avoid array prevents us from returning a value (leading to an infinite loop)
  */
 function getRandomInt(min: number, max: number, options?: randomIntOptions): number {
@@ -23,7 +23,7 @@ function getRandomInt(min: number, max: number, options?: randomIntOptions): num
 
 /**
  * Generates a random Fraction
- * 
+ *
  * @param options of the form `{numMin: -9, numMax: 9, denMin, denMax, avoid: number|Fraction[]}`
  *
  */
@@ -33,15 +33,15 @@ function getRandomFrac(options?: randomFracOptions): Fraction {
     numMax: 9,
     denMin: -9,
     denMax: 9,
-    avoid: []
+    avoid: [],
   };
   const optionsObject = { ...defaultOptions, ...options };
   let den = getRandomInt(optionsObject.denMin, optionsObject.denMax, { avoid: [0] });
   let num = getRandomInt(optionsObject.numMin, optionsObject.numMax);
   let randomFrac = new Fraction(num, den);
-  let checkAvoid = (optionsObject.avoid.length > 0); // if avoid is non-empty: have to check if generated fraction is inside
+  let checkAvoid = optionsObject.avoid.length > 0; // if avoid is non-empty: have to check if generated fraction is inside
   while (checkAvoid) {
-    for (let i = 0; i < optionsObject.avoid.length; i++){
+    for (let i = 0; i < optionsObject.avoid.length; i++) {
       const avoidFrac = optionsObject.avoid[i];
       if (randomFrac.isEqual(avoidFrac)) {
         den = getRandomInt(optionsObject.denMin, optionsObject.denMax, { avoid: [0] });
@@ -49,7 +49,7 @@ function getRandomFrac(options?: randomFracOptions): Fraction {
         randomFrac = new Fraction(num, den);
         break;
       }
-      if (i === optionsObject.avoid.length-1) {
+      if (i === optionsObject.avoid.length - 1) {
         checkAvoid = false;
       }
     }
@@ -59,7 +59,7 @@ function getRandomFrac(options?: randomFracOptions): Fraction {
 
 /**
  * Generates a random linear factor ax + b
- * 
+ *
  * @param options `{monic: boolean, aMin, aMax, bMin, bMax: integers, avoid: number|Fraction[]}`
  */
 function getRandomLinear(options?: randomLinearOptions): Polynomial {
@@ -69,28 +69,25 @@ function getRandomLinear(options?: randomLinearOptions): Polynomial {
     aMax: 9,
     bMin: -9,
     bMax: 9,
-    avoid: []
-  }
-  const optionsObject = { ...defaultOptions, ...options }
+    avoid: [],
+  };
+  const optionsObject = { ...defaultOptions, ...options };
   const randomFracOptions = {
     numMin: optionsObject.bMax * -1,
     numMax: optionsObject.bMin * -1,
     denMin: optionsObject.aMin,
     denMax: optionsObject.aMax,
-    avoid:  optionsObject.avoid
-  }
+    avoid: optionsObject.avoid,
+  };
   if (optionsObject.monic) {
-    randomFracOptions.denMin = 1,
-    randomFracOptions.denMax = 1;
+    (randomFracOptions.denMin = 1), (randomFracOptions.denMax = 1);
   }
   return getRandomFrac(randomFracOptions).toFactor();
 }
 
-
-
 /**
  * Generates a random quadratic
- * 
+ *
  * @param options of the form `{monic: false, aMin: -9, aMax: 9, etc, complex, irrational, rational, repeated, simplified: boolean }`
  */
 function getRandomQuadratic(options?: randomQuadraticOptions): randomQuadraticOutput {
@@ -112,7 +109,7 @@ function getRandomQuadratic(options?: randomQuadraticOptions): randomQuadraticOu
     repeated: true,
     /** whether gcd(a,b,c)==1 */
     simplified: true,
-  }
+  };
   const optionsObject = { ...defaultOptions, ...options };
   if (optionsObject.monic) {
     optionsObject.aMin = 1;
@@ -147,7 +144,7 @@ function getRandomQuadratic(options?: randomQuadraticOptions): randomQuadraticOu
     }
     output.complex = true;
     const quadratic = new Polynomial([c, b, a]).reverse() as Polynomial;
-    return {...output, quadratic: quadratic }
+    return { ...output, quadratic: quadratic };
   } else if (Number.isInteger(squareRoot)) {
     if (optionsObject.rational === false) {
       return getRandomQuadratic(options);
@@ -166,7 +163,7 @@ function getRandomQuadratic(options?: randomQuadraticOptions): randomQuadraticOu
     output.irrational = true;
   }
   const quadratic = new Polynomial([c, b, a]).reverse() as Polynomial;
-  return { ...output, quadratic: quadratic }
+  return { ...output, quadratic: quadratic };
 }
 
 /**
@@ -174,7 +171,7 @@ function getRandomQuadratic(options?: randomQuadraticOptions): randomQuadraticOu
  */
 interface randomIntOptions {
   /** will not return numbers in the `avoid` array */
-  avoid: number[]
+  avoid: number[];
 }
 
 /**
@@ -182,11 +179,11 @@ interface randomIntOptions {
  */
 interface randomFracOptions {
   /** will not return numbers in the `avoid` array */
-  numMin?: number,
-  numMax?: number,
-  denMin?: number,
-  denMax?: number,
-  avoid?: (number|Fraction)[]
+  numMin?: number;
+  numMax?: number;
+  denMin?: number;
+  denMax?: number;
+  avoid?: (number | Fraction)[];
 }
 
 /**
@@ -194,13 +191,13 @@ interface randomFracOptions {
  */
 interface randomLinearOptions {
   /** whether a===1 */
-  monic?: boolean,
-  aMin?: number,
-  aMax?: number,
-  bMin?: number,
-  bMax?: number,
+  monic?: boolean;
+  aMin?: number;
+  aMax?: number;
+  bMin?: number;
+  bMax?: number;
   /** -b/a to not be in the avoid array */
-  avoid?: (number|Fraction)[]
+  avoid?: (number | Fraction)[];
 }
 
 /**
@@ -208,42 +205,42 @@ interface randomLinearOptions {
  */
 interface randomQuadraticOptions {
   /** whether a===1 */
-  monic?: boolean,
-  aMin?: number,
-  aMax?: number,
-  bMin?: number,
-  bMax?: number,
-  cMin?: number,
-  cMax?: number,
+  monic?: boolean;
+  aMin?: number;
+  aMax?: number;
+  bMin?: number;
+  bMax?: number;
+  cMin?: number;
+  cMax?: number;
   /** complex roots */
-  complex?: boolean,
+  complex?: boolean;
   /** irrational roots */
-  irrational?: boolean,
+  irrational?: boolean;
   /** rational roots */
-  rational?: boolean,
+  rational?: boolean;
   /** repeated roots */
-  repeated?: boolean,
+  repeated?: boolean;
   /** whether gcd(a,b,c)==1 */
-  simplified?: boolean,
+  simplified?: boolean;
 }
 
 /**
  * Output for `getRandomQuadratic`:
  */
 interface randomQuadraticOutput {
-  quadratic: Polynomial,
-  coefficients: [number, number, number],
-  roots?: [Fraction, Fraction], // only rational outputs at the moment. TODO: surd and complex roots
+  quadratic: Polynomial;
+  coefficients: [number, number, number];
+  roots?: [Fraction, Fraction]; // only rational outputs at the moment. TODO: surd and complex roots
   /** complex roots */
-  complex: boolean,
+  complex: boolean;
   /** irrational roots */
-  irrational: boolean,
+  irrational: boolean;
   /** rational roots */
-  rational: boolean,
+  rational: boolean;
   /** repeated roots */
-  repeated: boolean,
+  repeated: boolean;
   /** whether gcd(a,b,c)==1 */
-  simplified: boolean,
+  simplified: boolean;
 }
 
-export {getRandomInt, getRandomFrac, getRandomLinear, getRandomQuadratic}
+export { getRandomInt, getRandomFrac, getRandomLinear, getRandomQuadratic };

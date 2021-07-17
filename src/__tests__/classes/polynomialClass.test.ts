@@ -2,7 +2,7 @@ import { Term, PolynomialTerm, Polynomial, Fraction } from '../../index';
 
 const twoX = new PolynomialTerm(2);
 const threeX2 = new PolynomialTerm(3, 'x', 2);
-const oneHalfY10 = new PolynomialTerm(new Fraction(1,2), 'y', 10);
+const oneHalfY10 = new PolynomialTerm(new Fraction(1, 2), 'y', 10);
 const sixX3 = twoX.multiply(threeX2);
 const x2Plus3xMinus5 = new Polynomial([-5, 3, 1]);
 const x = new Polynomial([1], { initialDegree: 1 });
@@ -30,12 +30,12 @@ test('toString', () => {
   expect(`${sinXTenLR}`).toBe('\\left( \\sin x \\right)^{10}');
   expect(`${sinXTen}`).toBe('( \\sin x )^{10}');
 
-  expect(() => { new Polynomial([]) }).toThrow();
-
-})
+  expect(() => {
+    new Polynomial([]);
+  }).toThrow();
+});
 
 test('multiply', () => {
   expect(`${threeX2.multiply(oneHalfY10)}`).toBe('\\frac{3}{2} x^2 y^{10}');
   expect(`${twoX.multiply(sqrt2Term)}`).toBe('2 x \\sqrt{2}');
-
-})
+});

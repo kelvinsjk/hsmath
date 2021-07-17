@@ -11,14 +11,13 @@ const cubeRootEight = new NthRoot(8, 3);
 const cubeRootSixteen = new NthRoot(16, 3);
 
 const sqrt2 = new SquareRoot(2);
-const sixSqrt30 = new SquareRoot(8*27*5);
+const sixSqrt30 = new SquareRoot(8 * 27 * 5);
 const sqrt10Factorial = new SquareRoot(10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2);
 const sqrtOne = new SquareRoot(1);
 const sqrtZero = new SquareRoot(0);
 const sqrt4 = new SquareRoot(4);
 
 const sqrt96Cube = new SquareRoot(Math.pow(97, 3));
-
 
 test('toString', () => {
   expect(`${cubeRoot5}`).toBe('\\sqrt[3]{5}');
@@ -35,10 +34,16 @@ test('toString', () => {
   expect(`${sqrtZero}`).toBe('0');
   expect(`${sqrt4}`).toBe('2');
 
-  expect(() => { new SquareRoot(negativeTwoFifth) }).toThrow();
-  expect(() => { new NthRoot(1.2, 3) }).toThrow();
-  expect(() => { new NthRoot(5, 1) }).toThrow();
-  expect(() => { new NthRoot(5, 2.3) }).toThrow();
-
-  
-})
+  expect(() => {
+    new SquareRoot(negativeTwoFifth);
+  }).toThrow();
+  expect(() => {
+    new NthRoot(1.2, 3);
+  }).toThrow();
+  expect(() => {
+    new NthRoot(5, 1);
+  }).toThrow();
+  expect(() => {
+    new NthRoot(5, 2.3);
+  }).toThrow();
+});

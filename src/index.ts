@@ -9,8 +9,12 @@ import { Polynomial, PolynomialTerm } from './classes/polynomialClasses';
 export {
   gcd,
   Fraction,
-  Term, Expression,
-  PolynomialTerm, Polynomial,
-  NthRoot, SquareRoot,
-  getRandomInt, getRandomFrac
-}
+  Term,
+  Expression,
+  PolynomialTerm,
+  Polynomial,
+  NthRoot,
+  SquareRoot,
+  getRandomInt,
+  getRandomFrac,
+};

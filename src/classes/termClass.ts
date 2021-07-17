@@ -5,10 +5,10 @@ import Fraction from './fractionClass';
  *
  * let $a$ be `coeff` (the coefficient) and $x$ be the `variable`.
  * Then this term class is the representation of the 'term' $ax$.
- * 
+ *
  * For example, `Term(new Fraction(2,3), '')` represents the constant term $\frac{2}{3}$ and `Term(5, 'x^2')` represents the $x^2$ term $5x^2$.
  */
-export default class Term{
+export default class Term {
   /** coefficient of the term */
   coeff: Fraction;
   /** string representation of the term 'variable'. An empty string here represents the constant term */
@@ -36,26 +36,32 @@ export default class Term{
   toString(options?: toStringOptions): string {
     const optionsObject = {
       displayMode: false,
-      fractionalCoefficient: true
-    }
+      fractionalCoefficient: true,
+    };
     Object.assign(optionsObject, options);
     const displayText = optionsObject.displayMode ? '\\displaystyle ' : '';
     if (this.coeff.isEqual(0)) {
       return '0';
     } else if (this.coeff.isEqual(1)) {
-      return (this.variable === '') ? '1' : `${displayText}${this.variable}`;
+      return this.variable === '' ? '1' : `${displayText}${this.variable}`;
     } else if (this.coeff.isEqual(-1)) {
-      return (this.variable === '') ? '-1' : `- ${displayText}${this.variable}`;
-    } else { // non 0/1/-2 coefficient
-      if (this.variable === '') { // constant term
-        return `${displayText}${this.coeff}`
-      } else { // variable term and non 0/1/-1 coefficient
+      return this.variable === '' ? '-1' : `- ${displayText}${this.variable}`;
+    } else {
+      // non 0/1/-2 coefficient
+      if (this.variable === '') {
+        // constant term
+        return `${displayText}${this.coeff}`;
+      } else {
+        // variable term and non 0/1/-1 coefficient
         if (optionsObject.fractionalCoefficient) {
           return `${displayText}${this.coeff} ${this.variable}`;
-        } else { // adds term to numerator
+        } else {
+          // adds term to numerator
           const sign = this.coeff.num < 0 ? '- ' : '';
-          const modNumeratorString = (Math.abs(this.coeff.num)===1) ? '' : `${Math.abs(this.coeff.num)} `
-          return (this.coeff.isInteger()) ? `${displayText}${this.coeff} ${this.variable}` : `${displayText}${sign}\\frac{${modNumeratorString}${this.variable}}{${this.coeff.den}}`
+          const modNumeratorString = Math.abs(this.coeff.num) === 1 ? '' : `${Math.abs(this.coeff.num)} `;
+          return this.coeff.isInteger()
+            ? `${displayText}${this.coeff} ${this.variable}`
+            : `${displayText}${sign}\\frac{${modNumeratorString}${this.variable}}{${this.coeff.den}}`;
         }
       }
     }
@@ -64,23 +70,26 @@ export default class Term{
   /// multiplication
   /**
    * performs scalar multiplication if a `number`, `Fraction` or constant `Term` (empty `variable`) is provided.
-   * 
+   *
    * if another `Term` is provided, return a new `Term` type representing their product (this feature is experimental)
    * @param options to set a new variable name after term multiplication (by default, the new variable name will be the two variables side by side)
    */
   multiply(t2: number | Fraction | Term, options?: variableOptions): Term {
-    if (typeof t2 === "number") {
+    if (typeof t2 === 'number') {
       t2 = new Fraction(t2);
     }
     if (t2 instanceof Fraction) {
       return new Term(this.coeff.times(t2), this.variable);
-    } else { // term
-      if (t2.variable === '') { // t2 is a constant
+    } else {
+      // term
+      if (t2.variable === '') {
+        // t2 is a constant
         return new Term(this.coeff.times(t2.coeff), this.variable);
-      } else if (this.variable == '') { // this is a constant
+      } else if (this.variable == '') {
+        // this is a constant
         return new Term(this.coeff.times(t2.coeff), t2.variable);
       }
-      const newVariable = (options === undefined) ? `${this.variable} ${t2.variable}` : options.variable;
+      const newVariable = options === undefined ? `${this.variable} ${t2.variable}` : options.variable;
       return new Term(this.coeff.times(t2.coeff), newVariable);
     }
   }
@@ -91,17 +100,15 @@ export default class Term{
     return this.multiply(-1);
   }
 
-
   /// note: addition is handled by the TermArray class
 }
-
 
 /**
  * Options for naming the variable
  */
 interface variableOptions {
   /** string representing the variable (default `x`) */
-  variable ?: string
+  variable?: string;
 }
 
 /**
@@ -109,18 +116,18 @@ interface variableOptions {
  */
 interface toStringOptions {
   /** `displayMode`: if `true`, adds '\\displaystyle' at the start of the string */
-  displayMode?: boolean,
-  /** 
-   * `fractionalCoefficient`: 
-   * 
+  displayMode?: boolean;
+  /**
+   * `fractionalCoefficient`:
+   *
    * consider the example 3/4 x
-   * 
+   *
    * setting `true` (default) will typeset the string as 3/4 x (coefficient followed by variable)
-   * 
+   *
    * `false` will typeset the  string as 3x/4 (adds the variable on the numerator)
-   * 
+   *
    * has no effect if coefficient is an integer
    */
-  fractionalCoefficient?: boolean,
+  fractionalCoefficient?: boolean;
 }
 // TODO: addition, scalar multiplication, subtraction
