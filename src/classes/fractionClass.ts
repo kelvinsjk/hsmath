@@ -1,5 +1,6 @@
 import gcd from '../fns/arithmetic/gcd';
 import Term from './termClass';
+import { Polynomial } from './polynomialClasses';
 /**
  * Fraction class `{num: numerator, den: denominator}`
  * 
@@ -167,6 +168,28 @@ export default class Fraction {
     return new Term(this);
   }
 
+  /// convert to Polynomial class
+  /**
+   * convert to Polynomial class
+   * @param options default: `{ascendingOrder: false, variableAtom = 'x'}`
+   * @returns the Polynomial class representing the linear factor ax+b, with this fraction as the root
+   * 
+   * coefficient of 'x' will always be positive: chain .multiply(-1) to modify this behavior
+   */
+  toFactor(options?: toFactorOptions): Polynomial {
+    const defaultOptions = {
+      ascendingOrder: false,
+      variableAtom: 'x',
+    }
+    const optionsObject: polynomialOptions = { ...defaultOptions, ...options };
+    if (optionsObject.ascendingOrder) { // b + a x
+      return new Polynomial([-this.num, this.den], optionsObject);
+    } else {
+      optionsObject.initialDegree = 1;
+      return new Polynomial([this.den, -this.num], optionsObject);
+    }
+  }
+
   //// static properties
   /**
    * the fraction class instance of 1
@@ -255,6 +278,28 @@ function convertDecimalToFraction(num: number): [number, number] {
 interface toStringOptions {
   /** `displayMode`: if `true`, adds '\\displaystyle' at the start of the string */
   displayMode: boolean,
+}
+/**
+ * Options for converting to polynomial
+ */
+interface toFactorOptions {
+  /** if false (default), converts to ax+b. if true converts to b+ax */
+  ascendingOrder?: boolean;
+  /** variable string representation*/
+  variableAtom?: string;
+}
+/**
+ * Options for `Polynomial` constructor
+ */
+interface polynomialOptions {
+  /** string representing the variable (default `x`) */
+  variableAtom?: string
+  /** ascending (default) or descending order*/
+  ascendingOrder?: boolean;
+  /** degree of the first term (default `0`)*/
+  initialDegree?: number;
+  /** for powers, do we enclose the variable with brackets? `true` gives us regular parenthesis while `lr` gives us `\\left( xxx \\right)` */
+  brackets?: boolean | 'lr'
 }
 
 

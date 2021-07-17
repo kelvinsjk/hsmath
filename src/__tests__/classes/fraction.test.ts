@@ -88,6 +88,15 @@ test('string methods', () => {
   expect(oneSixth.times(-1).toPrecision(3)).toBe('-0.167');
 })
 
+test('toFactor', () => {
+  expect(`${one.toFactor()}`).toBe('x -1');
+  expect(`${zero.toFactor()}`).toBe('x');
+  expect(`${oneHalf.toFactor()}`).toBe('2 x -1');
+  expect(`${oneHalf.toFactor().multiply(-1)}`).toBe('- 2 x + 1');
+  expect(`${negativeThreeQuarter.toFactor()}`).toBe('4 x + 3');
+  expect(`${negativeThreeQuarter.toFactor({variableAtom: 'y', ascendingOrder: true})}`).toBe('3 + 4 y');
+})
+
 test('static methods', () => {
   expect(Fraction.abs(negativeThree).num).toBe(3);
   expect(Fraction.abs(oneSixth).num).toBe(1);
@@ -118,5 +127,4 @@ test('static methods', () => {
   expect(Fraction.compare(oneSixth, '==', oneSixth)).toBe(true);
   expect(Fraction.compare(oneSixth, '===', oneSixth)).toBe(true);
   expect(Fraction.compare(1, '===', 2)).toBe(false);
-
 })

@@ -23,7 +23,7 @@ class PolynomialTerm extends Term{
   /**
    * Creates a new polynomialTerm instance
    * @param coeff coefficient of the term
-   * @param variable string representation of the term/'variable'. if empty string then n must be 0
+   * @param variableAtom string representation of the term/'variable'. if empty string then n must be 0
    * @param n degree/exponent of the term
    * @param options object of the form { brackets?: boolean | 'lr' } to handle the power
    */
@@ -81,7 +81,6 @@ class PolynomialTerm extends Term{
  * A `Polynomial` is a special `Expression` made up of `PolynomialTerm`s
  */
 class Polynomial extends Expression {
-  polynomialTerms: PolynomialTerm[];
   //// constructor
   /**
    * Creates a new `Polynomial` instance
@@ -111,7 +110,6 @@ class Polynomial extends Expression {
       polynomialTerms = array as PolynomialTerm[];
     }
     super(...polynomialTerms);
-    this.polynomialTerms = polynomialTerms;
   }
 
   //// class methods
@@ -122,18 +120,17 @@ class Polynomial extends Expression {
   multiply(polynomial2: number | Fraction | PolynomialTerm | Polynomial): Polynomial {
     const newPolynomialTerms: PolynomialTerm[] = [];
     if (typeof polynomial2 === 'number' || polynomial2 instanceof Fraction || polynomial2 instanceof PolynomialTerm) {
-      for (const term of this.polynomialTerms) {
+      for (const term of this.terms) {
         newPolynomialTerms.push(term.multiply(polynomial2) as PolynomialTerm);
       }
     } else { // polynomial given
-      for (const term1 of this.polynomialTerms) {
-        for (const term2 of polynomial2.polynomialTerms) {
+      for (const term1 of this.terms) {
+        for (const term2 of polynomial2.terms) {
           newPolynomialTerms.push(term1.multiply(term2) as PolynomialTerm);
         }
       }
     }
     return new Polynomial(newPolynomialTerms);
-
   }
 }
 
