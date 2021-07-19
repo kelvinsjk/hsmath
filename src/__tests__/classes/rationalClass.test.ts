@@ -11,14 +11,12 @@ const xMinus1 = new Polynomial([1, -1]);
 const rational1 = new RationalFunction(twoX, xMinus1);
 const rational2 = rational1.add(x);
 
-
 //const sqrt2Term = new Term(1, '\\sqrt{2}');
-
 
 test('addition', () => {
   expect(`${twoX}`).toBe('2 x');
   expect(`${rational1}`).toBe('\\frac{ 2 x }{ x -1 }');
-  expect(`${rational1.toString({displayMode: true })}`).toBe('\\displaystyle \\frac{ 2 x }{ x -1 }');
+  expect(`${rational1.toString({ displayMode: true })}`).toBe('\\displaystyle \\frac{ 2 x }{ x -1 }');
   expect(`${rational2}`).toBe('\\frac{ x^2 + x }{ x -1 }');
 
   expect(() => {

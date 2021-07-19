@@ -90,12 +90,12 @@ export default class Expression {
   }
 
   /**
- * adds the two expressions
- * similar to concatenating the terms in the two expressions, combining like terms
- * @returns the sum
- */
+   * adds the two expressions
+   * similar to concatenating the terms in the two expressions, combining like terms
+   * @returns the sum
+   */
   add(expression2: Expression): Expression {
-    return new Expression(...this.terms, ...expression2.terms)
+    return new Expression(...this.terms, ...expression2.terms);
   }
 }
 

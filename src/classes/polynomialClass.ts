@@ -55,22 +55,22 @@ export default class Polynomial extends Expression {
   add(polynomial2: Polynomial): Polynomial {
     const firstTerm = this.polynomialTerms[0];
     const termsArray = [...this.polynomialTerms, ...polynomial2.polynomialTerms];
-    return new Polynomial(termsArray, { variableAtom: firstTerm.variableAtom })
+    return new Polynomial(termsArray, { variableAtom: firstTerm.variableAtom });
   }
   /**
    * polynomial multiplication (if polynomial/polynomialTerm provided), scalar multiplication otherwise
    * @param options specify if output is in ascending or descending (default) order
-   * 
+   *
    * we currently assume both are polynomials in the same variable, the first variable atom in this will be used
-   * 
+   *
    * @returns the product
    */
 
   multiply(polynomial2: number | Fraction | PolynomialTerm | Polynomial, options?: multiplyOptions): Polynomial {
     // options
     const defaultOptions = {
-      ascending: false
-    }
+      ascending: false,
+    };
     const optionsObject = { ...defaultOptions, ...options };
     // multiply terms
     const newPolynomialTerms: PolynomialTerm[] = [];
@@ -78,7 +78,8 @@ export default class Polynomial extends Expression {
       for (const term of this.polynomialTerms) {
         newPolynomialTerms.push(term.multiply(polynomial2) as PolynomialTerm);
       }
-    } else { // polynomial given
+    } else {
+      // polynomial given
       for (const term1 of this.polynomialTerms) {
         for (const term2 of polynomial2.polynomialTerms) {
           newPolynomialTerms.push(term1.multiply(term2) as PolynomialTerm);
@@ -101,10 +102,10 @@ export default class Polynomial extends Expression {
    * @returns a reference to the object
    */
   /**
- * reverse the order of the terms
- * warning: mutates object
- * @returns a reference to the object
- */
+   * reverse the order of the terms
+   * warning: mutates object
+   * @returns a reference to the object
+   */
   sort(ascending = true): this {
     this.polynomialTerms.sort((firstTerm, secondTerm) => {
       return ascending ? firstTerm.n - secondTerm.n : secondTerm.n - firstTerm.n;
@@ -118,21 +119,21 @@ export default class Polynomial extends Expression {
    * clone
    * @returns a new instance of this
    */
-  clone(): Polynomial{
+  clone(): Polynomial {
     const firstTerm = this.polynomialTerms[0];
     const termsArray = [...this.polynomialTerms];
-    return new Polynomial(termsArray, { variableAtom: firstTerm.variableAtom })
+    return new Polynomial(termsArray, { variableAtom: firstTerm.variableAtom });
   }
 
-  //// 
+  ////
   //static methods
   ////
 
   /**
- * Creates a new `Polynomial` instance
- * @param args one or more Fractions/Factors (Polynomials)
- * @return polynomial in descending order: use `sort` method afterwards if ascending needed 
- */
+   * Creates a new `Polynomial` instance
+   * @param args one or more Fractions/Factors (Polynomials)
+   * @return polynomial in descending order: use `sort` method afterwards if ascending needed
+   */
   static fromRoots(...args: (number | Fraction | Polynomial)[]): Polynomial {
     if (args.length === 0) {
       throw 'we do not support empty Expression at the moment';
@@ -145,7 +146,7 @@ export default class Polynomial extends Expression {
       const factor = arg instanceof Fraction ? arg.toFactor() : arg.clone();
       poly = poly.multiply(factor);
     }
-    return poly
+    return poly;
   }
 } // end of Polynomial
 
@@ -217,12 +218,7 @@ class PolynomialTerm extends Term {
    */
   multiply(term2: number | Fraction | Term | PolynomialTerm, options?: variableOptions): Term | PolynomialTerm {
     if (term2 instanceof PolynomialTerm) {
-      return new PolynomialTerm(
-        this.coeff.times(term2.coeff),
-        this.variableAtom,
-        this.n + term2.n,
-        this.powerOptions,
-      );
+      return new PolynomialTerm(this.coeff.times(term2.coeff), this.variableAtom, this.n + term2.n, this.powerOptions);
     } else {
       return super.multiply(term2, options);
     }

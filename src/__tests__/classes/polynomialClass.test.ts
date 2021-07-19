@@ -2,8 +2,8 @@ import { Polynomial, Fraction } from '../../index';
 
 const oneHalf = new Fraction(1, 2);
 
-const twoX = new Polynomial([2], {initialDegree: 1});
-const threeX2 = new Polynomial([3], {initialDegree: 2});
+const twoX = new Polynomial([2], { initialDegree: 1 });
+const threeX2 = new Polynomial([3], { initialDegree: 2 });
 const oneHalfY10 = new Polynomial([oneHalf], { variableAtom: 'y', initialDegree: 10 });
 const sixX3 = twoX.multiply(threeX2);
 const x = new Polynomial([1], { initialDegree: 1 });
@@ -38,14 +38,14 @@ test('toString', () => {
   expect(() => {
     new Polynomial([]);
   }).toThrow();
-  
+
   expect(`${minus5_PLUS_3x_PLUS_x2.multiply(2)}`).toBe('- 10 + 6 x + 2 x^2');
-  expect(`${minus5_PLUS_3x_PLUS_x2.multiply(twoX, {ascending: false})}`).toBe('2 x^3 + 6 x^2 - 10 x');
+  expect(`${minus5_PLUS_3x_PLUS_x2.multiply(twoX, { ascending: false })}`).toBe('2 x^3 + 6 x^2 - 10 x');
   expect(`${minus5_PLUS_3x_PLUS_x2.multiply(x, { ascending: false })}`).toBe('x^3 + 3 x^2 - 5 x');
   expect(`${minus5_PLUS_3x_PLUS_x2.multiply(xMinus1, { ascending: false })}`).toBe('x^3 + 2 x^2 - 8 x + 5');
-  
+
   const x2_PLUS_3x_MINUS_5 = minus5_PLUS_3x_PLUS_x2.sort(false);
-    
+
   expect(`${x2_PLUS_3x_MINUS_5}`).toBe('x^2 + 3 x - 5');
   expect(`${minus5_PLUS_3x_PLUS_x2}`).toBe('x^2 + 3 x - 5');
   expect(`${x2_PLUS_3x_MINUS_5.multiply(xMinus1)}`).toBe('x^3 + 2 x^2 - 8 x + 5');
@@ -64,6 +64,6 @@ test('fromRoots', () => {
   expect(`${x3_MINUS_x}`).toBe('x^3 - x');
 
   expect(() => {
-    Polynomial.fromRoots()
+    Polynomial.fromRoots();
   }).toThrow();
-})
+});

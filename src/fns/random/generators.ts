@@ -110,7 +110,7 @@ function getRandomQuadratic(options?: randomQuadraticOptions): randomQuadraticOu
     /** whether gcd(a,b,c)==1 */
     simplified: true,
     /** whether ascending */
-    ascending: false
+    ascending: false,
   };
   const optionsObject = { ...defaultOptions, ...options };
   if (optionsObject.monic) {
@@ -145,7 +145,7 @@ function getRandomQuadratic(options?: randomQuadraticOptions): randomQuadraticOu
       return getRandomQuadratic(options);
     }
     output.complex = true;
-    const quadratic = new Polynomial([a, b, c], {ascending: optionsObject.ascending});
+    const quadratic = new Polynomial([a, b, c], { ascending: optionsObject.ascending });
     return { ...output, quadratic: quadratic };
   } else if (Number.isInteger(squareRoot)) {
     if (optionsObject.rational === false) {

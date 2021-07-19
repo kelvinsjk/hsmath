@@ -101,7 +101,7 @@ export default class Term {
     return this.multiply(-1);
   }
 
-  clone(): Term{
+  clone(): Term {
     return new Term(this.coeff, this.variable);
   }
 

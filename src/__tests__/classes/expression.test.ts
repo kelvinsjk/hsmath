@@ -38,4 +38,4 @@ test('multiply', () => {
   expect(`${arrayThree.multiply(-2)}`).toBe('- \\frac{6}{5} \\sqrt{2} - 2 \\sqrt[3]{2}');
   expect(`${arrayOne.add(arrayTwo)}`).toBe('- x + \\frac{1}{10} - \\frac{2}{5} \\sqrt{2}');
   expect(arrayOne.multiply(oneHalf).toString()).toBe('- \\frac{1}{2} x + \\frac{3}{10} - \\frac{1}{5} \\sqrt{2}');
-})
+});

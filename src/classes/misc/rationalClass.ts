@@ -15,7 +15,7 @@ export default class RationalFunction {
    */
   constructor(num: Polynomial, den: Polynomial) {
     if (den.toString() === '0') {
-      throw 'division by 0 not allowed'
+      throw 'division by 0 not allowed';
     }
     this.num = num.clone();
     this.den = den.clone();

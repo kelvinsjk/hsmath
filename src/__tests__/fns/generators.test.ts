@@ -1,10 +1,14 @@
 import {
-  getRandomInt, getRandomFrac, getRandomLinear, getRandomQuadratic,
-  Fraction, Polynomial
+  getRandomInt,
+  getRandomFrac,
+  getRandomLinear,
+  getRandomQuadratic,
+  Fraction,
+  Polynomial,
 } from '../../../src/index';
 
 const randomInt = getRandomInt(-9, 9);
-const minus1Or1 = getRandomInt(-1, 1, {avoid: [0]});
+const minus1Or1 = getRandomInt(-1, 1, { avoid: [0] });
 const randomFrac = getRandomFrac();
 const randomLinear = getRandomLinear();
 const randomQuadratic = getRandomQuadratic().quadratic;
