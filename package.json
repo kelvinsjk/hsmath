@@ -38,7 +38,6 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^19.0.1",
     "@rollup/plugin-node-resolve": "^13.0.2",
-    "@rollup/plugin-typescript": "^8.2.3",
     "@types/jest": "^26.0.24",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
@@ -51,6 +50,7 @@
     "jest": "^27.0.6",
     "prettier": "^2.3.2",
     "rollup": "^2.53.2",
+    "rollup-plugin-ts": "^1.4.0",
     "ts-jest": "^27.0.3",
     "typedoc": "0.21.2",
     "typedoc-plugin-markdown": "^3.10.2",
