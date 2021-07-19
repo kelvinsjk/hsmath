@@ -5,7 +5,7 @@
   "main": "lib/index.cjs.js",
   "module": "lib/index.esm.js",
   "browser": "lib/index.umd.js",
-  "types": "lib/index.d.ts",
+  "types": "lib/index.cjs.d.ts",
   "scripts": {
     "docs": "typedoc --sort instance-first --sort source-order",
     "prepare": "npm run build",
