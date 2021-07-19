@@ -1,20 +1,19 @@
-import gcd from './fns/arithmetic/gcd';
 import Fraction from './classes/fractionClass';
 import Term from './classes/termClass';
-import { NthRoot, SquareRoot } from './classes/rootClass';
+import { NthRoot, SquareRoot } from './classes/rootClasses';
 import Expression from './classes/expressionClass';
-import { getRandomInt, getRandomFrac } from './fns/random/generators';
-import { Polynomial, PolynomialTerm } from './classes/polynomialClasses';
+import Polynomial from './classes/polynomialClass';
+import gcd from './fns/arithmetic/gcd';
+import { getRandomInt, getRandomFrac, getRandomLinear, getRandomQuadratic} from './fns/random/generators';
+
+import RationalFunction from './classes/misc/rationalClass';
 
 export {
-  gcd,
   Fraction,
   Term,
-  Expression,
-  PolynomialTerm,
-  Polynomial,
-  NthRoot,
-  SquareRoot,
-  getRandomInt,
-  getRandomFrac,
+  NthRoot, SquareRoot,
+  Expression, Polynomial,
+  gcd,
+  getRandomInt, getRandomFrac, getRandomLinear, getRandomQuadratic,
+  RationalFunction
 };

@@ -1,4 +1,4 @@
-import { Polynomial, Fraction, Term, Expression, SquareRoot, NthRoot } from '../../index';
+import { Fraction, Term, Expression, SquareRoot, NthRoot } from '../../index';
 
 const oneHalf = new Fraction(1, 2);
 const negativeTwoFifth = new Fraction(2, -5);
@@ -34,16 +34,8 @@ test('toString', () => {
   }).toThrow();
 });
 
-const polyOne = new Polynomial([1, 2, 0, -3, oneHalf]);
-const polyTwo = new Polynomial([-4, 0, 3], { variableAtom: '\\sin x', brackets: true });
-const polyThree = new Polynomial([-4, 0, 3], { variableAtom: '\\sin x', brackets: 'lr' });
-const polyFour = new Polynomial([1, 2, 0, -3, oneHalf], { initialDegree: 7, ascendingOrder: false });
-
-test('Polynomial', () => {
-  expect(polyOne.toString()).toBe('1 + 2 x - 3 x^3 + \\frac{1}{2} x^4');
-  expect(polyTwo.toString()).toBe('- 4 + 3 ( \\sin x )^2');
-  expect(polyThree.toString()).toBe('- 4 + 3 \\left( \\sin x \\right)^2');
-  expect(polyFour.toString()).toBe('x^7 + 2 x^6 - 3 x^4 + \\frac{1}{2} x^3');
-  expect(polyFour.reverse().toString()).toBe('\\frac{1}{2} x^3 - 3 x^4 + 2 x^6 + x^7');
-  expect(polyFour.toString()).toBe('\\frac{1}{2} x^3 - 3 x^4 + 2 x^6 + x^7');
-});
+test('multiply', () => {
+  expect(`${arrayThree.multiply(-2)}`).toBe('- \\frac{6}{5} \\sqrt{2} - 2 \\sqrt[3]{2}');
+  expect(`${arrayOne.add(arrayTwo)}`).toBe('- x + \\frac{1}{10} - \\frac{2}{5} \\sqrt{2}');
+  expect(arrayOne.multiply(oneHalf).toString()).toBe('- \\frac{1}{2} x + \\frac{3}{10} - \\frac{1}{5} \\sqrt{2}');
+})

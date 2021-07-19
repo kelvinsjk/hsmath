@@ -110,7 +110,7 @@ test('toFactor', () => {
   expect(`${oneHalf.toFactor()}`).toBe('2 x -1');
   expect(`${oneHalf.toFactor().multiply(-1)}`).toBe('- 2 x + 1');
   expect(`${negativeThreeQuarter.toFactor()}`).toBe('4 x + 3');
-  expect(`${negativeThreeQuarter.toFactor({ variableAtom: 'y', ascendingOrder: true })}`).toBe('3 + 4 y');
+  expect(`${negativeThreeQuarter.toFactor({ variableAtom: 'y', ascending: true })}`).toBe('3 + 4 y');
 });
 
 test('static methods', () => {

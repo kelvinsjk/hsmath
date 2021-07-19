@@ -1,6 +1,6 @@
 import gcd from '../fns/arithmetic/gcd';
 import Term from './termClass';
-import { Polynomial } from './polynomialClasses';
+import Polynomial from './polynomialClass';
 /**
  * Fraction class `{num: numerator, den: denominator}`
  *
@@ -175,18 +175,18 @@ export default class Fraction {
   /// convert to Polynomial class
   /**
    * convert to Polynomial class
-   * @param options default: `{ascendingOrder: false, variableAtom = 'x'}`
+   * @param options default: `{ascending: false, variableAtom = 'x'}`
    * @returns the Polynomial class representing the linear factor ax+b, with this fraction as the root
    *
    * coefficient of 'x' will always be positive: chain .multiply(-1) to modify this behavior
    */
   toFactor(options?: toFactorOptions): Polynomial {
     const defaultOptions = {
-      ascendingOrder: false,
+      ascending: false,
       variableAtom: 'x',
     };
     const optionsObject: polynomialOptions = { ...defaultOptions, ...options };
-    if (optionsObject.ascendingOrder) {
+    if (optionsObject.ascending) {
       // b + a x
       return new Polynomial([-this.num, this.den], optionsObject);
     } else {
@@ -293,7 +293,7 @@ interface toStringOptions {
  */
 interface toFactorOptions {
   /** if false (default), converts to ax+b. if true converts to b+ax */
-  ascendingOrder?: boolean;
+  ascending?: boolean;
   /** variable string representation*/
   variableAtom?: string;
 }
@@ -304,7 +304,7 @@ interface polynomialOptions {
   /** string representing the variable (default `x`) */
   variableAtom?: string;
   /** ascending (default) or descending order*/
-  ascendingOrder?: boolean;
+  ascending?: boolean;
   /** degree of the first term (default `0`)*/
   initialDegree?: number;
   /** for powers, do we enclose the variable with brackets? `true` gives us regular parenthesis while `lr` gives us `\\left( xxx \\right)` */

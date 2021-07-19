@@ -19,7 +19,7 @@ export default class Expression {
       if (typeof arg === 'number') {
         arg = new Fraction(arg);
       }
-      const term = arg instanceof Fraction ? arg.toTerm() : arg;
+      const term = arg instanceof Fraction ? arg.toTerm() : arg.clone();
       terms.push(term);
     }
     if (terms.length === 0) {
@@ -64,15 +64,38 @@ export default class Expression {
       }
     }
     const displayText = optionsObject.displayMode ? '\\displaystyle ' : '';
+    outputString = outputString === '' ? '0' : outputString;
     return displayText + outputString;
   }
 
   /**
-   * reverses the order of terms
+   * reverse the order of the terms
+   * warning: mutates object
+   * @returns a reference to the object
    */
   reverse(): Expression {
     this.terms.reverse();
     return this;
+  }
+
+  /**
+   * performs scalar multiplication on each term of this
+   */
+  multiply(x: number | Fraction): Expression {
+    const terms: Term[] = [];
+    for (const term of this.terms) {
+      terms.push(term.multiply(x));
+    }
+    return new Expression(...terms);
+  }
+
+  /**
+ * adds the two expressions
+ * similar to concatenating the terms in the two expressions, combining like terms
+ * @returns the sum
+ */
+  add(expression2: Expression): Expression {
+    return new Expression(...this.terms, ...expression2.terms)
   }
 }
 
@@ -83,7 +106,7 @@ function combineLikeTerms(terms: Term[]): Term[] {
     const variableIndex = variableArray.indexOf(term.variable);
     if (variableIndex === -1) {
       // new term type
-      simplifiedTermArray.push(term);
+      simplifiedTermArray.push(term.clone());
       variableArray.push(term.variable);
     } else {
       // term type has appeared before

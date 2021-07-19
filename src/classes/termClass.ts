@@ -21,9 +21,10 @@ export default class Term {
    * @param variable string representation of the term/'variable'. An empty string (default) means we are working with the constant term
    */
   constructor(coeff: Fraction | number, variable = '') {
-    if (typeof coeff === 'number') {
-      coeff = new Fraction(coeff);
-    }
+    //if (typeof coeff === 'number') {
+    //  coeff = new Fraction(coeff);
+    //}
+    coeff = typeof coeff === 'number' ? new Fraction(coeff) : new Fraction(coeff.num, coeff.den);
     this.coeff = coeff;
     this.variable = variable;
   }
@@ -98,6 +99,10 @@ export default class Term {
    */
   negative(): Term {
     return this.multiply(-1);
+  }
+
+  clone(): Term{
+    return new Term(this.coeff, this.variable);
   }
 
   /// note: addition is handled by the TermArray class
