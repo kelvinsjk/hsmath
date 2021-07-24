@@ -3,9 +3,12 @@ import { RationalFunction, Polynomial } from '../../index';
 const twoX = new Polynomial([2], { initialDegree: 1 });
 //const threeX2 = new Polynomial([3], {initialDegree: 2});
 ////const sixX3 = twoX.multiply(threeX2);
-////const x2Plus3xMinus5 = new Polynomial([-5, 3, 1]).reverse() as Polynomial;
 const x = new Polynomial([1], { initialDegree: 1 });
 const xMinus1 = new Polynomial([1, -1]);
+
+//const x2Plus3xMinus5 = new Polynomial([1, 3, -5]);
+//const rational3 = new RationalFunction(x2Plus3xMinus5, xMinus1);
+//const rational4 = rational3.add(xMinus1);
 
 //
 const rational1 = new RationalFunction(twoX, xMinus1);

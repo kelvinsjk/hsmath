@@ -3,7 +3,7 @@ import Polynomial from '../../classes/polynomialClass';
 import gcd from '../arithmetic/gcd';
 
 /**
- * Generates a random integer between `min` and `max`
+ * Generates a random integer between `min` and `max` (inclusive)
  *
  * @param options we can specify an array of numbers to avoid
  *
@@ -24,14 +24,14 @@ function getRandomInt(min: number, max: number, options?: randomIntOptions): num
 /**
  * Generates a random Fraction
  *
- * @param options of the form `{numMin: -9, numMax: 9, denMin, denMax, avoid: number|Fraction[]}`
+ * @param options of the form `{numMin: -9, numMax: 9, denMin: 1, denMax: 9, avoid: number|Fraction[]}`
  *
  */
 function getRandomFrac(options?: randomFracOptions): Fraction {
   const defaultOptions = {
     numMin: -9,
     numMax: 9,
-    denMin: -9,
+    denMin: 1,
     denMax: 9,
     avoid: [],
   };
@@ -88,7 +88,8 @@ function getRandomLinear(options?: randomLinearOptions): Polynomial {
 /**
  * Generates a random quadratic
  *
- * @param options of the form `{monic: false, aMin: -9, aMax: 9, etc, complex, irrational, rational, repeated, simplified: boolean }`
+ * @param options of the form `{monic: false, aMin: -9, aMax: 9, etc, complex, irrational, rational, repeated, simplified, ascending: boolean }`;
+ * @returns output of the form `{ quadratic, coefficients: number[], roots?: Fraction[], complex, irrational, rational, repeated, simplified }`
  */
 function getRandomQuadratic(options?: randomQuadraticOptions): randomQuadraticOutput {
   const defaultOptions = {
@@ -118,8 +119,8 @@ function getRandomQuadratic(options?: randomQuadraticOptions): randomQuadraticOu
     optionsObject.aMax = 1;
   }
   let a = getRandomInt(optionsObject.aMin, optionsObject.aMax, { avoid: [0] });
-  let b = getRandomInt(optionsObject.aMin, optionsObject.aMax, { avoid: [0] });
-  let c = getRandomInt(optionsObject.aMin, optionsObject.aMax, { avoid: [0] });
+  let b = getRandomInt(optionsObject.bMin, optionsObject.bMax, { avoid: [0] });
+  let c = getRandomInt(optionsObject.cMin, optionsObject.cMax, { avoid: [0] });
   let divisor = gcd(gcd(a, b), c);
   if (optionsObject.simplified) {
     a = a / divisor;

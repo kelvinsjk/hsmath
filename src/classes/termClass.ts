@@ -102,10 +102,10 @@ export default class Term {
   }
 
   clone(): Term {
-    return new Term(this.coeff, this.variable);
+    return new Term(new Fraction(this.coeff.num, this.coeff.den), this.variable);
   }
 
-  /// note: addition is handled by the TermArray class
+  /// note: addition is handled by the Expression class
 }
 
 /**

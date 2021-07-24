@@ -12,6 +12,7 @@ const minus1Or1 = getRandomInt(-1, 1, { avoid: [0] });
 const randomFrac = getRandomFrac();
 const randomLinear = getRandomLinear();
 const randomQuadratic = getRandomQuadratic().quadratic;
+const randomMonic = getRandomQuadratic({ monic: true });
 
 test('toString', () => {
   expect(randomInt).toBeLessThanOrEqual(9);
@@ -22,4 +23,5 @@ test('toString', () => {
   expect(randomLinear.terms.length).toBe(2);
   expect(randomQuadratic).toBeInstanceOf(Polynomial);
   expect(randomQuadratic.polynomialTerms.length).toBe(3);
+  expect(randomMonic.coefficients[0]).toBe(1);
 });

@@ -26,8 +26,8 @@ export default class Polynomial extends Expression {
     if (array.length === 0) {
       throw 'we do not support empty Polynomials at this time';
     }
-    let polynomialTerms: PolynomialTerm[] = [];
-    if (typeof array[0] === 'number' || array[0] instanceof Fraction) {
+    const polynomialTerms: PolynomialTerm[] = [];
+    if (typeof array[0] === 'number' || array[0] instanceof Fraction) { // construction from coefficients
       let power = optionsObject.initialDegree;
       for (const coeff of array) {
         const coeffFrac = coeff as number | Fraction;
@@ -37,8 +37,18 @@ export default class Polynomial extends Expression {
         polynomialTerms.push(newTerm);
         optionsObject.ascending ? power++ : power--;
       }
-    } else {
-      polynomialTerms = array as PolynomialTerm[];
+    } else { // construction from PolynomialTerms
+      const variableArray: string[] = [];
+      for (const term of array) {
+        const polyTerm = term as PolynomialTerm;
+        const index = variableArray.indexOf(polyTerm.variable);
+        if (index === -1) { // new variable
+          variableArray.push(polyTerm.variable);
+          polynomialTerms.push(polyTerm.clone());
+        } else {
+          polynomialTerms[index].coeff = polynomialTerms[index].coeff.plus(polyTerm.coeff);
+        }
+      }
     }
     super(...polynomialTerms);
     this.polynomialTerms = polynomialTerms;
@@ -54,7 +64,7 @@ export default class Polynomial extends Expression {
    */
   add(polynomial2: Polynomial): Polynomial {
     const firstTerm = this.polynomialTerms[0];
-    const termsArray = [...this.polynomialTerms, ...polynomial2.polynomialTerms];
+    const termsArray = [...this.clone().polynomialTerms, ...polynomial2.clone().polynomialTerms];
     return new Polynomial(termsArray, { variableAtom: firstTerm.variableAtom });
   }
   /**
@@ -97,12 +107,7 @@ export default class Polynomial extends Expression {
   /// array methods
   /**
    * sort the polynomial
-   * @param ascending
-   * warning: mutates object
-   * @returns a reference to the object
-   */
-  /**
-   * reverse the order of the terms
+   * @param ascending default `true`
    * warning: mutates object
    * @returns a reference to the object
    */
@@ -121,8 +126,11 @@ export default class Polynomial extends Expression {
    */
   clone(): Polynomial {
     const firstTerm = this.polynomialTerms[0];
-    const termsArray = [...this.polynomialTerms];
-    return new Polynomial(termsArray, { variableAtom: firstTerm.variableAtom });
+    const terms: PolynomialTerm[] = [];
+    for (const term of this.polynomialTerms) {
+      terms.push(term.clone())
+    }
+    return new Polynomial(terms, { variableAtom: firstTerm.variableAtom });
   }
 
   ////
@@ -219,9 +227,15 @@ class PolynomialTerm extends Term {
   multiply(term2: number | Fraction | Term | PolynomialTerm, options?: variableOptions): Term | PolynomialTerm {
     if (term2 instanceof PolynomialTerm) {
       return new PolynomialTerm(this.coeff.times(term2.coeff), this.variableAtom, this.n + term2.n, this.powerOptions);
-    } else {
+    } else if (typeof term2 === 'number' || term2 instanceof Fraction) {
+      return new PolynomialTerm(this.coeff.times(term2), this.variableAtom, this.n, this.powerOptions);
+    } else{ // term
       return super.multiply(term2, options);
     }
+  }
+
+  clone(): PolynomialTerm {
+    return new PolynomialTerm(new Fraction(this.coeff.num, this.coeff.den), this.variableAtom, this.n, this.powerOptions);
   }
 } // end of PolynomialTerm
 

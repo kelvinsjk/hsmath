@@ -13,11 +13,13 @@ export default class Expression {
    * Combines like terms by adding the coefficients, such that no term types are repeated in the array
    * @param args one or more Terms/Fractions
    */
-  constructor(...args: (Term | Fraction | number)[]) {
+  constructor(...args: (Term | Fraction | number | string )[]) {
     const terms: Term[] = [];
     for (let arg of args) {
       if (typeof arg === 'number') {
         arg = new Fraction(arg);
+      } else if (typeof arg === 'string') {
+        arg = new Term(1, arg);
       }
       const term = arg instanceof Fraction ? arg.toTerm() : arg.clone();
       terms.push(term);
@@ -95,7 +97,15 @@ export default class Expression {
    * @returns the sum
    */
   add(expression2: Expression): Expression {
-    return new Expression(...this.terms, ...expression2.terms);
+    return new Expression(...this.clone().terms, ...expression2.clone().terms);
+  }
+
+  clone(): Expression {
+    const terms: Term[] = []
+    for (const term of this.terms) {
+      terms.push(term.clone());
+    }
+    return new Expression(...terms)
   }
 }
 

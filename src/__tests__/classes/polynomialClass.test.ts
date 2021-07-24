@@ -39,9 +39,9 @@ test('toString', () => {
     new Polynomial([]);
   }).toThrow();
 
-  expect(`${minus5_PLUS_3x_PLUS_x2.multiply(2)}`).toBe('- 10 + 6 x + 2 x^2');
+  expect(`${minus5_PLUS_3x_PLUS_x2.multiply(2)}`).toBe('2 x^2 + 6 x - 10');
   expect(`${minus5_PLUS_3x_PLUS_x2.multiply(twoX, { ascending: false })}`).toBe('2 x^3 + 6 x^2 - 10 x');
-  expect(`${minus5_PLUS_3x_PLUS_x2.multiply(x, { ascending: false })}`).toBe('x^3 + 3 x^2 - 5 x');
+  expect(`${minus5_PLUS_3x_PLUS_x2.multiply(x, { ascending: true })}`).toBe('- 5 x + 3 x^2 + x^3');
   expect(`${minus5_PLUS_3x_PLUS_x2.multiply(xMinus1, { ascending: false })}`).toBe('x^3 + 2 x^2 - 8 x + 5');
 
   const x2_PLUS_3x_MINUS_5 = minus5_PLUS_3x_PLUS_x2.sort(false);

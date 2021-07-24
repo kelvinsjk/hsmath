@@ -69,6 +69,13 @@ export default class Fraction {
     return new Fraction(this.num * f2.num, this.den * f2.den);
   }
   /**
+   * negative
+   * @returns - of this fraction
+   */
+  negative(): Fraction{
+    return this.times(-1);
+  }
+  /**
    * subtraction
    * @param f2 the number/fraction to be subtracted
    * @returns this fraction minus `f2`
@@ -193,6 +200,10 @@ export default class Fraction {
       optionsObject.initialDegree = 1;
       return new Polynomial([this.den, -this.num], optionsObject);
     }
+  }
+
+  clone(): Fraction{
+    return new Fraction(this.num, this.den);
   }
 
   //// static properties
