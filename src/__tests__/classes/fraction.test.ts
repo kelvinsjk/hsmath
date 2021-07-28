@@ -8,6 +8,7 @@ const oneHalf = new Fraction(1, 2);
 const oneThird = new Fraction(-1, -3);
 const oneSixth = new Fraction(3, 18);
 const negativeThreeQuarter = new Fraction(-6, 8);
+const nineSixteenth = negativeThreeQuarter.square();
 const negativeTwoFifth = new Fraction(2, -5);
 const twentyTwoOverSeven = new Fraction(22, 7);
 const oneSixthFloat = 1 / 6;
@@ -30,6 +31,7 @@ test('fraction arithmetic', () => {
   expect(negativeThree.num).toBe(-3);
   expect(negativeThree.den).toBe(1);
   expect(oneHalf.num).toBe(1);
+  expect(oneHalf.negative().num).toBe(-1);
   expect(oneHalf.den).toBe(2);
   expect(oneThird.num).toBe(1);
   expect(oneThird.den).toBe(3);
@@ -92,6 +94,7 @@ test('fraction arithmetic', () => {
 test('string methods', () => {
   expect(one.toString()).toBe('1');
   expect(`${negativeThree}`).toBe('- 3');
+  expect(`${nineSixteenth}`).toBe('\\frac{9}{16}');
   expect(`${oneHalf}`).toBe('\\frac{1}{2}');
   expect(`${negativeThreeQuarter}`).toBe('- \\frac{3}{4}');
   expect(negativeThreeQuarter.toString({ displayMode: true })).toBe('\\displaystyle - \\frac{3}{4}');
@@ -143,4 +146,20 @@ test('static methods', () => {
   expect(Fraction.compare(oneSixth, '==', oneSixth)).toBe(true);
   expect(Fraction.compare(oneSixth, '===', oneSixth)).toBe(true);
   expect(Fraction.compare(1, '===', 2)).toBe(false);
+});
+
+test('gcd', () => {
+  expect(`${Fraction.gcd(negativeThreeQuarter)}`).toBe('- \\frac{3}{4}');
+  expect(`${Fraction.gcd(negativeThreeQuarter, oneSixth)}`).toBe('\\frac{1}{12}');
+  expect(`${Fraction.gcd(twentyTwoOverSeven, negativeTwoFifth, 4)}`).toBe('\\frac{2}{35}');
+  expect(`${Fraction.factorize(negativeThreeQuarter, oneSixth)[1][0]}`).toBe('- 9');
+  expect(`${Fraction.factorize(negativeThreeQuarter, oneSixth)[1][1]}`).toBe('2');
+  expect(`${Fraction.factorize(twentyTwoOverSeven, negativeTwoFifth, 4)[0]}`).toBe('\\frac{2}{35}');
+  expect(`${Fraction.factorize(twentyTwoOverSeven, negativeTwoFifth, 4)[1][0]}`).toBe('55');
+  expect(`${Fraction.factorize(twentyTwoOverSeven, negativeTwoFifth, 4)[1][1]}`).toBe('- 7');
+  expect(`${Fraction.factorize(twentyTwoOverSeven, negativeTwoFifth, 4)[1][2]}`).toBe('70');
+
+  expect(() => {
+    Fraction.gcd();
+  }).toThrow();
 });

@@ -4,7 +4,9 @@ import Polynomial from './polynomialClass';
 /**
  * Fraction class `{num: numerator, den: denominator}`
  *
- * `num` is an integer and `den` is a positive integer (any negative signs are "hoisted" to `num`)
+ * `num` is an integer
+ * 
+ * `den` is a positive integer (any negative signs are "hoisted" to `num`)
  */
 export default class Fraction {
   //// instance properties
@@ -21,30 +23,31 @@ export default class Fraction {
    */
   constructor(num: number, den = 1) {
     if (den === 0) {
-      throw 'denominator cannot be zero';
+      throw new Error('Fraction ERROR: denominator cannot be zero');
     }
     if (!Number.isInteger(den)) {
-      throw 'denominator must be an integer';
+      throw new Error('Fraction ERROR: denominator must be an integer');
     }
-    if (Number.isInteger(num)) {
+    if (Number.isInteger(num)) { // numerator is integer
       const divisor = gcd(num, den);
-      const sign = Math.sign(num) * Math.sign(den);
+      const sign = Math.sign(num) * Math.sign(den); // signs hoisted to top
       this.num = (sign * Math.abs(num)) / divisor;
       this.den = Math.abs(den) / divisor;
-    } else {
-      // num is non-integer
+    } else { // num is non-integer
       if (den === 1) {
         [num, den] = convertDecimalToFraction(num);
         const divisor = gcd(num, den);
         this.num = Math.abs(num) / divisor;
         this.den = Math.abs(den) / divisor;
       } else {
-        throw 'when using a non-integer numerator, only a denominator of 1 is supported';
+        throw new Error('Fraction ERROR: when using a non-integer numerator, only a denominator of 1 is supported');
       }
     }
   }
 
-  //// instance methods
+  //// 
+  // instance methods
+  ////
   /// arithmetic
   /**
    * addition
@@ -52,9 +55,7 @@ export default class Fraction {
    * @returns the sum of this fraction and `f2`
    */
   plus(f2: number | Fraction): Fraction {
-    if (typeof f2 === 'number') {
-      f2 = new Fraction(f2);
-    }
+    f2 = convertNumberToFraction(f2);
     return new Fraction(this.num * f2.den + f2.num * this.den, this.den * f2.den);
   }
   /**
@@ -63,14 +64,12 @@ export default class Fraction {
    * @returns the product of this fraction and `f2`
    */
   times(f2: number | Fraction): Fraction {
-    if (typeof f2 === 'number') {
-      f2 = new Fraction(f2);
-    }
+    f2 = convertNumberToFraction(f2);
     return new Fraction(this.num * f2.num, this.den * f2.den);
   }
   /**
    * negative
-   * @returns - of this fraction
+   * @returns -ve of this fraction
    */
   negative(): Fraction{
     return this.times(-1);
@@ -81,9 +80,7 @@ export default class Fraction {
    * @returns this fraction minus `f2`
    */
   minus(f2: number | Fraction): Fraction {
-    if (typeof f2 === 'number') {
-      f2 = new Fraction(f2);
-    }
+    f2 = convertNumberToFraction(f2);
     const negativeF2 = f2.times(-1);
     return this.plus(negativeF2);
   }
@@ -94,11 +91,9 @@ export default class Fraction {
    */
   divide(f2: number | Fraction): Fraction {
     // take current fraction divided by f, returning the quotient
-    if (typeof f2 === 'number') {
-      f2 = new Fraction(f2);
-    }
+    f2 = convertNumberToFraction(f2);
     if (f2.isEqual(0)) {
-      throw 'cannot be divided by 0';
+      throw new Error('Fraction ERROR: cannot be divided by 0');
     }
     const reciprocal = new Fraction(f2.den, f2.num);
     return this.times(reciprocal);
@@ -110,10 +105,19 @@ export default class Fraction {
    */
   pow(n: number): Fraction {
     if (!Number.isInteger(n) || n < 0) {
-      throw 'only non-negative n are allowed for fraction.pow(n)';
+      throw new Error('Fraction ERROR: only non-negative n are allowed for fraction.pow(n)');
     }
     return new Fraction(Math.pow(this.num, n), Math.pow(this.den, n));
   }
+
+  /**
+   * square: if this is \frac{a}{b}
+   * @returns the fraction \frac{a^2}{b^2}
+   */
+  square(): Fraction {
+    return this.pow(2);
+  }
+
 
   /// comparison
   /**
@@ -126,15 +130,13 @@ export default class Fraction {
    * checks if this fraction is equal to `f2`
    */
   isEqual(f2: number | Fraction): boolean {
-    if (typeof f2 === 'number') {
-      f2 = new Fraction(f2);
-    }
+    f2 = convertNumberToFraction(f2);
     return this.num === f2.num && this.den == f2.den;
   }
 
   /// string methods
   /**
-   * @param displayMode if `true`, adds `\displaystyle` at the start of the string
+   * @param options default: `{displayMode: false}`
    * @returns the LaTeX string representation of the fraction
    */
   toString(options?: toStringOptions): string {
@@ -185,7 +187,7 @@ export default class Fraction {
    * @param options default: `{ascending: false, variableAtom = 'x'}`
    * @returns the Polynomial class representing the linear factor ax+b, with this fraction as the root
    *
-   * coefficient of 'x' will always be positive: chain .multiply(-1) to modify this behavior
+   * coefficient of 'x' will always be positive: chain `.multiply(-1)` to modify this behavior
    */
   toFactor(options?: toFactorOptions): Polynomial {
     const defaultOptions = {
@@ -193,15 +195,17 @@ export default class Fraction {
       variableAtom: 'x',
     };
     const optionsObject: polynomialOptions = { ...defaultOptions, ...options };
-    if (optionsObject.ascending) {
-      // b + a x
+    if (optionsObject.ascending) { // b + a x
       return new Polynomial([-this.num, this.den], optionsObject);
-    } else {
+    } else { // a x + b
       optionsObject.initialDegree = 1;
       return new Polynomial([this.den, -this.num], optionsObject);
     }
   }
 
+  /**
+   * clones the Fraction: creating a new Fraction instance
+   */
   clone(): Fraction{
     return new Fraction(this.num, this.den);
   }
@@ -216,7 +220,46 @@ export default class Fraction {
    */
   static ZERO = new Fraction(0);
 
-  //// static methods
+  //// 
+  // static methods
+  ////
+
+  /**
+   * gcd of fractions
+   */
+  static gcd(...fractions: (number | Fraction)[]): Fraction{
+    if (fractions.length === 0) {
+      throw new Error('Fraction ERROR: gcd function must have at least one argument');
+    } else if (fractions.length === 1) {
+      const fraction = convertNumberToFraction(fractions[0]);
+      return fraction;
+    } else if (fractions.length === 2) {
+      const fraction1 = convertNumberToFraction(fractions[0]);
+      const fraction2 = convertNumberToFraction(fractions[1]);
+      const gcdNum = gcd(fraction1.num, fraction2.num);
+      const gcdDen = gcd(fraction1.den, fraction2.den);
+      const lcmDen = Math.abs(fraction1.den * fraction2.den) / gcdDen;
+      return new Fraction(gcdNum, lcmDen);
+    } else { // recursively call this method
+      const [fraction1, fraction2, ...restOfFractions] = fractions;
+      return Fraction.gcd(Fraction.gcd(fraction1, fraction2), ...restOfFractions);
+    }
+  }
+
+  /**
+   * given a set of fractions (a, b, c, ..., n)
+   * @returns an array `[ k, [A, B, C, ..., N] ]`,
+   * where k(A, B, C, ..., N) = (a, b, c, ..., n)
+   */
+  static factorize(...fractions: (number | Fraction)[]): [Fraction, Fraction[]]{
+    const gcd = Fraction.gcd(...fractions);
+    const simplifiedArray = fractions.map(fraction => {
+      fraction = convertNumberToFraction(fraction);
+      return fraction.divide(gcd);
+    })
+    return [gcd, simplifiedArray];
+  }
+
   /// methods similar to those in the built-in Number/Math objects
   /**
    * @returns the absolute value of `f`
@@ -250,7 +293,9 @@ export default class Fraction {
   }
 
   /// comparison methods
-  /**new Fraction(
+  /**
+   * compare two fractions 
+   * TODO: documentation for this method
    */
   static compare(
     f1: Fraction | number,
@@ -278,6 +323,11 @@ export default class Fraction {
   }
 }
 
+////
+// Internal functions
+////
+
+/// convertDecimalToFraction
 // returns [a, b], where we have converted num = a/b
 // warning: make sure num is not an integer before calling
 function convertDecimalToFraction(num: number): [number, number] {
@@ -288,9 +338,18 @@ function convertDecimalToFraction(num: number): [number, number] {
   if (Number.isSafeInteger(numerator) && Number.isSafeInteger(powerOfTen)) {
     return [numerator, powerOfTen];
   } else {
-    throw 'conversion of decimal to Fraction failed (unsafe integer encountered)';
+    throw new Error('Fraction ERROR (convertDecimalToFraction): conversion of decimal to Fraction failed (unsafe integer encountered)');
   }
 }
+
+/// convertNumberToFraction
+function convertNumberToFraction(num: number | Fraction): Fraction{
+  if (typeof num === 'number') {
+    num = new Fraction(num);
+  }
+  return num.clone();
+}
+
 
 /**
  * Options for converting to string
@@ -323,4 +382,4 @@ interface polynomialOptions {
 }
 
 // TODO: implement a compare function (to be combined with other Classes)
-// TODO: implement the max and min static methods. possibly a clone instance method
+// TODO: implement the max and min static methods.

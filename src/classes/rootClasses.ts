@@ -6,7 +6,7 @@ import Fraction from './fractionClass';
  *
  * let $a$ be `coeff` (the coefficient) and $b$ be the `radicand`.
  * Then this NthRoot class is the representation of the radical $a \sqrt[n]{b}$.
- * For the special case `n=2`, we recommend using the SquareRoot class extension for more available methods
+ * For the special case `n=2`, we also have a SquareRoot class extension
  *
  * Note that we do not support negative radicands at this point (for odd `n`, you may want to consider 'hoisting' the negative sign to the coefficient)
  */
@@ -64,6 +64,27 @@ class NthRoot extends Term {
       this.variable = `\\sqrt[${n}]{${this.radicand}}`;
     }
   }
+
+  /**
+   * exponentiation
+   * @param n non-negative integer
+   * @returns this NthRoot to the power of `n`
+   */
+  pow(n: number): NthRoot {
+    if (!Number.isInteger(n) || n < 0) {
+      throw new Error('NthRoot ERROR: only non-negative n are allowed for fraction.pow(n)');
+    }
+    return new NthRoot( Math.pow(this.radicand, n), this.n, this.coeff.pow(n) );
+  }
+
+  /**
+   * exponentiation
+   * @param n non-negative integer
+   * @returns this NthRoot to the power of `n`
+   */
+  valueOf(): number {
+    return Math.pow(this.radicand, 1 / (this.n)) * this.coeff.valueOf();
+  }
 }
 
 /**
@@ -92,6 +113,40 @@ class SquareRoot extends NthRoot {
       // valid square root radical
       this.variable = `\\sqrt{${this.radicand}}`;
     }
+  }
+
+  /**
+ * exponentiation
+ * @param n non-negative integer
+ * @returns this SquareRoot to the power of `n`
+ * 
+ * for n=2 use the `square` method to get a Fraction class
+ */
+  pow(n: number): SquareRoot {
+    if (!Number.isInteger(n) || n < 0) {
+      throw new Error('SquareRoot ERROR: only non-negative n are allowed for fraction.pow(n)');
+    }
+    return new SquareRoot(Math.pow(this.radicand, n), this.coeff.pow(n));
+  }
+
+/**
+ * square: if this is a\sqrt{b}
+ * @returns the fraction a^2 b
+ */
+  square(): Fraction {
+    return this.coeff.pow(2).times(this.radicand);
+  }
+
+/**
+ * negative: if this is a\sqrt{b}
+ * @returns the -a\sqrt{b}
+ */
+  negative(): SquareRoot {
+    return new SquareRoot(this.radicand, this.coeff.negative());
+  }
+
+  clone(): SquareRoot{
+    return new SquareRoot(this.radicand, this.coeff.clone());
   }
 }
 

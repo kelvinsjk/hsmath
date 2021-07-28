@@ -224,14 +224,16 @@ class PolynomialTerm extends Term {
    * if another `Term` is provided, return a new `Term` type representing their product (this feature is experimental)
    * @param options to set a new variable name after term multiplication (by default, the new variable name will be the two variables side by side)
    */
-  multiply(term2: number | Fraction | Term | PolynomialTerm, options?: variableOptions): Term | PolynomialTerm {
+  multiply(term2: number | Fraction | PolynomialTerm): PolynomialTerm {
     if (term2 instanceof PolynomialTerm) {
       return new PolynomialTerm(this.coeff.times(term2.coeff), this.variableAtom, this.n + term2.n, this.powerOptions);
-    } else if (typeof term2 === 'number' || term2 instanceof Fraction) {
+    } else {
+      //if (typeof term2 === 'number' || term2 instanceof Fraction) {
       return new PolynomialTerm(this.coeff.times(term2), this.variableAtom, this.n, this.powerOptions);
-    } else{ // term
-      return super.multiply(term2, options);
-    }
+    } 
+    //else { // term
+    //  return super.multiply(term2, options);
+    //}
   }
 
   clone(): PolynomialTerm {

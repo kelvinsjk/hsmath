@@ -5,6 +5,9 @@ test('gcd', () => {
     gcd(0, 0);
   }).toThrow();
   expect(() => {
+    gcd();
+  }).toThrow();
+  expect(() => {
     gcd(5, 1.2);
   }).toThrow();
   expect(gcd(0, 5)).toBe(5);
@@ -14,4 +17,6 @@ test('gcd', () => {
   expect(gcd(20, -65)).toBe(5);
   expect(gcd(-20, 65)).toBe(5);
   expect(gcd(-20, -65)).toBe(5);
+  expect(gcd(-20)).toBe(20);
+  expect(gcd(6, 10, 28)).toBe(2);
 });

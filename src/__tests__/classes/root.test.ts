@@ -47,3 +47,20 @@ test('toString', () => {
     new NthRoot(5, 2.3);
   }).toThrow();
 });
+
+
+test('pow', () => {
+  expect(cubeRoot5.valueOf().toFixed(2)).toBe('1.71');
+  expect(`${negativeTwoFifthCubeRoot5.pow(2)}`).toBe('\\frac{4}{25} \\sqrt[3]{25}');
+
+  expect(`${sqrt2.pow(3)}`).toBe('2 \\sqrt{2}');
+  expect(`${sqrt2.square()}`).toBe('2');
+  expect(`${sqrt2.negative()}`).toBe('- \\sqrt{2}');
+
+  expect(() => {
+    cubeRoot5.pow(2.1);
+  }).toThrow();
+  expect(() => {
+    sqrt2.pow(-5);
+  }).toThrow();
+});

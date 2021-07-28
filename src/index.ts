@@ -1,6 +1,7 @@
 import Fraction from './classes/fractionClass';
 import Term from './classes/termClass';
 import { NthRoot, SquareRoot } from './classes/rootClasses';
+import Complex from './classes/complexClass';
 import Expression from './classes/expressionClass';
 import Polynomial from './classes/polynomialClass';
 import gcd from './fns/arithmetic/gcd';
@@ -13,6 +14,7 @@ export {
   Term,
   NthRoot,
   SquareRoot,
+  Complex,
   Expression,
   Polynomial,
   gcd,
