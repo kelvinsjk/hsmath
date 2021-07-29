@@ -31,13 +31,19 @@ export default class Term {
 
   /// string methods
   /**
-   * @param displayMode if `true`, adds `\displaystyle` at the start of the string
+   * @param options default {displayMode: false, fractionalCoefficient: true, brackets: false}
+   * 
+   * `fractionalCoefficient` true returns a/b x, vs ax/b
+   * 
+   * `brackets` adds brackets around the variable k(x) (warning: incompatible with `fractionalCoefficient=false`)
+   * 
    * @returns the LaTeX string representation of the term
    */
   toString(options?: toStringOptions): string {
     const optionsObject = {
       displayMode: false,
       fractionalCoefficient: true,
+      brackets: false
     };
     Object.assign(optionsObject, options);
     const displayText = optionsObject.displayMode ? '\\displaystyle ' : '';
@@ -46,16 +52,17 @@ export default class Term {
     } else if (this.coeff.isEqual(1)) {
       return this.variable === '' ? '1' : `${displayText}${this.variable}`;
     } else if (this.coeff.isEqual(-1)) {
-      return this.variable === '' ? '-1' : `- ${displayText}${this.variable}`;
+      return this.variable === '' ? '-1' :
+        optionsObject.brackets ? `${displayText}- ( ${this.variable} )` : `${displayText}- ${this.variable}`;
     } else {
-      // non 0/1/-2 coefficient
+      // non 0/1/-1 coefficient
       if (this.variable === '') {
         // constant term
         return `${displayText}${this.coeff}`;
       } else {
         // variable term and non 0/1/-1 coefficient
         if (optionsObject.fractionalCoefficient) {
-          return `${displayText}${this.coeff} ${this.variable}`;
+          return optionsObject.brackets ? `${displayText}${this.coeff} ( ${this.variable} )` : `${displayText}${this.coeff} ${this.variable}`;
         } else {
           // adds term to numerator
           const sign = this.coeff.num < 0 ? '- ' : '';
@@ -113,7 +120,7 @@ export default class Term {
  */
 interface variableOptions {
   /** string representing the variable (default `x`) */
-  variable?: string;
+  variable?: string
 }
 
 /**
@@ -121,7 +128,7 @@ interface variableOptions {
  */
 interface toStringOptions {
   /** `displayMode`: if `true`, adds '\\displaystyle' at the start of the string */
-  displayMode?: boolean;
+  displayMode?: boolean,
   /**
    * `fractionalCoefficient`:
    *
@@ -133,6 +140,10 @@ interface toStringOptions {
    *
    * has no effect if coefficient is an integer
    */
-  fractionalCoefficient?: boolean;
+  fractionalCoefficient?: boolean,
+  /**
+   * adds brackets to the variable 
+   */
+  brackets?: boolean
 }
 // TODO: addition, scalar multiplication, subtraction

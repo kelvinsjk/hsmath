@@ -1,6 +1,7 @@
 import gcd from '../fns/arithmetic/gcd';
 import Term from './termClass';
 import Polynomial from './polynomialClass';
+import convertNumberToFraction from '../internal/convertNumberToFraction';
 /**
  * Fraction class `{num: numerator, den: denominator}`
  *
@@ -341,15 +342,6 @@ function convertDecimalToFraction(num: number): [number, number] {
     throw new Error('Fraction ERROR (convertDecimalToFraction): conversion of decimal to Fraction failed (unsafe integer encountered)');
   }
 }
-
-/// convertNumberToFraction
-function convertNumberToFraction(num: number | Fraction): Fraction{
-  if (typeof num === 'number') {
-    num = new Fraction(num);
-  }
-  return num.clone();
-}
-
 
 /**
  * Options for converting to string

@@ -28,7 +28,7 @@ export default class Complex extends Expression {
    */
   constructor(x: Fraction | number, y: number | Fraction = 0) {
     x = convertToFraction(x);
-    const imaginaryTerm = new Term(y, 'i');
+    const imaginaryTerm = new Term(y, '\\mathrm{i}');
     super(x, imaginaryTerm);
     this.x = x;
     this.y = convertToFraction(y);
@@ -90,6 +90,11 @@ export default class Complex extends Expression {
   clone(): Complex {
     return new Complex(this.x, this.y);
   }
+
+  /**
+   * the purely imaginary unit i (0+1i)
+   */
+  static I = new Complex(0, 1);
 }
 
 ///**
