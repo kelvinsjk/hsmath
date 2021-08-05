@@ -1,27 +1,27 @@
 import Fraction from '../fractionClass';
-import Term from '../termClass';
-import Expression from '../expressionClass';
+import Term from '../expressions/termClass';
+import Expression from '../expressions/expressionClass';
 import {SquareRoot} from '../rootClasses';
 import convertNumberToFraction from '../../internal/convertNumberToFraction';
 
 /**
- * Vector class representing a 3d vector k(a,b,c)
+ * Vector class representing a 3d vector k(x,y,z)
  */
-export default class Vector { // vector of the form k(a,b,c). 
-  a: Fraction;
-  b: Fraction;
-  c: Fraction;
+export default class Vector { // vector of the form k(x,y,z). 
+  x: Fraction;
+  y: Fraction;
+  z: Fraction;
   k: Fraction;
   /**
    * Vector class constructor for the vector represented by k(a,b,c).
    * 
-   * If `simplify` in the options is set to `true`, then we will factorize our expression such that a,b,c are integers with gcd=1.
+   * If `simplify` in the options is set to `true`, then we will factorize our expression such that x,y,z are integers with gcd=1.
    * 
    * If `stretchable` in the options is set to `true`, then we will simplify plus set k to be 1.
    * 
-   * `new Vector(a: number | Fraction, b, c=0, {k: 1, simplify: false, stretchable: false})`
+   * `new Vector(x: number | Fraction, y=0, z=0, {k: 1, simplify: false, stretchable: false})`
    */
-  constructor(a: number | Fraction, b: number | Fraction, c?: number | Fraction, options?: vectorOptions) {
+  constructor(x: number | Fraction, y?: number | Fraction, z?: number | Fraction, options?: vectorOptions) {
     // options
     const defaultOptions = {
       k: Fraction.ONE,
@@ -30,12 +30,12 @@ export default class Vector { // vector of the form k(a,b,c).
     }
     const optionsObject = { ...defaultOptions, ...options };
     // initialize default variables
-    a = convertNumberToFraction(a);
-    b = convertNumberToFraction(b);
-    c = c === undefined ? Fraction.ZERO : convertNumberToFraction(c);
-    this.a = a;
-    this.b = b;
-    this.c = c;
+    x = convertNumberToFraction(x);
+    y = y === undefined ? Fraction.ZERO : convertNumberToFraction(y);
+    z = z === undefined ? Fraction.ZERO : convertNumberToFraction(z);
+    this.x = x;
+    this.y = y;
+    this.z = z;
     this.k = convertNumberToFraction(optionsObject.k);
     // simplify if necessary
     if (optionsObject.simplify || optionsObject.stretchable) {
@@ -51,16 +51,23 @@ export default class Vector { // vector of the form k(a,b,c).
    * WARNING: mutates current instance
    */
   simplify(stretchable = false): void {
-    const [divisor, [a, b, c]] = Fraction.factorize(this.a, this.b, this.c);
-    this.a = a; this.b = b; this.c = c;
-    this.k = stretchable ? Fraction.ONE : divisor.times(this.k);
+    if (this.isZero()) {
+      this.k = Fraction.ONE;
+      this.x = new Fraction(0);
+      this.y = new Fraction(0);
+      this.z = new Fraction(0);
+    } else {
+      const [[x, y, z], divisor] = Fraction.factorize(this.x, this.y, this.z);
+      this.x = x; this.y = y; this.z = z;
+      this.k = stretchable ? Fraction.ONE : divisor.times(this.k);
+    }
   }
   /**
-   * multiply k into the vector, taking this: k(a,b,c) and 
-   * @returns (ka, kb, kc)
+   * multiply k into the vector, taking this: k(x,y,z) and 
+   * @returns (kx, ky, kz)
    */
   multiplyKIn(): Vector{
-    return new Vector(this.a.times(this.k), this.b.times(this.k), this.c.times(this.k));
+    return new Vector(this.x.times(this.k), this.y.times(this.k), this.z.times(this.k));
   }
   /**
    * vector addition
@@ -71,7 +78,7 @@ export default class Vector { // vector of the form k(a,b,c).
    */
   plus(v2: Vector): Vector {
     if (this.k.isEqual(v2.k)){
-      return new Vector(this.a.plus(v2.a), this.b.plus(v2.b), this.c.plus(v2.c), { k: this.k.clone() });
+      return new Vector(this.x.plus(v2.x), this.y.plus(v2.y), this.z.plus(v2.z), { k: this.k.clone() });
     } else {
       const newV1 = this.multiplyKIn();
       const newV2 = v2.multiplyKIn();
@@ -86,7 +93,7 @@ export default class Vector { // vector of the form k(a,b,c).
    * if `k`s is different, then we will expand in both `k`s such that the sum has `k=1`
   */
   minus(v2: Vector): Vector {
-    const v3 = new Vector(v2.a.times(-1), v2.b.times(-1), v2.c.times(-1), { k: v2.k.clone() });
+    const v3 = new Vector(v2.x.times(-1), v2.y.times(-1), v2.z.times(-1), { k: v2.k.clone() });
     return this.plus(v3);
   }
   /**
@@ -99,7 +106,7 @@ export default class Vector { // vector of the form k(a,b,c).
   multiply(k: number | Fraction, options?: scalarMultiplicationOptions): Vector {
     const defaultOptions = { changeK: false };
     const optionsObject = { ...defaultOptions, ...options };
-    return optionsObject.changeK ? new Vector(this.a, this.b, this.c, { k: this.k.times(k) }) : new Vector(this.a.times(k), this.b.times(k), this.c.times(k), {k: this.k});
+    return optionsObject.changeK ? new Vector(this.x, this.y, this.z, { k: this.k.times(k) }) : new Vector(this.x.times(k), this.y.times(k), this.z.times(k), {k: this.k});
   }
   /**
    * negative vector
@@ -111,7 +118,7 @@ export default class Vector { // vector of the form k(a,b,c).
   negative(options?: scalarMultiplicationOptions): Vector {
     const defaultOptions = { changeK: false };
     const optionsObject = { ...defaultOptions, ...options };
-    return optionsObject.changeK ? new Vector(this.a, this.b, this.c, { k: this.k.times(-1) }) : new Vector(this.a.times(-1), this.b.times(-1), this.c.times(-1), {k: this.k});
+    return optionsObject.changeK ? new Vector(this.x, this.y, this.z, { k: this.k.times(-1) }) : new Vector(this.x.times(-1), this.y.times(-1), this.z.times(-1), {k: this.k});
   }
   /**
    * scalar (dot) product
@@ -122,7 +129,7 @@ export default class Vector { // vector of the form k(a,b,c).
     if (v2 === undefined) {
       v2 = this.clone();
     }
-    return this.k.times(v2.k).times( this.a.times(v2.a).plus(this.b.times(v2.b)).plus(this.c.times(v2.c)) );
+    return this.k.times(v2.k).times( this.x.times(v2.x).plus(this.y.times(v2.y)).plus(this.z.times(v2.z)) );
   }
   /**
    * vector magnitude:
@@ -138,15 +145,15 @@ export default class Vector { // vector of the form k(a,b,c).
    */
   cross(v2: Vector): Vector {
     const newK = this.k.times(v2.k);
-    const newB = this.c.times(v2.a).minus((this.a.times(v2.c)));
-    const newA = this.b.times(v2.c).minus((this.c.times(v2.b)));
-    const newC = this.a.times(v2.b).minus((this.b.times(v2.a)));
+    const newB = this.z.times(v2.x).minus((this.x.times(v2.z)));
+    const newA = this.y.times(v2.z).minus((this.z.times(v2.y)));
+    const newC = this.x.times(v2.y).minus((this.y.times(v2.x)));
     return new Vector(newA, newB, newC, { k: newK });
   }
   /**
    * check if two vectors are parallel
    */
-  isParallel(v2: Vector): boolean {
+  isParallelTo(v2: Vector): boolean {
     if (this.isZero() || v2.isZero()) {
       throw new Error('Vector ERROR: parallel does not exist for zero vectors');
     }
@@ -178,23 +185,23 @@ export default class Vector { // vector of the form k(a,b,c).
     const optionsObject = { ...defaultOptions, ...options };
     const vector = optionsObject.multiplyKIn ? this.multiplyKIn() : this;
     if (optionsObject.ijkMode) {
-      const iTerm = new Term(vector.a, '\\mathbf{i}');
-      const jTerm = new Term(vector.b, '\\mathbf{j}');
-      const kTerm = new Term(vector.c, '\\mathbf{k}');
+      const iTerm = new Term(vector.x, '\\mathbf{i}');
+      const jTerm = new Term(vector.y, '\\mathbf{j}');
+      const kTerm = new Term(vector.z, '\\mathbf{k}');
       const ijkExpression = new Expression(iTerm, jTerm, kTerm);
       const expressionWithK = new Term(vector.k, ijkExpression.toString());
       return expressionWithK.toString({brackets: true})
     } else { // column vector
-      const vectorTerm = new Term(vector.k, `\\begin{pmatrix} ${vector.a} \\\\ ${vector.b} \\\\ ${vector.c} \\end{pmatrix}`);
+      const vectorTerm = new Term(vector.k, `\\begin{pmatrix} ${vector.x} \\\\ ${vector.y} \\\\ ${vector.z} \\end{pmatrix}`);
       return vectorTerm.toString();
     }
   }
   /**
-   * @returns (ka, kb, kc) as a coordinate triple. Can Add the name of the point in front of the definition
+   * @returns (kx, ky, kz) as a coordinate triple. Can add the name of the point in front of the definition
    */
   toCoordinates(name?: string): string {
     const vector = this.multiplyKIn();
-    const coordinates = `\\left( ${vector.a} , ${vector.b} , ${vector.c} \\right)`
+    const coordinates = `\\left( ${vector.x} , ${vector.y} , ${vector.z} \\right)`
     if (name == undefined) {
       return coordinates;
     } else {
@@ -217,25 +224,44 @@ export default class Vector { // vector of the form k(a,b,c).
    * @returns the angle between the vectors, to 1dp (in degrees) (unless the answer is 0, 30, 45, 60 or 90)
    * 
    * Example: 45.7^{\circ}
+   * 
+   * @param sineMode if true, uses arcsin instead of arccos (useful for angle between line and plane)
    */
-  angle(v2: Vector): string {
+  angle(v2: Vector, sineMode = false): string {
     if (this.isZero() || v2.isZero()) {
       throw new Error('Vector ERROR: angle is not defined for zero vectors');
     }
     const cosThetaSquared = this.dot(v2).square().divide(this.dot().times(v2.dot()));
-    if (cosThetaSquared.isEqual(0)) {
-      return '90^{\\circ}';
-    } else if (cosThetaSquared.isEqual(new Fraction(1, 4))) {
-      return this.dot(v2).valueOf() < 0 ? '120^{\\circ}' : '60^{\\circ}';
-    } else if (cosThetaSquared.isEqual(new Fraction(1, 2))) {
-      return this.dot(v2).valueOf() < 0 ? '135^{\\circ}' : '45^{\\circ}';
-    } else if (cosThetaSquared.isEqual(new Fraction(3, 4))) {
-      return this.dot(v2).valueOf() < 0 ? '150^{\\circ}' : '30^{\\circ}';
-    } else if (cosThetaSquared.isEqual(1)) {
-      return this.dot(v2).valueOf() < 0 ? '180^{\\circ}' : '0^{\\circ}';
-    } else {
-      const angle = Math.acos(Math.sign(this.dot(v2).valueOf()) * Math.pow(cosThetaSquared.valueOf(), 1 / 2)) / Math.PI * 180;
-      return angle.toFixed(1) + '^{\\circ}';      
+    if (sineMode) {
+      if (cosThetaSquared.isEqual(0)) {
+        return '0^{\\circ}';
+      } else if (cosThetaSquared.isEqual(new Fraction(1, 4))) {
+        return '30^{\\circ}';
+      } else if (cosThetaSquared.isEqual(new Fraction(1, 2))) {
+        return '45^{\\circ}';
+      } else if (cosThetaSquared.isEqual(new Fraction(3, 4))) {
+        return '60^{\\circ}';
+      } else if (cosThetaSquared.isEqual(1)) {
+        return '90^{\\circ}';
+      } else {
+        const angle = Math.asin(Math.sign(this.dot(v2).valueOf()) * Math.pow(cosThetaSquared.valueOf(), 1 / 2)) / Math.PI * 180;
+        return angle.toFixed(1) + '^{\\circ}';      
+      }      
+    } else { // default cosine
+      if (cosThetaSquared.isEqual(0)) {
+        return '90^{\\circ}';
+      } else if (cosThetaSquared.isEqual(new Fraction(1, 4))) {
+        return this.dot(v2).valueOf() < 0 ? '120^{\\circ}' : '60^{\\circ}';
+      } else if (cosThetaSquared.isEqual(new Fraction(1, 2))) {
+        return this.dot(v2).valueOf() < 0 ? '135^{\\circ}' : '45^{\\circ}';
+      } else if (cosThetaSquared.isEqual(new Fraction(3, 4))) {
+        return this.dot(v2).valueOf() < 0 ? '150^{\\circ}' : '30^{\\circ}';
+      } else if (cosThetaSquared.isEqual(1)) {
+        return this.dot(v2).valueOf() < 0 ? '180^{\\circ}' : '0^{\\circ}';
+      } else {
+        const angle = Math.acos(Math.sign(this.dot(v2).valueOf()) * Math.pow(cosThetaSquared.valueOf(), 1 / 2)) / Math.PI * 180;
+        return angle.toFixed(1) + '^{\\circ}';      
+      } 
     }
   }
 
@@ -243,8 +269,50 @@ export default class Vector { // vector of the form k(a,b,c).
    * clones a new instance of this vector
    */
   clone(): Vector{
-    return new Vector(this.a.clone(), this.b.clone(), this.c.clone(), {k: this.k.clone()})
+    return new Vector(this.x.clone(), this.y.clone(), this.z.clone(), {k: this.k.clone()})
   }
+
+  /**
+   * ratio theorem: returns the position vector of M such that AM:MB = lambda:mu (extendedMode: false)
+   * 
+   * @options `{extendedMode: false}` by default. if `extendedMode = true`, then M is on AB extended such that AB:BM = lambda:mu
+   */
+  static ratioTheorem(a: Vector, b: Vector, lambda = 1, mu = 1, options?: ratioTheoremOptions): Vector {
+    const defaultOptions = { extendedMode: false };
+    const optionsObject = { ...defaultOptions, ...options };
+    if (optionsObject.extendedMode) {
+      const one_over_lambda = new Fraction(1, lambda);
+      const vector = b.multiply(lambda + mu).minus(a.multiply(mu)).multiply(one_over_lambda);
+      return vector;
+    } else {
+      const one_over_lambda_plus_mu = new Fraction(1, lambda + mu);
+      const vector = b.multiply(lambda).plus(a.multiply(mu)).multiply(one_over_lambda_plus_mu);
+      return vector;
+    }
+  }
+
+  ////
+  // static properties
+  ////
+
+  /**
+   * the zero vector
+   */
+  static ZERO = new Vector(0, 0, 0);
+  /**
+   * the x-axis unit vector (1,0,0)
+   */
+  static I = new Vector(1, 0, 0);
+  /**
+  /**
+   * the y-axis unit vector (0,1,0)
+   */
+  static J = new Vector(0, 1, 0);
+  /**
+  /**
+   * the z-axis unit vector (0,0,1)
+   */
+  static K = new Vector(0, 0, 1);
 }
 
 interface vectorOptions {
@@ -258,4 +326,7 @@ interface scalarMultiplicationOptions {
 interface toStringOptions {
   ijkMode?: boolean,
   multiplyKIn?: boolean
+}
+interface ratioTheoremOptions{
+  extendedMode?: boolean
 }

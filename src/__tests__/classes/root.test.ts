@@ -64,3 +64,7 @@ test('pow', () => {
     sqrt2.pow(-5);
   }).toThrow();
 });
+
+test('square root extra', () => {
+  expect(`${sqrt2.divide(2)}`).toBe('\\frac{1}{2} \\sqrt{2}');
+});

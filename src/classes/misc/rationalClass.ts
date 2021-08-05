@@ -1,4 +1,4 @@
-import Polynomial from '../polynomialClass';
+import Polynomial from '../expressions/polynomialClass';
 
 /**
  * A `RationalFunction` is a representation of a `Polynomial` divided by another

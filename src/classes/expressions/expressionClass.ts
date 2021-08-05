@@ -1,5 +1,5 @@
 import Term from './termClass';
-import Fraction from './fractionClass';
+import Fraction from '../fractionClass';
 
 /**
  * An `Expression` is a representation of the sum of `Terms`

@@ -1,6 +1,6 @@
 import Term from './termClass';
 import Expression from './expressionClass';
-import Fraction from './fractionClass';
+import Fraction from '../fractionClass';
 
 /**
  * A `Polynomial` is a special `Expression` made up of `PolynomialTerm`s
@@ -13,6 +13,7 @@ export default class Polynomial extends Expression {
    * @param array array of coefficients (in `number` or `Fraction` type) of the polynomial, or an array of `PolynomialTerm`s.
    * @param variable the string representing the variable (default `x`)
    * @param options `{ascending: false, initialDegree: ?n?, variableAtom: 'x', brackets: false}` by default. See the `polynomialOptions` interface for more details
+   * 
    * the `initialDegree` will be zero if `ascending === true` and set such that the last coefficient is the constant term is not.
    */
   constructor(array: (number | Fraction)[] | PolynomialTerm[], options?: polynomialOptions) {

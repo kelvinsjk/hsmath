@@ -1,4 +1,4 @@
-import Term from './termClass';
+import Term from './expressions/termClass';
 import Fraction from './fractionClass';
 
 /**
@@ -135,6 +135,26 @@ class SquareRoot extends NthRoot {
  */
   square(): Fraction {
     return this.coeff.pow(2).times(this.radicand);
+  }
+
+/**
+ * multiplication (by a number/Fraction)
+ */
+  times(k: number | Fraction): SquareRoot {
+    const newCoeff = this.coeff.times(k);
+    return new SquareRoot(this.radicand, newCoeff);
+  }
+
+/**
+ * division (by a number/Fraction/SquareRoot)
+ */
+  divide(k: number | Fraction | SquareRoot): SquareRoot{
+    if (typeof k === 'number' || k instanceof Fraction) {
+      const newCoeff = this.coeff.divide(k);
+      return new SquareRoot(this.radicand, newCoeff);
+    } else { // k is also a square root: after rationalization, l sqrt(a) / m sqrt(b) = l sqrt(ab) / mb
+      return new SquareRoot(this.radicand * k.radicand, this.coeff.divide(k.coeff).divide(k.radicand))
+    }
   }
 
 /**

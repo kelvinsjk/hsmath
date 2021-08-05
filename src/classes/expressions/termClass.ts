@@ -1,4 +1,4 @@
-import Fraction from './fractionClass';
+import Fraction from '../fractionClass';
 
 /**
  * term class `{coeff: Fraction, variable: string}`

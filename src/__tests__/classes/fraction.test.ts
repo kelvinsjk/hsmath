@@ -152,12 +152,12 @@ test('gcd', () => {
   expect(`${Fraction.gcd(negativeThreeQuarter)}`).toBe('- \\frac{3}{4}');
   expect(`${Fraction.gcd(negativeThreeQuarter, oneSixth)}`).toBe('\\frac{1}{12}');
   expect(`${Fraction.gcd(twentyTwoOverSeven, negativeTwoFifth, 4)}`).toBe('\\frac{2}{35}');
-  expect(`${Fraction.factorize(negativeThreeQuarter, oneSixth)[1][0]}`).toBe('- 9');
-  expect(`${Fraction.factorize(negativeThreeQuarter, oneSixth)[1][1]}`).toBe('2');
-  expect(`${Fraction.factorize(twentyTwoOverSeven, negativeTwoFifth, 4)[0]}`).toBe('\\frac{2}{35}');
-  expect(`${Fraction.factorize(twentyTwoOverSeven, negativeTwoFifth, 4)[1][0]}`).toBe('55');
-  expect(`${Fraction.factorize(twentyTwoOverSeven, negativeTwoFifth, 4)[1][1]}`).toBe('- 7');
-  expect(`${Fraction.factorize(twentyTwoOverSeven, negativeTwoFifth, 4)[1][2]}`).toBe('70');
+  expect(`${Fraction.factorize(negativeThreeQuarter, oneSixth)[0][0]}`).toBe('- 9');
+  expect(`${Fraction.factorize(negativeThreeQuarter, oneSixth)[0][1]}`).toBe('2');
+  expect(`${Fraction.factorize(twentyTwoOverSeven, negativeTwoFifth, 4)[1]}`).toBe('\\frac{2}{35}');
+  expect(`${Fraction.factorize(twentyTwoOverSeven, negativeTwoFifth, 4)[0][0]}`).toBe('55');
+  expect(`${Fraction.factorize(twentyTwoOverSeven, negativeTwoFifth, 4)[0][1]}`).toBe('- 7');
+  expect(`${Fraction.factorize(twentyTwoOverSeven, negativeTwoFifth, 4)[0][2]}`).toBe('70');
 
   expect(() => {
     Fraction.gcd();

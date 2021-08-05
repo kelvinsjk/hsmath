@@ -23,4 +23,7 @@ test('complex', () => {
   expect(`${two_PLUS_i.times(3)}`).toBe("6 + 3 \\mathrm{i}");
   expect(`${two_PLUS_i.times(zero)}`).toBe("0");
   expect(`${two_PLUS_i.divide(four_PLUS_threeI)}`).toBe("\\frac{11}{25} - \\frac{2}{25} \\mathrm{i}");
+
+  expect(`${two_PLUS_i.toQuadratic()}`).toBe('z^2 - 4 z + 5');
+  expect(`${two_PLUS_i.modulusSquared()}`).toBe('5');
 });

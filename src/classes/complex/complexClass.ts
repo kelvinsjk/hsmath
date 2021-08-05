@@ -1,7 +1,8 @@
-import Fraction from './fractionClass';
+import Fraction from '../fractionClass';
 //import { SquareRoot } from './rootClasses';
-import Expression from './expressionClass';
-import Term from './termClass';
+import Expression from '../expressions/expressionClass';
+import Term from '../expressions/termClass';
+import Polynomial from '../expressions/polynomialClass';
 
 /**
  * complex class
@@ -89,6 +90,23 @@ export default class Complex extends Expression {
 
   clone(): Complex {
     return new Complex(this.x, this.y);
+  }
+
+  /**
+   * @returns a monic quadratic that has this complex number and its conjugate as its roots
+   */
+  toQuadratic(): Polynomial {
+    const r2 = this.x.square().plus(this.y.square());
+    const minus2x = this.x.times(-2);
+    return new Polynomial([1, minus2x, r2], { variableAtom: 'z' });
+  }
+
+  /**
+   * @returns r^2 in the fraction class
+   */
+  modulusSquared(): Fraction{
+    const zzStar = this.times(this.conjugate());
+    return zzStar.x.clone();
   }
 
   /**

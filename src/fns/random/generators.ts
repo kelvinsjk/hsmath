@@ -1,5 +1,5 @@
 import Fraction from '../../classes/fractionClass';
-import Polynomial from '../../classes/polynomialClass';
+import Polynomial from '../../classes/expressions/polynomialClass';
 import gcd from '../arithmetic/gcd';
 
 /**
@@ -80,7 +80,8 @@ function getRandomLinear(options?: randomLinearOptions): Polynomial {
     avoid: optionsObject.avoid,
   };
   if (optionsObject.monic) {
-    (randomFracOptions.denMin = 1), (randomFracOptions.denMax = 1);
+    randomFracOptions.denMin = 1;
+    randomFracOptions.denMax = 1;
   }
   return getRandomFrac(randomFracOptions).toFactor();
 }

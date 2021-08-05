@@ -1,6 +1,6 @@
 import gcd from '../fns/arithmetic/gcd';
-import Term from './termClass';
-import Polynomial from './polynomialClass';
+import Term from './expressions/termClass';
+import Polynomial from './expressions/polynomialClass';
 import convertNumberToFraction from '../internal/convertNumberToFraction';
 /**
  * Fraction class `{num: numerator, den: denominator}`
@@ -243,22 +243,26 @@ export default class Fraction {
       return new Fraction(gcdNum, lcmDen);
     } else { // recursively call this method
       const [fraction1, fraction2, ...restOfFractions] = fractions;
-      return Fraction.gcd(Fraction.gcd(fraction1, fraction2), ...restOfFractions);
+      return fraction1.valueOf()===0 && fraction2.valueOf()===0 ? Fraction.gcd(0, ...restOfFractions) : Fraction.gcd(Fraction.gcd(fraction1, fraction2), ...restOfFractions);
     }
   }
 
   /**
    * given a set of fractions (a, b, c, ..., n)
-   * @returns an array `[ k, [A, B, C, ..., N] ]`,
+   * @returns an array `[[A, B, C, ..., N], k ]`,
    * where k(A, B, C, ..., N) = (a, b, c, ..., n)
    */
-  static factorize(...fractions: (number | Fraction)[]): [Fraction, Fraction[]]{
-    const gcd = Fraction.gcd(...fractions);
-    const simplifiedArray = fractions.map(fraction => {
+  static factorize(...fractions: (number | Fraction)[]): [Fraction[], Fraction]{
+    let gcd = Fraction.gcd(...fractions);
+    let simplifiedArray = fractions.map(fraction => {
       fraction = convertNumberToFraction(fraction);
       return fraction.divide(gcd);
     })
-    return [gcd, simplifiedArray];
+    if (simplifiedArray.reduce((acc, current) => acc && current.valueOf() <= 0, true)) {
+      simplifiedArray = simplifiedArray.map(fraction => fraction.negative());
+      gcd = gcd.negative();
+    }
+    return [simplifiedArray, gcd];
   }
 
   /// methods similar to those in the built-in Number/Math objects

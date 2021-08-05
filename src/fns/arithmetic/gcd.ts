@@ -13,7 +13,7 @@ export default function gcd(...integers: number[]): number {
     return gcdTwo(integers[0], integers[1]);
   } else { // recursively call this method
     const [integer1, integer2, ...restOfIntegers] = integers;
-    return gcd(gcdTwo(integer1, integer2), ...restOfIntegers);
+    return integer1===0 && integer2===0 ? gcd(0,...restOfIntegers) : gcd(gcdTwo(integer1, integer2), ...restOfIntegers);
   }
 }
 
@@ -21,10 +21,10 @@ function gcdTwo(a: number, b: number): number {
   a = Math.abs(a);
   b = Math.abs(b);
   if (a === 0 && b === 0) {
-    throw 'gcd(0,0) not defined';
+    throw new Error('gcd ERROR: gcd(0,0) not defined');
   }
   if (!Number.isInteger(a) || !Number.isInteger(b)) {
-    throw 'gcd not defined for non-integers';
+    throw new Error('gcd ERROR: gcd not defined for non-integers');
   }
   if (a === 0 || b === 0) {
     // at least one non-zero due to earlier check
