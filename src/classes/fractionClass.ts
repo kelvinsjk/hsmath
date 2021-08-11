@@ -343,7 +343,7 @@ export default class Fraction {
 // warning: make sure num is not an integer before calling
 function convertDecimalToFraction(num: number): [number, number] {
   if (num === undefined) {
-    throw new Error("undefined argument");
+    throw new Error('undefined argument');
   }
   if (num.toString().length > 10) {
     throw new Error('we do not handle decimals with more 10 digits');
