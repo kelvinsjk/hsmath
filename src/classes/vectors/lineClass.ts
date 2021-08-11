@@ -96,8 +96,8 @@ export default class Line {
    * 
    * @param options default `{lambda: '\\lambda', mode: 'vector', ijkMode: false}`
    * 
-   * mode: 'vector': r = a + lambda d
-   * mode: 'combined': a + lambda d together in one column vector
+   * mode: 'vector': r = a + lambda d  
+   * mode: 'combined': a + lambda d together in one column vector  
    * mode: 'cartesian'
    */
   toString(options?: lineToStringOptions): string {

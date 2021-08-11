@@ -18,9 +18,9 @@ const rational2 = rational1.add(x);
 
 test('addition', () => {
   expect(`${twoX}`).toBe('2 x');
-  expect(`${rational1}`).toBe('\\frac{ 2 x }{ x -1 }');
-  expect(`${rational1.toString({ displayMode: true })}`).toBe('\\displaystyle \\frac{ 2 x }{ x -1 }');
-  expect(`${rational2}`).toBe('\\frac{ x^2 + x }{ x -1 }');
+  expect(`${rational1}`).toBe('\\frac{ 2 x }{ x - 1 }');
+  expect(`${rational1.toString({ displayMode: true })}`).toBe('\\displaystyle \\frac{ 2 x }{ x - 1 }');
+  expect(`${rational2}`).toBe('\\frac{ x^2 + x }{ x - 1 }');
 
   expect(() => {
     new RationalFunction(twoX, new Polynomial([0]));

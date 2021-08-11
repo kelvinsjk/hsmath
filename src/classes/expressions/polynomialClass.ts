@@ -11,7 +11,6 @@ export default class Polynomial extends Expression {
   /**
    * Creates a new `Polynomial` instance
    * @param array array of coefficients (in `number` or `Fraction` type) of the polynomial, or an array of `PolynomialTerm`s.
-   * @param variable the string representing the variable (default `x`)
    * @param options `{ascending: false, initialDegree: ?n?, variableAtom: 'x', brackets: false}` by default. See the `polynomialOptions` interface for more details
    * 
    * the `initialDegree` will be zero if `ascending === true` and set such that the last coefficient is the constant term is not.
@@ -76,7 +75,6 @@ export default class Polynomial extends Expression {
    *
    * @returns the product
    */
-
   multiply(polynomial2: number | Fraction | PolynomialTerm | Polynomial, options?: multiplyOptions): Polynomial {
     // options
     const defaultOptions = {

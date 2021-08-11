@@ -7,7 +7,9 @@ import Fraction from '../fractionClass';
 export default class Expression {
   terms: Term[];
 
-  //// constructor
+  ////
+  // constructor
+  ////
   /**
    * Creates a new `Expression` instance, converting any Fraction inputs into the Term class
    * Combines like terms by adding the coefficients, such that no term types are repeated in the array
@@ -31,7 +33,9 @@ export default class Expression {
     }
   }
 
-  //// class methods
+  //// 
+  // class methods
+  ////
   /// string methods
   /**
    * @param displayMode if `true`, adds `\displaystyle` at the start of the string
@@ -96,8 +100,32 @@ export default class Expression {
    * similar to concatenating the terms in the two expressions, combining like terms
    * @returns the sum
    */
-  add(expression2: Expression): Expression {
-    return new Expression(...this.clone().terms, ...expression2.clone().terms);
+  add(newExpression: (Term | Fraction | number | string | Expression)) : Expression {
+    if (newExpression instanceof Expression) {
+      return new Expression(...this.terms, ...newExpression.terms);
+    } else {
+      return new Expression(...this.terms, newExpression);
+    }
+  }
+  /**
+   * subtracts the two expressions
+   * 
+   * @returns the difference
+   */
+  subtract(newExpression: (Term | Fraction | number | string | Expression)): Expression {
+    if (newExpression instanceof Expression) {
+      const negativeExp = newExpression.multiply(-1);
+      return new Expression(...this.terms, ...negativeExp.terms);
+    } else if (newExpression instanceof Term){
+      return new Expression(...this.terms, newExpression.multiply(-1));
+    } else if (newExpression instanceof Fraction) {
+      return new Expression(...this.terms, newExpression.times(-1));
+    } else if (typeof newExpression === 'number') {
+      return new Expression(...this.terms, newExpression * -1);
+    } else { // string
+      const newTerm = new Term(-1, newExpression);
+      return new Expression(...this.terms, newTerm);
+    }
   }
 
   clone(): Expression {

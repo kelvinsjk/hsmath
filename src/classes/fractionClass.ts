@@ -336,14 +336,17 @@ export default class Fraction {
 // returns [a, b], where we have converted num = a/b
 // warning: make sure num is not an integer before calling
 function convertDecimalToFraction(num: number): [number, number] {
-  const x = num.toString(); //// x of the form 'aaaa.bbb'
+  if (num.toString().length > 10) {
+    throw new Error('we do not handle decimals with more 10 digits');
+  }
+  const x = num.toString().substring(0, 10); //// x of the form 'aaaa.bbb'
   const decimalIndex = x.indexOf('.');
   const powerOfTen = Math.pow(10, x.length - decimalIndex - 1);
-  const numerator = num * powerOfTen;
-  if (Number.isSafeInteger(numerator) && Number.isSafeInteger(powerOfTen)) {
+  const numerator = Number(x.substring(0, decimalIndex) + x.substring(decimalIndex+1));
+  console.log(num, numerator, powerOfTen);if (decimalIndex !== -1) {
     return [numerator, powerOfTen];
   } else {
-    throw new Error('Fraction ERROR (convertDecimalToFraction): conversion of decimal to Fraction failed (unsafe integer encountered)');
+    throw new Error(`Fraction ERROR (convertDecimalToFraction): conversion of decimal to Fraction failed (could not find decimal point) ${numerator} ${powerOfTen}`);
   }
 }
 

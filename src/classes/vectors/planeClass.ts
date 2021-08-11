@@ -142,7 +142,8 @@ export default class Plane {
    */
   angle(item: Vector | Line | Plane): string {
     if (item instanceof Plane) {
-      return this.n.angle(item.n);
+      const nNegative = this.n.dot(item.n).valueOf() < 0 ? item.n.negative() : item.n;
+      return this.n.angle(nNegative);
     } else { //if (item instanceof Line || item instanceof Vector) {
       const vector = item instanceof Vector ? item : item.d;
       return vector.angle(this.n, true);      

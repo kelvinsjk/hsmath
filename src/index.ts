@@ -8,6 +8,8 @@ import Polynomial from './classes/expressions/polynomialClass';
 // Trig
 import Angle from './classes/trig/angleClass';
 import { Trig } from './fns/trig/trigFunctions';
+// Exp/Ln
+import { Exp, Ln } from './classes/exponential/index';
 // Complex
 import Complex from './classes/complex/complexClass';
 // Vector
@@ -15,6 +17,8 @@ import { Vector, Line, Plane } from './classes/vectors/index';
 // arithmetic functions
 import gcd from './fns/arithmetic/gcd';
 import factorize from './fns/arithmetic/factorize';
+// algebra functions
+import solveQuadratic from './fns/algebra/solveQuadratic';
 // random functions
 import { getRandomInt, getRandomFrac, getRandomLinear, getRandomQuadratic } from './fns/random/generators';
 import { getRandomVec } from './fns/random/vectorGenerators';
@@ -26,9 +30,11 @@ export {
   NthRoot, SquareRoot,
   Term, Expression, Polynomial,
   Angle, Trig,
+  Exp, Ln,
   Complex,
   Vector, Line, Plane,
   gcd, factorize,
+  solveQuadratic,
   getRandomInt, getRandomFrac, getRandomLinear, getRandomQuadratic, getRandomVec,
   RationalFunction,
 };

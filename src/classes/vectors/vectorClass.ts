@@ -173,8 +173,8 @@ export default class Vector { // vector of the form k(x,y,z).
   /**
    * returns latex string representing the vector
    * 
-   * @param options default: `{ijkMode: false, multiplyKIn: false}`
-   * ijkMode returns the vector in ijk notation (vs the default column vector notation)
+   * @param options default: `{ijkMode: false, multiplyKIn: false}`  
+   * ijkMode returns the vector in ijk notation (vs the default column vector notation)  
    * multiplyKIn multiplies `k` into the vector
    */
   toString(options?: toStringOptions): string { // return latex string: column vector mode or ijk mode
@@ -244,7 +244,7 @@ export default class Vector { // vector of the form k(x,y,z).
       } else if (cosThetaSquared.isEqual(1)) {
         return '90^{\\circ}';
       } else {
-        const angle = Math.asin(Math.sign(this.dot(v2).valueOf()) * Math.pow(cosThetaSquared.valueOf(), 1 / 2)) / Math.PI * 180;
+        const angle = Math.asin(Math.pow(cosThetaSquared.valueOf(), 1 / 2)) / Math.PI * 180;
         return angle.toFixed(1) + '^{\\circ}';      
       }      
     } else { // default cosine

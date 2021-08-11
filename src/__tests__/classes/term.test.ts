@@ -22,7 +22,7 @@ test('toString', () => {
   expect(halfX.toString({ fractionalCoefficient: false })).toBe('\\frac{x}{2}');
   expect(zeroX2.toString()).toBe('0');
   expect(negativeX.toString()).toBe('- x');
-  expect(negativeOne.toString()).toBe('-1');
+  expect(negativeOne.toString()).toBe('- 1');
 });
 
 test('multiplication', () => {

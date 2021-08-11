@@ -45,7 +45,7 @@ test('Angles', () => {
   expect(`${Trig.sin(fortyFive)}`).toBe('\\frac{1}{2} \\sqrt{2}');
   expect(`${Trig.sin(oneEightyV2)}`).toBe('0');
   expect(`${Trig.sin(negativeThirty)}`).toBe('- \\frac{1}{2}');
-  expect(`${Trig.sin(twoSeventy)}`).toBe('-1');
+  expect(`${Trig.sin(twoSeventy)}`).toBe('- 1');
   expect(`${Trig.cos(oneTwenty)}`).toBe('- \\frac{1}{2}');
   expect(`${Trig.cos(zero)}`).toBe('1');
   expect(`${Trig.cos(ninety)}`).toBe('0');

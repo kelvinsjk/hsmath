@@ -52,7 +52,7 @@ export default class Term {
     } else if (this.coeff.isEqual(1)) {
       return this.variable === '' ? '1' : `${displayText}${this.variable}`;
     } else if (this.coeff.isEqual(-1)) {
-      return this.variable === '' ? '-1' :
+      return this.variable === '' ? '- 1' :
         optionsObject.brackets ? `${displayText}- ( ${this.variable} )` : `${displayText}- ${this.variable}`;
     } else {
       // non 0/1/-1 coefficient

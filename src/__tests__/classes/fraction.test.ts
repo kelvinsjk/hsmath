@@ -108,9 +108,9 @@ test('string methods', () => {
 });
 
 test('toFactor', () => {
-  expect(`${one.toFactor()}`).toBe('x -1');
+  expect(`${one.toFactor()}`).toBe('x - 1');
   expect(`${zero.toFactor()}`).toBe('x');
-  expect(`${oneHalf.toFactor()}`).toBe('2 x -1');
+  expect(`${oneHalf.toFactor()}`).toBe('2 x - 1');
   expect(`${oneHalf.toFactor().multiply(-1)}`).toBe('- 2 x + 1');
   expect(`${negativeThreeQuarter.toFactor()}`).toBe('4 x + 3');
   expect(`${negativeThreeQuarter.toFactor({ variableAtom: 'y', ascending: true })}`).toBe('3 + 4 y');

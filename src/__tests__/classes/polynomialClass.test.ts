@@ -60,7 +60,7 @@ test('fromRoots', () => {
   const x3_MINUS_x = Polynomial.fromRoots(0, xMinus1, xPlus1);
 
   expect(`${xPlus1}`).toBe('x + 1');
-  expect(`${twoX2_PLUS_x_MINUS_1}`).toBe('2 x^2 + x -1');
+  expect(`${twoX2_PLUS_x_MINUS_1}`).toBe('2 x^2 + x - 1');
   expect(`${x3_MINUS_x}`).toBe('x^3 - x');
 
   expect(() => {

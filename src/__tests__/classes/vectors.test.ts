@@ -128,7 +128,7 @@ test('line', () => {
   expect(`${l1}`).toBe('\\mathbf{r} = \\begin{pmatrix} 2 \\\\ 0 \\\\ - 1 \\end{pmatrix} + \\lambda \\begin{pmatrix} 1 \\\\ 3 \\\\ 0 \\end{pmatrix}');
   expect(`${l1.toString({ lambda: 's' })}`).toBe('\\mathbf{r} = \\begin{pmatrix} 2 \\\\ 0 \\\\ - 1 \\end{pmatrix} + s \\begin{pmatrix} 1 \\\\ 3 \\\\ 0 \\end{pmatrix}');
   expect(`${l1.toString({ ijkMode: true })}`).toBe('\\mathbf{r} = \\left( 2 \\mathbf{i} - \\mathbf{k} \\right) + \\lambda \\left( \\mathbf{i} + 3 \\mathbf{j} \\right)');
-  expect(`${l1.toString({ mode: 'combined' })}`).toBe('\\begin{pmatrix} 2 + \\lambda \\\\ 3 \\lambda \\\\ -1 \\end{pmatrix}');
+  expect(`${l1.toString({ mode: 'combined' })}`).toBe('\\begin{pmatrix} 2 + \\lambda \\\\ 3 \\lambda \\\\ - 1 \\end{pmatrix}');
   
   const minus123 = new Vector(-1, 2, 3);
   const z = new Vector(0, 0, 1);

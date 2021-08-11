@@ -14,7 +14,7 @@ test('complex', () => {
   expect(`${threeI}`).toBe("3 \\mathrm{i}");
   expect(`${two_PLUS_i}`).toBe("2 + \\mathrm{i}");
   expect(`${two_MINUS_i}`).toBe("2 - \\mathrm{i}");
-  expect(`${negativeOne_PLUS_halfI}`).toBe("-1 + \\frac{1}{2} \\mathrm{i}");
+  expect(`${negativeOne_PLUS_halfI}`).toBe("- 1 + \\frac{1}{2} \\mathrm{i}");
   expect(`${negativeOne_PLUS_halfI.plus(1)}`).toBe("\\frac{1}{2} \\mathrm{i}");
   expect(`${negativeOne_PLUS_halfI.plus(oneHalf)}`).toBe("- \\frac{1}{2} + \\frac{1}{2} \\mathrm{i}");
   expect(`${negativeOne_PLUS_halfI.plus(two_PLUS_i)}`).toBe("1 + \\frac{3}{2} \\mathrm{i}");
