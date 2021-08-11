@@ -1,7 +1,7 @@
 /**
  * Finds greatest common divisor of n **integers**
  * of which at least one is non-zero
- * 
+ *
  * @return a positive integer
  */
 export default function gcd(...integers: number[]): number {
@@ -11,9 +11,12 @@ export default function gcd(...integers: number[]): number {
     return Math.abs(integers[0]);
   } else if (integers.length === 2) {
     return gcdTwo(integers[0], integers[1]);
-  } else { // recursively call this method
+  } else {
+    // recursively call this method
     const [integer1, integer2, ...restOfIntegers] = integers;
-    return integer1===0 && integer2===0 ? gcd(0,...restOfIntegers) : gcd(gcdTwo(integer1, integer2), ...restOfIntegers);
+    return integer1 === 0 && integer2 === 0
+      ? gcd(0, ...restOfIntegers)
+      : gcd(gcdTwo(integer1, integer2), ...restOfIntegers);
   }
 }
 

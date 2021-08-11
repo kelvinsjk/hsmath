@@ -39,7 +39,7 @@ test('Angles', () => {
 
   expect(() => oneEighty.divide(0)).toThrow();
   expect(() => new Angle(75)).toThrow();
-})
+});
 
 test('Angles', () => {
   expect(`${Trig.sin(fortyFive)}`).toBe('\\frac{1}{2} \\sqrt{2}');
@@ -57,7 +57,6 @@ test('Angles', () => {
   expect(`${Trig.tan(225)}`).toBe('1');
   expect(`${Trig.cos(150)}`).toBe('- \\frac{1}{2} \\sqrt{3}');
   expect(`${Trig.sin(60)}`).toBe('\\frac{1}{2} \\sqrt{3}');
-  
-  expect(() => Trig.tan(ninety)).toThrow();
 
+  expect(() => Trig.tan(ninety)).toThrow();
 });

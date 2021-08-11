@@ -15,7 +15,7 @@ export default class Expression {
    * Combines like terms by adding the coefficients, such that no term types are repeated in the array
    * @param args one or more Terms/Fractions
    */
-  constructor(...args: (Term | Fraction | number | string )[]) {
+  constructor(...args: (Term | Fraction | number | string)[]) {
     const terms: Term[] = [];
     for (let arg of args) {
       if (typeof arg === 'number') {
@@ -33,7 +33,7 @@ export default class Expression {
     }
   }
 
-  //// 
+  ////
   // class methods
   ////
   /// string methods
@@ -100,7 +100,7 @@ export default class Expression {
    * similar to concatenating the terms in the two expressions, combining like terms
    * @returns the sum
    */
-  add(newExpression: (Term | Fraction | number | string | Expression)) : Expression {
+  add(newExpression: Term | Fraction | number | string | Expression): Expression {
     if (newExpression instanceof Expression) {
       return new Expression(...this.terms, ...newExpression.terms);
     } else {
@@ -109,31 +109,32 @@ export default class Expression {
   }
   /**
    * subtracts the two expressions
-   * 
+   *
    * @returns the difference
    */
-  subtract(newExpression: (Term | Fraction | number | string | Expression)): Expression {
+  subtract(newExpression: Term | Fraction | number | string | Expression): Expression {
     if (newExpression instanceof Expression) {
       const negativeExp = newExpression.multiply(-1);
       return new Expression(...this.terms, ...negativeExp.terms);
-    } else if (newExpression instanceof Term){
+    } else if (newExpression instanceof Term) {
       return new Expression(...this.terms, newExpression.multiply(-1));
     } else if (newExpression instanceof Fraction) {
       return new Expression(...this.terms, newExpression.times(-1));
     } else if (typeof newExpression === 'number') {
       return new Expression(...this.terms, newExpression * -1);
-    } else { // string
+    } else {
+      // string
       const newTerm = new Term(-1, newExpression);
       return new Expression(...this.terms, newTerm);
     }
   }
 
   clone(): Expression {
-    const terms: Term[] = []
+    const terms: Term[] = [];
     for (const term of this.terms) {
       terms.push(term.clone());
     }
-    return new Expression(...terms)
+    return new Expression(...terms);
   }
 }
 

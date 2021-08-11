@@ -5,18 +5,18 @@ import convertNumberToFraction from '../../internal/convertNumberToFraction';
 
 /**
  * ln class
- * 
+ *
  * @exponent Fraction | Exp
- * 
+ *
  * class representing exponentiation by Euler's number
- * 
+ *
  * as a extension of the `Term` class
  */
 export default class Exp extends Term {
   /** exponent */
   exponent: Fraction;
 
-  //// 
+  ////
   // constructor
   ////
   /**
@@ -32,7 +32,7 @@ export default class Exp extends Term {
         super(exponent.argument.times(coeff));
         this.exponent = Fraction.ZERO;
       } else {
-        throw new Error('exp ERROR: change the coefficient of the logarithm to 1 to proceed')
+        throw new Error('exp ERROR: change the coefficient of the logarithm to 1 to proceed');
       }
     } else {
       exponent = convertNumberToFraction(exponent);
@@ -77,7 +77,7 @@ export default class Exp extends Term {
       }
       return new Exp(exponent, coeff);
     } else {
-      throw new Error('exp ERROR: pow of non-integers not supported at this point')
+      throw new Error('exp ERROR: pow of non-integers not supported at this point');
     }
   }
   /**
@@ -87,8 +87,8 @@ export default class Exp extends Term {
     return new Exp(this.coeff.negative(), this.exponent);
   }
   /**
- * @returns the value of the logarithm in the javascript number type
- */
+   * @returns the value of the logarithm in the javascript number type
+   */
   valueOf(): number {
     return this.coeff.valueOf() * Math.exp(this.exponent.valueOf());
   }

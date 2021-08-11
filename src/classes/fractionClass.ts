@@ -6,7 +6,7 @@ import convertNumberToFraction from '../internal/convertNumberToFraction';
  * Fraction class `{num: numerator, den: denominator}`
  *
  * `num` is an integer
- * 
+ *
  * `den` is a positive integer (any negative signs are "hoisted" to `num`)
  */
 export default class Fraction {
@@ -29,12 +29,14 @@ export default class Fraction {
     if (!Number.isInteger(den)) {
       throw new Error('Fraction ERROR: denominator must be an integer');
     }
-    if (Number.isInteger(num)) { // numerator is integer
+    if (Number.isInteger(num)) {
+      // numerator is integer
       const divisor = gcd(num, den);
       const sign = Math.sign(num) * Math.sign(den); // signs hoisted to top
       this.num = (sign * Math.abs(num)) / divisor;
       this.den = Math.abs(den) / divisor;
-    } else { // num is non-integer
+    } else {
+      // num is non-integer
       if (den === 1) {
         [num, den] = convertDecimalToFraction(num);
         const divisor = gcd(num, den);
@@ -46,7 +48,7 @@ export default class Fraction {
     }
   }
 
-  //// 
+  ////
   // instance methods
   ////
   /// arithmetic
@@ -72,7 +74,7 @@ export default class Fraction {
    * negative
    * @returns -ve of this fraction
    */
-  negative(): Fraction{
+  negative(): Fraction {
     return this.times(-1);
   }
   /**
@@ -118,7 +120,6 @@ export default class Fraction {
   square(): Fraction {
     return this.pow(2);
   }
-
 
   /// comparison
   /**
@@ -196,9 +197,11 @@ export default class Fraction {
       variableAtom: 'x',
     };
     const optionsObject: polynomialOptions = { ...defaultOptions, ...options };
-    if (optionsObject.ascending) { // b + a x
+    if (optionsObject.ascending) {
+      // b + a x
       return new Polynomial([-this.num, this.den], optionsObject);
-    } else { // a x + b
+    } else {
+      // a x + b
       optionsObject.initialDegree = 1;
       return new Polynomial([this.den, -this.num], optionsObject);
     }
@@ -207,7 +210,7 @@ export default class Fraction {
   /**
    * clones the Fraction: creating a new Fraction instance
    */
-  clone(): Fraction{
+  clone(): Fraction {
     return new Fraction(this.num, this.den);
   }
 
@@ -221,14 +224,14 @@ export default class Fraction {
    */
   static ZERO = new Fraction(0);
 
-  //// 
+  ////
   // static methods
   ////
 
   /**
    * gcd of fractions
    */
-  static gcd(...fractions: (number | Fraction)[]): Fraction{
+  static gcd(...fractions: (number | Fraction)[]): Fraction {
     if (fractions.length === 0) {
       throw new Error('Fraction ERROR: gcd function must have at least one argument');
     } else if (fractions.length === 1) {
@@ -241,9 +244,12 @@ export default class Fraction {
       const gcdDen = gcd(fraction1.den, fraction2.den);
       const lcmDen = Math.abs(fraction1.den * fraction2.den) / gcdDen;
       return new Fraction(gcdNum, lcmDen);
-    } else { // recursively call this method
+    } else {
+      // recursively call this method
       const [fraction1, fraction2, ...restOfFractions] = fractions;
-      return fraction1.valueOf()===0 && fraction2.valueOf()===0 ? Fraction.gcd(0, ...restOfFractions) : Fraction.gcd(Fraction.gcd(fraction1, fraction2), ...restOfFractions);
+      return fraction1.valueOf() === 0 && fraction2.valueOf() === 0
+        ? Fraction.gcd(0, ...restOfFractions)
+        : Fraction.gcd(Fraction.gcd(fraction1, fraction2), ...restOfFractions);
     }
   }
 
@@ -252,14 +258,14 @@ export default class Fraction {
    * @returns an array `[[A, B, C, ..., N], k ]`,
    * where k(A, B, C, ..., N) = (a, b, c, ..., n)
    */
-  static factorize(...fractions: (number | Fraction)[]): [Fraction[], Fraction]{
+  static factorize(...fractions: (number | Fraction)[]): [Fraction[], Fraction] {
     let gcd = Fraction.gcd(...fractions);
-    let simplifiedArray = fractions.map(fraction => {
+    let simplifiedArray = fractions.map((fraction) => {
       fraction = convertNumberToFraction(fraction);
       return fraction.divide(gcd);
-    })
+    });
     if (simplifiedArray.reduce((acc, current) => acc && current.valueOf() <= 0, true)) {
-      simplifiedArray = simplifiedArray.map(fraction => fraction.negative());
+      simplifiedArray = simplifiedArray.map((fraction) => fraction.negative());
       gcd = gcd.negative();
     }
     return [simplifiedArray, gcd];
@@ -299,7 +305,7 @@ export default class Fraction {
 
   /// comparison methods
   /**
-   * compare two fractions 
+   * compare two fractions
    * TODO: documentation for this method
    */
   static compare(
@@ -342,11 +348,14 @@ function convertDecimalToFraction(num: number): [number, number] {
   const x = num.toString().substring(0, 10); //// x of the form 'aaaa.bbb'
   const decimalIndex = x.indexOf('.');
   const powerOfTen = Math.pow(10, x.length - decimalIndex - 1);
-  const numerator = Number(x.substring(0, decimalIndex) + x.substring(decimalIndex+1));
-  console.log(num, numerator, powerOfTen);if (decimalIndex !== -1) {
+  const numerator = Number(x.substring(0, decimalIndex) + x.substring(decimalIndex + 1));
+  console.log(num, numerator, powerOfTen);
+  if (decimalIndex !== -1) {
     return [numerator, powerOfTen];
   } else {
-    throw new Error(`Fraction ERROR (convertDecimalToFraction): conversion of decimal to Fraction failed (could not find decimal point) ${numerator} ${powerOfTen}`);
+    throw new Error(
+      `Fraction ERROR (convertDecimalToFraction): conversion of decimal to Fraction failed (could not find decimal point) ${numerator} ${powerOfTen}`,
+    );
   }
 }
 

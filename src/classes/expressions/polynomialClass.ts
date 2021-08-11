@@ -12,7 +12,7 @@ export default class Polynomial extends Expression {
    * Creates a new `Polynomial` instance
    * @param array array of coefficients (in `number` or `Fraction` type) of the polynomial, or an array of `PolynomialTerm`s.
    * @param options `{ascending: false, initialDegree: ?n?, variableAtom: 'x', brackets: false}` by default. See the `polynomialOptions` interface for more details
-   * 
+   *
    * the `initialDegree` will be zero if `ascending === true` and set such that the last coefficient is the constant term is not.
    */
   constructor(array: (number | Fraction)[] | PolynomialTerm[], options?: polynomialOptions) {
@@ -27,7 +27,8 @@ export default class Polynomial extends Expression {
       throw 'we do not support empty Polynomials at this time';
     }
     const polynomialTerms: PolynomialTerm[] = [];
-    if (typeof array[0] === 'number' || array[0] instanceof Fraction) { // construction from coefficients
+    if (typeof array[0] === 'number' || array[0] instanceof Fraction) {
+      // construction from coefficients
       let power = optionsObject.initialDegree;
       for (const coeff of array) {
         const coeffFrac = coeff as number | Fraction;
@@ -37,12 +38,14 @@ export default class Polynomial extends Expression {
         polynomialTerms.push(newTerm);
         optionsObject.ascending ? power++ : power--;
       }
-    } else { // construction from PolynomialTerms
+    } else {
+      // construction from PolynomialTerms
       const variableArray: string[] = [];
       for (const term of array) {
         const polyTerm = term as PolynomialTerm;
         const index = variableArray.indexOf(polyTerm.variable);
-        if (index === -1) { // new variable
+        if (index === -1) {
+          // new variable
           variableArray.push(polyTerm.variable);
           polynomialTerms.push(polyTerm.clone());
         } else {
@@ -127,7 +130,7 @@ export default class Polynomial extends Expression {
     const firstTerm = this.polynomialTerms[0];
     const terms: PolynomialTerm[] = [];
     for (const term of this.polynomialTerms) {
-      terms.push(term.clone())
+      terms.push(term.clone());
     }
     return new Polynomial(terms, { variableAtom: firstTerm.variableAtom });
   }
@@ -229,14 +232,19 @@ class PolynomialTerm extends Term {
     } else {
       //if (typeof term2 === 'number' || term2 instanceof Fraction) {
       return new PolynomialTerm(this.coeff.times(term2), this.variableAtom, this.n, this.powerOptions);
-    } 
+    }
     //else { // term
     //  return super.multiply(term2, options);
     //}
   }
 
   clone(): PolynomialTerm {
-    return new PolynomialTerm(new Fraction(this.coeff.num, this.coeff.den), this.variableAtom, this.n, this.powerOptions);
+    return new PolynomialTerm(
+      new Fraction(this.coeff.num, this.coeff.den),
+      this.variableAtom,
+      this.n,
+      this.powerOptions,
+    );
   }
 } // end of PolynomialTerm
 

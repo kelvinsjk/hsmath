@@ -6,7 +6,7 @@ import {
   Fraction,
   Polynomial,
   Vector,
-  getRandomVec
+  getRandomVec,
 } from '../../../src/index';
 
 const randomInt = getRandomInt(-9, 9);
@@ -33,13 +33,13 @@ test('toString', () => {
 
   for (let i = 0; i < 30; i++) {
     getRandomVec();
-    getRandomVec({simplified: false});
+    getRandomVec({ simplified: false });
     getRandomInt(-1, 1, { avoid: [0] });
     getRandomFrac({ numMin: 1, numMax: 3, denMin: 2, denMax: 2, avoid: [new Fraction(1, 2)] });
-    getRandomQuadratic({complex: false});
-    getRandomQuadratic({rational: false});
-    getRandomQuadratic({irrational: false});
-    getRandomQuadratic({monic: true, bMin:2, bMax:2, cMin: 1, cMax: 2, repeated: false});
+    getRandomQuadratic({ complex: false });
+    getRandomQuadratic({ rational: false });
+    getRandomQuadratic({ irrational: false });
+    getRandomQuadratic({ monic: true, bMin: 2, bMax: 2, cMin: 1, cMax: 2, repeated: false });
     getRandomQuadratic({ monic: true, bMin: 2, bMax: 2, cMin: 1, cMax: 2 });
   }
 });

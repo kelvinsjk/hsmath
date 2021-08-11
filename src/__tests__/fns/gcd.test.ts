@@ -21,7 +21,6 @@ test('gcd', () => {
   expect(gcd(6, 10, 28)).toBe(2);
 });
 
-
 const [[a, b, c], d] = factorize(2, 4, -6);
 const [[e, f, g], h] = factorize(-2, -4, -6);
 test('factorize', () => {

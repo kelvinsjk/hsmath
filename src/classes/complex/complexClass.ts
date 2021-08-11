@@ -6,10 +6,10 @@ import Polynomial from '../expressions/polynomialClass';
 
 /**
  * complex class
- * 
+ *
  * @x real part (Fraction)
  * @y imaginary part (Fraction)
- * 
+ *
  * we currently only support integer/fractional real and imaginary parts
  */
 export default class Complex extends Expression {
@@ -22,9 +22,9 @@ export default class Complex extends Expression {
   /**
    * Creates a new complex instance
    *
-   * @param x real part 
+   * @param x real part
    * @param y imaginary part (default 0)
-   * 
+   *
    * we currently only support integer/fractional real and imaginary parts
    */
   constructor(x: Fraction | number, y: number | Fraction = 0) {
@@ -38,7 +38,7 @@ export default class Complex extends Expression {
   /**
    * complex addition
    */
-  plus(w: Complex | number | Fraction): Complex{
+  plus(w: Complex | number | Fraction): Complex {
     w = convertToComplex(w);
     return new Complex(this.x.plus(w.x), this.y.plus(w.y));
   }
@@ -51,10 +51,10 @@ export default class Complex extends Expression {
   }
 
   /**
- * complex subtraction: 
- * 
- * @returns this minus w
- */
+   * complex subtraction:
+   *
+   * @returns this minus w
+   */
   minus(w: Complex | number | Fraction): Complex {
     w = convertToComplex(w);
     return this.plus(w.negative());
@@ -62,7 +62,7 @@ export default class Complex extends Expression {
 
   /**
    * complex multiplication
-  */
+   */
   times(w: Complex | number | Fraction): Complex {
     w = convertToComplex(w);
     const newX = this.x.times(w.x).minus(this.y.times(w.y));
@@ -77,7 +77,7 @@ export default class Complex extends Expression {
     return new Complex(this.x, this.y.negative());
   }
 
-  /** 
+  /**
    * complex division
    */
   divide(w: Complex | number | Fraction): Complex {
@@ -104,7 +104,7 @@ export default class Complex extends Expression {
   /**
    * @returns r^2 in the fraction class
    */
-  modulusSquared(): Fraction{
+  modulusSquared(): Fraction {
     const zzStar = this.times(this.conjugate());
     return zzStar.x.clone();
   }

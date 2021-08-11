@@ -48,7 +48,6 @@ test('toString', () => {
   }).toThrow();
 });
 
-
 test('pow', () => {
   expect(cubeRoot5.valueOf().toFixed(2)).toBe('1.71');
   expect(`${negativeTwoFifthCubeRoot5.pow(2)}`).toBe('\\frac{4}{25} \\sqrt[3]{25}');

@@ -5,18 +5,18 @@ import Exp from './expClass';
 
 /**
  * ln class
- * 
+ *
  * @argument argument Fraction | Exp
- * 
+ *
  * class representing the natural logarithm
- * 
+ *
  * as a extension of the `Term` class
  */
 export default class Ln extends Term {
   /** argument */
   argument: Fraction;
 
-  //// 
+  ////
   // constructor
   ////
   /**
@@ -32,12 +32,12 @@ export default class Ln extends Term {
         super(coeff.times(argument.exponent));
         this.argument = Fraction.ONE;
       } else {
-        throw new Error("ln ERROR: change the coefficient of the exponential to 1 to proceed")
+        throw new Error('ln ERROR: change the coefficient of the exponential to 1 to proceed');
       }
     } else {
       argument = convertNumberToFraction(argument);
       if (argument.valueOf() <= 0) {
-        throw new Error("ln ERROR: argument must be positive");
+        throw new Error('ln ERROR: argument must be positive');
       }
       if (argument.valueOf() === 1) {
         super(0);
@@ -61,7 +61,7 @@ export default class Ln extends Term {
   }
   /**
    * subtraction
-   * 
+   *
    * @return this minus B
    */
   minus(lnY: Ln): Ln {

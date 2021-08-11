@@ -74,7 +74,7 @@ class NthRoot extends Term {
     if (!Number.isInteger(n) || n < 0) {
       throw new Error('NthRoot ERROR: only non-negative n are allowed for fraction.pow(n)');
     }
-    return new NthRoot( Math.pow(this.radicand, n), this.n, this.coeff.pow(n) );
+    return new NthRoot(Math.pow(this.radicand, n), this.n, this.coeff.pow(n));
   }
 
   /**
@@ -83,7 +83,7 @@ class NthRoot extends Term {
    * @returns this NthRoot to the power of `n`
    */
   valueOf(): number {
-    return Math.pow(this.radicand, 1 / (this.n)) * this.coeff.valueOf();
+    return Math.pow(this.radicand, 1 / this.n) * this.coeff.valueOf();
   }
 }
 
@@ -116,12 +116,12 @@ class SquareRoot extends NthRoot {
   }
 
   /**
- * exponentiation
- * @param n non-negative integer
- * @returns this SquareRoot to the power of `n`
- * 
- * for n=2 use the `square` method to get a Fraction class
- */
+   * exponentiation
+   * @param n non-negative integer
+   * @returns this SquareRoot to the power of `n`
+   *
+   * for n=2 use the `square` method to get a Fraction class
+   */
   pow(n: number): SquareRoot {
     if (!Number.isInteger(n) || n < 0) {
       throw new Error('SquareRoot ERROR: only non-negative n are allowed for fraction.pow(n)');
@@ -129,43 +129,44 @@ class SquareRoot extends NthRoot {
     return new SquareRoot(Math.pow(this.radicand, n), this.coeff.pow(n));
   }
 
-/**
- * square: if this is a\sqrt{b}
- * @returns the fraction a^2 b
- */
+  /**
+   * square: if this is a\sqrt{b}
+   * @returns the fraction a^2 b
+   */
   square(): Fraction {
     return this.coeff.pow(2).times(this.radicand);
   }
 
-/**
- * multiplication (by a number/Fraction)
- */
+  /**
+   * multiplication (by a number/Fraction)
+   */
   times(k: number | Fraction): SquareRoot {
     const newCoeff = this.coeff.times(k);
     return new SquareRoot(this.radicand, newCoeff);
   }
 
-/**
- * division (by a number/Fraction/SquareRoot)
- */
-  divide(k: number | Fraction | SquareRoot): SquareRoot{
+  /**
+   * division (by a number/Fraction/SquareRoot)
+   */
+  divide(k: number | Fraction | SquareRoot): SquareRoot {
     if (typeof k === 'number' || k instanceof Fraction) {
       const newCoeff = this.coeff.divide(k);
       return new SquareRoot(this.radicand, newCoeff);
-    } else { // k is also a square root: after rationalization, l sqrt(a) / m sqrt(b) = l sqrt(ab) / mb
-      return new SquareRoot(this.radicand * k.radicand, this.coeff.divide(k.coeff).divide(k.radicand))
+    } else {
+      // k is also a square root: after rationalization, l sqrt(a) / m sqrt(b) = l sqrt(ab) / mb
+      return new SquareRoot(this.radicand * k.radicand, this.coeff.divide(k.coeff).divide(k.radicand));
     }
   }
 
-/**
- * negative: if this is a\sqrt{b}
- * @returns the -a\sqrt{b}
- */
+  /**
+   * negative: if this is a\sqrt{b}
+   * @returns the -a\sqrt{b}
+   */
   negative(): SquareRoot {
     return new SquareRoot(this.radicand, this.coeff.negative());
   }
 
-  clone(): SquareRoot{
+  clone(): SquareRoot {
     return new SquareRoot(this.radicand, this.coeff.clone());
   }
 }

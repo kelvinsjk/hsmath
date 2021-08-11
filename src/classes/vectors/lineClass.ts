@@ -9,20 +9,20 @@ import type { SquareRoot } from '../rootClasses';
  * @d direction vector of a the line (will be simplified)
  */
 export default class Line {
-  a: Vector
-  d: Vector
+  a: Vector;
+  d: Vector;
   /**
    * Line class constructor
-   * 
+   *
    * @param a position vector of a point on the line
    * @param d direction vector of the line (cannot be zero)
-   * 
+   *
    * @param options default `{twoPointsMode: false}`. if true, will treat d as another point on the line
    */
   constructor(a: Vector, d: Vector, options?: lineOptions) {
     const defaultOptions = { twoPointsMode: false };
     const optionsObject = { ...defaultOptions, ...options };
-    d = (optionsObject.twoPointsMode) ? a.minus(d) : d.clone();
+    d = optionsObject.twoPointsMode ? a.minus(d) : d.clone();
     d.simplify(true);
     if (d.isZero()) {
       throw new Error('line ERROR: direction vector cannot be zero');
@@ -30,7 +30,7 @@ export default class Line {
     this.a = a.multiplyKIn();
     this.d = d.multiplyKIn();
   }
-  
+
   // TODO: contains
   // TODO: intersection + check skew
   // TODO: foot of perpendicular
@@ -47,7 +47,7 @@ export default class Line {
    * sub in lambda, and return position vector of the resulting point on the line
    */
   point(lambda: number | Fraction): Vector {
-    if (typeof lambda === "number") {
+    if (typeof lambda === 'number') {
       lambda = new Fraction(lambda, 1);
     }
     const coord1 = this.a.x.times(this.a.k).plus(this.d.x.times(lambda).times(this.d.k));
@@ -57,16 +57,19 @@ export default class Line {
   }
   /**
    * @returns angle between this line and given vector/line
-   * 
+   *
    * WARNING: for skew lines, angle between direction vectors will be returned but should not be used
    */
-  angle(item: Vector | Line ): string { // TODO: Plane
+  angle(item: Vector | Line): string {
+    // TODO: Plane
     let vector: Vector; //planeMode = false;
     if (item instanceof Vector) {
       vector = item;
-    } else { //if (item instanceof Line) {
+    } else {
+      //if (item instanceof Line) {
       vector = item.d;
-      if (vector.dot(this.d).valueOf() < 0) { // returns acute angle for line and line
+      if (vector.dot(this.d).valueOf() < 0) {
+        // returns acute angle for line and line
         vector = vector.negative();
       }
     }
@@ -79,7 +82,8 @@ export default class Line {
   /**
    * finds distance between this line and given item (point, line or TODO: plane)
    */
-  distanceTo(item: Vector | Line): SquareRoot { // TODO: plane
+  distanceTo(item: Vector | Line): SquareRoot {
+    // TODO: plane
     if (item instanceof Line) {
       if (this.isParallelTo(item)) {
         item = item.a;
@@ -93,71 +97,87 @@ export default class Line {
 
   /**
    * toString method
-   * 
+   *
    * @param options default `{lambda: '\\lambda', mode: 'vector', ijkMode: false}`
-   * 
-   * mode: 'vector': r = a + lambda d  
-   * mode: 'combined': a + lambda d together in one column vector  
+   *
+   * mode: 'vector': r = a + lambda d
+   * mode: 'combined': a + lambda d together in one column vector
    * mode: 'cartesian'
    */
   toString(options?: lineToStringOptions): string {
     const defaultOptions = {
       lambda: '\\lambda',
       ijkMode: false,
-      mode: 'vector'
-    }
+      mode: 'vector',
+    };
     const optionsObject = { ...defaultOptions, ...options };
-    if (optionsObject.mode === 'vector') { // default vector mode 
-      return optionsObject.ijkMode ?
-        `\\mathbf{r} = \\left( ${this.a.toString({ ijkMode: optionsObject.ijkMode, multiplyKIn: true })} \\right) + ${optionsObject.lambda} \\left( ${this.d.toString({ ijkMode: optionsObject.ijkMode, multiplyKIn: true })} \\right)`
-        : `\\mathbf{r} = ${this.a.toString({ ijkMode: optionsObject.ijkMode, multiplyKIn: true })} + ${optionsObject.lambda} ${this.d.toString({ ijkMode: optionsObject.ijkMode, multiplyKIn: true })}`;
-    } else if (optionsObject.mode == 'combined') { // combine into one column vector
+    if (optionsObject.mode === 'vector') {
+      // default vector mode
+      return optionsObject.ijkMode
+        ? `\\mathbf{r} = \\left( ${this.a.toString({ ijkMode: optionsObject.ijkMode, multiplyKIn: true })} \\right) + ${
+            optionsObject.lambda
+          } \\left( ${this.d.toString({ ijkMode: optionsObject.ijkMode, multiplyKIn: true })} \\right)`
+        : `\\mathbf{r} = ${this.a.toString({ ijkMode: optionsObject.ijkMode, multiplyKIn: true })} + ${
+            optionsObject.lambda
+          } ${this.d.toString({ ijkMode: optionsObject.ijkMode, multiplyKIn: true })}`;
+    } else if (optionsObject.mode == 'combined') {
+      // combine into one column vector
       const a = this.a;
       const d = this.d;
       const xComponent = new Polynomial([a.x, d.x], { ascending: true, variableAtom: '\\lambda' });
       const yComponent = new Polynomial([a.y, d.y], { ascending: true, variableAtom: '\\lambda' });
       const zComponent = new Polynomial([a.z, d.z], { ascending: true, variableAtom: '\\lambda' });
-      
+
       return `\\begin{pmatrix} ${xComponent} \\\\ ${yComponent} \\\\ ${zComponent} \\end{pmatrix}`;
-    } else { // cartesian
+    } else {
+      // cartesian
       if (this.d.x.isEqual(0)) {
-        if (this.d.y.isEqual(0)) { // x,y 0: z must be non-zero
+        if (this.d.y.isEqual(0)) {
+          // x,y 0: z must be non-zero
           return `x = ${this.a.x}, y = ${this.a.y}, z \\in \\mathbb{R}`;
-        } else { // x 0, y non-zero
+        } else {
+          // x 0, y non-zero
           if (this.d.z.isEqual(0)) {
             return `x = ${this.a.x}, z = ${this.a.z}, y \\in \\mathbb{R}`;
-          } else { // x 0
-            const yPoly = new Polynomial([1, this.a.y.negative()], { variableAtom: "y" });
+          } else {
+            // x 0
+            const yPoly = new Polynomial([1, this.a.y.negative()], { variableAtom: 'y' });
             const yFrac = this.d.y.isEqual(1) ? `${yPoly}` : `\\frac{ ${yPoly} }{ ${this.d.y} }`;
-            const zPoly = new Polynomial([1, this.a.z.negative()], { variableAtom: "z" });
+            const zPoly = new Polynomial([1, this.a.z.negative()], { variableAtom: 'z' });
             const zFrac = this.d.z.isEqual(1) ? `${zPoly}` : `\\frac{ ${zPoly} }{ ${this.d.z} }`;
             return `${yFrac} = ${zFrac}, x = ${this.a.x}`;
           }
         }
-      } else { // x non-zero
-        if (this.d.y.isEqual(0)) { // x non-zero, y=0
-          if (this.d.z.isEqual(0)) { // x non-zero, y=z=0
+      } else {
+        // x non-zero
+        if (this.d.y.isEqual(0)) {
+          // x non-zero, y=0
+          if (this.d.z.isEqual(0)) {
+            // x non-zero, y=z=0
             return `y = ${this.a.y}, z = ${this.a.z}, x \\in \\mathbb{R}`;
-          } else { // x non-zero, y=0, z non-zero
-            const xPoly = new Polynomial([1, this.a.x.negative()], { variableAtom: "x" });
+          } else {
+            // x non-zero, y=0, z non-zero
+            const xPoly = new Polynomial([1, this.a.x.negative()], { variableAtom: 'x' });
             const xFrac = this.d.x.isEqual(1) ? `${xPoly}` : `\\frac{ ${xPoly} }{ ${this.d.x} }`;
-            const zPoly = new Polynomial([1, this.a.z.negative()], { variableAtom: "z" });
+            const zPoly = new Polynomial([1, this.a.z.negative()], { variableAtom: 'z' });
             const zFrac = this.d.z.isEqual(1) ? `${zPoly}` : `\\frac{ ${zPoly} }{ ${this.d.z} }`;
             return `${xFrac} = ${zFrac}, y = ${this.a.y}`;
           }
-        } else { // x, y non-zero
+        } else {
+          // x, y non-zero
           if (this.d.z.isEqual(0)) {
-            const xPoly = new Polynomial([1, this.a.x.negative()], { variableAtom: "x" });
+            const xPoly = new Polynomial([1, this.a.x.negative()], { variableAtom: 'x' });
             const xFrac = this.d.x.isEqual(1) ? `${xPoly}` : `\\frac{ ${xPoly} }{ ${this.d.x} }`;
-            const yPoly = new Polynomial([1, this.a.y.negative()], { variableAtom: "y" });
+            const yPoly = new Polynomial([1, this.a.y.negative()], { variableAtom: 'y' });
             const yFrac = this.d.y.isEqual(1) ? `${yPoly}` : `\\frac{ ${yPoly} }{ ${this.d.y} }`;
             return `${xFrac} = ${yFrac}, z = ${this.a.z}`;
-          } else { // all non-zero
-            const xPoly = new Polynomial([1, this.a.x.negative()], { variableAtom: "x" });
+          } else {
+            // all non-zero
+            const xPoly = new Polynomial([1, this.a.x.negative()], { variableAtom: 'x' });
             const xFrac = this.d.x.isEqual(1) ? `${xPoly}` : `\\frac{ ${xPoly} }{ ${this.d.x} }`;
-            const yPoly = new Polynomial([1, this.a.y.negative()], { variableAtom: "y" });
+            const yPoly = new Polynomial([1, this.a.y.negative()], { variableAtom: 'y' });
             const yFrac = this.d.y.isEqual(1) ? `${yPoly}` : `\\frac{ ${yPoly} }{ ${this.d.y} }`;
-            const zPoly = new Polynomial([1, this.a.z.negative()], { variableAtom: "z" });
+            const zPoly = new Polynomial([1, this.a.z.negative()], { variableAtom: 'z' });
             const zFrac = this.d.z.isEqual(1) ? `${zPoly}` : `\\frac{ ${zPoly} }{ ${this.d.z} }`;
             return `${xFrac} = ${yFrac} = ${zFrac}`;
           }
@@ -182,7 +202,6 @@ export default class Line {
    * the x-axis as a line
    */
   static Z = new Line(Vector.ZERO, Vector.K);
-
 }
 
 /**
@@ -194,8 +213,8 @@ interface lineOptions {
 }
 /**
  * options for line toString method
- * 
- * @lambda symbol for "lambda" 
+ *
+ * @lambda symbol for "lambda"
  * @ijkMode if true, vectors in ijk components (vs column vectors if false)
  *
  * @mode 'vector': r = a + lambda d
@@ -203,7 +222,7 @@ interface lineOptions {
  * @mode 'cartesian'
  */
 interface lineToStringOptions {
-  lambda?: string,
-  ijkMode?: boolean,
-  mode?: string
+  lambda?: string;
+  ijkMode?: boolean;
+  mode?: string;
 }
