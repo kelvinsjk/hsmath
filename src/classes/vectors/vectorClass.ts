@@ -185,7 +185,7 @@ export default class Vector {
    * ijkMode returns the vector in ijk notation (vs the default column vector notation)
    * multiplyKIn multiplies `k` into the vector
    */
-  toString(options?: toStringOptions): string {
+  toString(options?: vectorToStringOptions): string {
     // return latex string: column vector mode or ijk mode
     const defaultOptions = {
       ijkMode: false,
@@ -341,7 +341,7 @@ interface vectorOptions {
 interface scalarMultiplicationOptions {
   changeK?: boolean;
 }
-interface toStringOptions {
+interface vectorToStringOptions {
   ijkMode?: boolean;
   multiplyKIn?: boolean;
 }
