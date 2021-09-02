@@ -1,7 +1,14 @@
 // import { Fraction } from 'math-edu'; TODO:
-import { Fraction, Term, Angle, SquareRoot, Trig, Polynomial, Expression } 
-// from 'math-edu';
-from '../../../../math-edu/src/index';
+import {
+  Fraction,
+  Term,
+  Angle,
+  SquareRoot,
+  Trig,
+  Polynomial,
+  Expression,
+  // from 'math-edu';
+} from '../../../../math-edu/src/index';
 import SinFn from './sinFnClass';
 
 export default class CosFn extends Term {
@@ -45,7 +52,7 @@ export default class CosFn extends Term {
 
   /**
    * subs in the value of x
-   * 
+   *
    * WARNING: only supported if final angle is a special angle
    */
   valueAt(x: number | Angle): SquareRoot {
@@ -100,10 +107,10 @@ export default class CosFn extends Term {
 }
 
 interface TrigOptions {
-  a?: number | Fraction,
-  b?: number | Fraction,
-  coeff?: number | Fraction,
-  variableAtom?: string,
+  a?: number | Fraction;
+  b?: number | Fraction;
+  coeff?: number | Fraction;
+  variableAtom?: string;
 }
 
 // type MathTypes = number | Fraction | Exp;

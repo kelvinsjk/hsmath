@@ -67,7 +67,7 @@ export default class Polynomial extends Expression {
    */
   add(polynomial2: Polynomial | number): Polynomial {
     if (typeof polynomial2 === 'number') {
-      polynomial2 = new Polynomial([polynomial2], { variableAtom: this.polynomialTerms[0].variableAtom});
+      polynomial2 = new Polynomial([polynomial2], { variableAtom: this.polynomialTerms[0].variableAtom });
     }
     const firstTerm = this.polynomialTerms[0];
     const termsArray = [...this.clone().polynomialTerms, ...polynomial2.clone().polynomialTerms];
@@ -128,12 +128,12 @@ export default class Polynomial extends Expression {
   }
   /**
    * truncate a polynomial such that only powers `n` and below are retained
-   * 
+   *
    * @returns truncated polynomial in ascending order
    */
-  truncate(n: number): Polynomial{
+  truncate(n: number): Polynomial {
     const arr: PolynomialTerm[] = [];
-    this.polynomialTerms.forEach(e => {
+    this.polynomialTerms.forEach((e) => {
       if (e.n <= n) {
         arr.push(e);
       }

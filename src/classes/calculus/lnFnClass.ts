@@ -2,7 +2,7 @@
 //  Term, Polynomial
 //  // Ln, Fraction
 //} from 'math-edu';
-import {Ln, Fraction, Term, Polynomial} from '../../../../math-edu/src/index';
+import { Ln, Fraction, Term, Polynomial } from '../../../../math-edu/src/index';
 import PowerFn from './powerFnClass';
 
 export default class LnFn extends Term {
@@ -30,7 +30,7 @@ export default class LnFn extends Term {
       b: 0,
       variableAtom: 'x',
       coeff: 1,
-      n: 1
+      n: 1,
     };
     const optionsObject = { ...defaultOptions, ...options };
     const a = convertNumberToFraction(optionsObject.a);
@@ -40,7 +40,7 @@ export default class LnFn extends Term {
       throw new Error('lnFn ERROR: a must be non-zero');
     }
     const axPLUSb = new Polynomial([a, b], { variableAtom: optionsObject.variableAtom });
-    const lnTerm = b.isEqual(0) ? `\\ln ${axPLUSb}` : `\\ln ( ${axPLUSb} )`
+    const lnTerm = b.isEqual(0) ? `\\ln ${axPLUSb}` : `\\ln ( ${axPLUSb} )`;
     super(coeff, lnTerm);
     this.variableAtom = optionsObject.variableAtom;
     this.a = a;
@@ -75,7 +75,7 @@ export default class LnFn extends Term {
       b: this.b,
       variableAtom: this.variableAtom,
       coeff: this.coeff.times(this.a),
-      n: -1
+      n: -1,
     });
   }
 
@@ -90,7 +90,7 @@ export default class LnFn extends Term {
   //     coeff: this.coeff.divide(this.a),
   //   });
   // }
-// 
+  //
   // /**
   //  * definite integral
   //  */
@@ -103,11 +103,11 @@ export default class LnFn extends Term {
 }
 
 interface LnOptions {
-  a?: number | Fraction,
-  b?: number | Fraction,
-  coeff?: number | Fraction,
-  variableAtom?: string,
-  n?: number,
+  a?: number | Fraction;
+  b?: number | Fraction;
+  coeff?: number | Fraction;
+  variableAtom?: string;
+  n?: number;
 }
 
 // type MathTypes = number | Fraction | Exp;

@@ -1,7 +1,12 @@
 // import { Fraction } from 'math-edu'; TODO:
-import { Fraction, Term, Exp, Polynomial, Expression }
-// from 'math-edu';
-from '../../../../math-edu/src/index';
+import {
+  Fraction,
+  Term,
+  Exp,
+  Polynomial,
+  Expression,
+  // from 'math-edu';
+} from '../../../../math-edu/src/index';
 
 export default class ExpFn extends Term {
   /**

@@ -1,7 +1,14 @@
 // import { Fraction } from 'math-edu'; TODO:
-import { Fraction, Term, Angle, SquareRoot, Trig, Polynomial, Expression }
-// from 'math-edu';
-from '../../../../math-edu/src/index';
+import {
+  Fraction,
+  Term,
+  Angle,
+  SquareRoot,
+  Trig,
+  Polynomial,
+  Expression,
+  // from 'math-edu';
+} from '../../../../math-edu/src/index';
 import CosFn from './cosFnClass';
 
 export default class SinFn extends Term {
@@ -45,7 +52,7 @@ export default class SinFn extends Term {
 
   /**
    * subs in the value of x
-   * 
+   *
    * WARNING: only supported if if final angle is a special angle
    */
   valueAt(x: number | Angle): SquareRoot {
