@@ -8,7 +8,7 @@ import Exp from './expClass';
  *
  * @argument argument Fraction | Exp
  *
- * class representing the natural logarithm
+ * class representing the natural logarithm k ln (ax+b)
  *
  * as a extension of the `Term` class
  */
@@ -87,6 +87,6 @@ export default class Ln extends Term {
   }
 
   clone(): Ln {
-    return new Ln(this.coeff, this.argument);
+    return new Ln(this.argument, this.coeff);
   }
 }

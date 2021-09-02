@@ -65,10 +65,25 @@ export default class Polynomial extends Expression {
    * only supports one variable: we will assume the variable atom is that of the first term here
    * @returns the sum
    */
-  add(polynomial2: Polynomial): Polynomial {
+  add(polynomial2: Polynomial | number): Polynomial {
+    if (typeof polynomial2 === 'number') {
+      polynomial2 = new Polynomial([polynomial2], { variableAtom: this.polynomialTerms[0].variableAtom});
+    }
     const firstTerm = this.polynomialTerms[0];
     const termsArray = [...this.clone().polynomialTerms, ...polynomial2.clone().polynomialTerms];
     return new Polynomial(termsArray, { variableAtom: firstTerm.variableAtom });
+  }
+  /**
+   * finds the difference between two polynomials
+   * only supports one variable: we will assume the variable atom is that of the first term here
+   * @returns this minus polynomial2
+   */
+  subtract(polynomial2: Polynomial | number): Polynomial {
+    if (typeof polynomial2 === 'number') {
+      polynomial2 = new Polynomial([polynomial2], { variableAtom: this.polynomialTerms[0].variableAtom });
+    }
+    const minusP2 = polynomial2.multiply(-1);
+    return this.add(minusP2);
   }
   /**
    * polynomial multiplication (if polynomial/polynomialTerm provided), scalar multiplication otherwise
@@ -104,6 +119,26 @@ export default class Polynomial extends Expression {
     // order ascending/descending
     product.sort(optionsObject.ascending);
     return product;
+  }
+  /**
+   * square a polynomial
+   */
+  square(): Polynomial {
+    return this.multiply(this);
+  }
+  /**
+   * truncate a polynomial such that only powers `n` and below are retained
+   * 
+   * @returns truncated polynomial in ascending order
+   */
+  truncate(n: number): Polynomial{
+    const arr: PolynomialTerm[] = [];
+    this.polynomialTerms.forEach(e => {
+      if (e.n <= n) {
+        arr.push(e);
+      }
+    });
+    return new Polynomial(arr, { ascending: true });
   }
 
   /// array methods
@@ -268,13 +303,6 @@ interface polynomialOptions {
 interface powerOptions {
   /** for powers, do we enclose the variable with brackets? `true` gives us regular parenthesis while `lr` gives us `\\left( xxx \\right)` */
   brackets?: boolean | 'lr';
-}
-/**
- * Options for naming the variable
- */
-interface variableOptions {
-  /** string representing the variable (default `x`) */
-  variable?: string;
 }
 /**
  * Options for multiplying the Polynomial

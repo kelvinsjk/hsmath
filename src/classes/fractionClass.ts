@@ -352,7 +352,6 @@ function convertDecimalToFraction(num: number): [number, number] {
   const decimalIndex = x.indexOf('.');
   const powerOfTen = Math.pow(10, x.length - decimalIndex - 1);
   const numerator = Number(x.substring(0, decimalIndex) + x.substring(decimalIndex + 1));
-  console.log(num, numerator, powerOfTen);
   if (decimalIndex !== -1) {
     return [numerator, powerOfTen];
   } else {

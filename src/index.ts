@@ -10,6 +10,10 @@ import Angle from './classes/trig/angleClass';
 import { Trig } from './fns/trig/trigFunctions';
 // Exp/Ln
 import { Exp, Ln } from './classes/exponential/index';
+// Calculus
+import { ExpFn, LnFn, PowerFn, CosFn, SinFn } from './classes/calculus/index';
+import { integrateCosSquare, integrateSinSquare, integrateSinCos, integrateCosSin, integrateCosCos, integrateSinSin } from './fns/calculus/trig';
+import integrateByParts from './fns/calculus/integrateByParts';
 // Complex
 import Complex from './classes/complex/complexClass';
 // Vector
@@ -24,6 +28,16 @@ import { getRandomInt, getRandomFrac, getRandomLinear, getRandomQuadratic } from
 import { getRandomVec } from './fns/random/vectorGenerators';
 // misc
 import RationalFunction from './classes/misc/rationalClass';
+
+const integrate = {
+  cosSquare: integrateCosSquare,
+  sinSquare: integrateSinSquare,
+  sinCos: integrateSinCos,
+  cosSin: integrateCosSin,
+  cosCos: integrateCosCos,
+  sinSin: integrateSinSin,
+  byParts: integrateByParts,
+}
 
 export {
   Fraction,
@@ -40,6 +54,8 @@ export {
   Vector,
   Line,
   Plane,
+  ExpFn, LnFn, PowerFn, CosFn, SinFn,
+  integrate,
   gcd,
   factorize,
   solveQuadratic,

@@ -5,7 +5,7 @@ import gcd from '../arithmetic/gcd';
 /**
  * Generates a random integer between `min` and `max` (inclusive)
  *
- * @param options we can specify an array of numbers to avoid
+ * @param options `{avoid: []}` array of numbers to be avoided
  *
  * warning: we do not check if the avoid array prevents us from returning a value (leading to an infinite loop)
  */
