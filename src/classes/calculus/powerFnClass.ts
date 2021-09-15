@@ -44,7 +44,8 @@ export default class PowerFn extends Term {
         coeff = coeff.times(a);
         a = Fraction.ONE;
         super(coeff, optionsObject.variableAtom);
-      } else { // b non-zero
+      } else {
+        // b non-zero
         if (coeff.isEqual(1)) {
           super(coeff, `${axPLUSb}`);
         } else {
@@ -101,7 +102,9 @@ export default class PowerFn extends Term {
     } else {
       const akxPLUSb = new Expression(new Term(this.a.times(x.coeff), x.variable), this.b);
       return this.n.isEqual(1)
-        ? this.coeff.isEqual(1) ? new Term(this.coeff, `${akxPLUSb}`) : new Term(this.coeff, `\\left( ${akxPLUSb} \\right)`)
+        ? this.coeff.isEqual(1)
+          ? new Term(this.coeff, `${akxPLUSb}`)
+          : new Term(this.coeff, `\\left( ${akxPLUSb} \\right)`)
         : new Term(this.coeff, `\\left( ${akxPLUSb} \\right)^{ ${this.n.num} }`);
     }
   }

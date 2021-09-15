@@ -40,14 +40,17 @@ test('complex exp', () => {
   expect(`${z2}`).toBe('\\sqrt{2} \\mathrm{e}^{ - \\frac{1}{4} \\pi \\mathrm{i} }');
   expect(`${z1.toCartesianString()}`).toBe('1 + \\sqrt{3} \\mathrm{i}');
   expect(`${z2.toCartesianString()}`).toBe('1 - \\mathrm{i}');
-  expect(`${z3.toPolarString()}`).toBe('2 \\left( \\cos \\frac{1}{6} \\pi + \\mathrm{i} \\sin \\frac{1}{6} \\pi \\right)');
+  expect(`${z3.toPolarString()}`).toBe(
+    '2 \\left( \\cos \\frac{1}{6} \\pi + \\mathrm{i} \\sin \\frac{1}{6} \\pi \\right)',
+  );
   expect(`${z3.toCartesianString()}`).toBe('\\sqrt{3} + \\mathrm{i}');
-  expect(`${z4.toPolarString()}`).toBe('\\frac{1}{2} \\sqrt{2} \\left( \\cos \\frac{5}{12} \\pi + \\mathrm{i} \\sin \\frac{5}{12} \\pi \\right)');
+  expect(`${z4.toPolarString()}`).toBe(
+    '\\frac{1}{2} \\sqrt{2} \\left( \\cos \\frac{5}{12} \\pi + \\mathrm{i} \\sin \\frac{5}{12} \\pi \\right)',
+  );
   expect(`${z5}`).toBe('\\mathrm{e}^{ \\frac{2}{3} \\pi \\mathrm{i} }');
   expect(`${z5.toPolarString()}`).toBe('\\cos \\frac{2}{3} \\pi + \\mathrm{i} \\sin \\frac{2}{3} \\pi');
   expect(`${z5.toCartesianString()}`).toBe('- \\frac{1}{2} + \\frac{1}{2} \\sqrt{3} \\mathrm{i}');
   expect(`${z5.negative().toCartesianString()}`).toBe('\\frac{1}{2} - \\frac{1}{2} \\sqrt{3} \\mathrm{i}');
   expect(`${z5.conjugate().toCartesianString()}`).toBe('- \\frac{1}{2} - \\frac{1}{2} \\sqrt{3} \\mathrm{i}');
   expect(`${zero2.toPolarString()}`).toBe('0');
-
-})
+});

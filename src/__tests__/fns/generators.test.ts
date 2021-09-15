@@ -44,23 +44,23 @@ test('toString', () => {
   }
 });
 
-function checkQuadratic(x: Polynomial): boolean{
-    if (x.polynomialTerms.length === 3) {
-      return true;
-    } else if (x.polynomialTerms.length === 2) {
-      const ascending = (x.polynomialTerms[0].n === 0 || x.polynomialTerms[0].n === 1) && x.polynomialTerms[1].n === 2;
-      const descending = (x.polynomialTerms[1].n === 0 || x.polynomialTerms[1].n === 1) && x.polynomialTerms[2].n === 2;
-      return ascending || descending;
-    } else if (x.polynomialTerms.length === 1) {
-      return x.polynomialTerms[0].n === 2;
-    } else {
-      return false;
-    }
+function checkQuadratic(x: Polynomial): boolean {
+  if (x.polynomialTerms.length === 3) {
+    return true;
+  } else if (x.polynomialTerms.length === 2) {
+    const ascending = (x.polynomialTerms[0].n === 0 || x.polynomialTerms[0].n === 1) && x.polynomialTerms[1].n === 2;
+    const descending = (x.polynomialTerms[1].n === 0 || x.polynomialTerms[1].n === 1) && x.polynomialTerms[2].n === 2;
+    return ascending || descending;
+  } else if (x.polynomialTerms.length === 1) {
+    return x.polynomialTerms[0].n === 2;
+  } else {
+    return false;
+  }
 }
 
 function checkLinear(x: Polynomial): boolean {
   if (x.polynomialTerms.length === 2) {
-    return true
+    return true;
   } else if (x.polynomialTerms.length === 1) {
     return x.polynomialTerms[0].n === 1;
   } else {

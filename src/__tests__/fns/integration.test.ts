@@ -6,7 +6,7 @@ const x = new PowerFn();
 const nineX2 = new PowerFn({ coeff: 9, n: 2 });
 
 const sinX = new SinFn();
-const sin4X = new SinFn({a:4});
+const sin4X = new SinFn({ a: 4 });
 const cos2X = new CosFn({ a: 2 });
 const piOver4 = new Angle(45);
 const piOver2 = new Angle(90);
@@ -29,7 +29,7 @@ test('powerFn', () => {
   expect(`${five_twoXPlus1Square.algebraicValueAt(new Term(1, 'y^2'))}`).toBe('5 \\left( 2 y^2 + 1 \\right)^{ 2 }');
   expect(() => new PowerFn({ a: 0 })).toThrow();
   expect(twoXPlus1.toNumberFunction()(2)).toBe(5);
-})
+});
 
 test('by parts', () => {
   expect(`${integrate.byParts(one, cos2X)}`).toBe('\\frac{1}{2} \\sin ( 2 x )');

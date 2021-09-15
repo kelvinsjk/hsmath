@@ -76,20 +76,20 @@ test('fromRoots, add', () => {
 
 test('square, pow, substitute, truncate', () => {
   const xPlus1 = new Polynomial([1, 1]);
-  expect(()=>`${xPlus1.pow(2.1)}`).toThrow();
-  expect(()=>`${xPlus1.pow(-2)}`).toThrow();
+  expect(() => `${xPlus1.pow(2.1)}`).toThrow();
+  expect(() => `${xPlus1.pow(-2)}`).toThrow();
   expect(`${xPlus1.square()}`).toBe(`x^2 + 2 x + 1`);
   expect(`${xPlus1.pow(3)}`).toBe(`x^3 + 3 x^2 + 3 x + 1`);
   const x2Plus2xMinus1 = new Polynomial([1, 2, -1]);
   expect(`${x2Plus2xMinus1.substitute(1)}`).toBe('2');
-  expect(`${x2Plus2xMinus1.substitute(new Fraction(1,2))}`).toBe('\\frac{1}{4}');
+  expect(`${x2Plus2xMinus1.substitute(new Fraction(1, 2))}`).toBe('\\frac{1}{4}');
   expect(`${x2Plus2xMinus1.substitute(xPlus1)}`).toBe('x^2 + 4 x + 2');
   expect(`${x2Plus2xMinus1.shift(1)}`).toBe('x^2 + 4 x + 2');
-  expect(`${x2Plus2xMinus1.shift(new Fraction(-1,2))}`).toBe('x^2 + x - \\frac{7}{4}');
+  expect(`${x2Plus2xMinus1.shift(new Fraction(-1, 2))}`).toBe('x^2 + x - \\frac{7}{4}');
   expect(`${x2Plus2xMinus1.truncate(1)}`).toBe('2 x - 1');
   expect(`${x2Plus2xMinus1.scale(2)}`).toBe('4 x^2 + 4 x - 1');
-  expect(`${x2Plus2xMinus1.scale(new Fraction(1,2))}`).toBe('\\frac{1}{4} x^2 + x - 1');
-})
+  expect(`${x2Plus2xMinus1.scale(new Fraction(1, 2))}`).toBe('\\frac{1}{4} x^2 + x - 1');
+});
 
 test('solve quadratic', () => {
   const x2Plus2xMinus1 = new Polynomial([1, 2, -1]);
@@ -115,7 +115,7 @@ test('solve quadratic', () => {
   expect(`${root5}`).toBe('- 3');
   const quadratic1 = new Polynomial([1, 2, 3], { initialDegree: 1 });
   expect(() => quadratic1.solveQuadratic()).toThrow();
-})
+});
 
 test('long division', () => {
   const x2Plus2xMinus1 = new Polynomial([1, 2, -1]);
@@ -124,4 +124,4 @@ test('long division', () => {
   //const [quotient, remainder] = xPlusOne.longDivide(x2Plus2xMinus1);
   expect(`${quotient}`).toBe('x + 1');
   expect(`${remainder}`).toBe('- 2');
-})
+});

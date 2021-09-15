@@ -25,7 +25,7 @@ function sin(x: Angle | number): SquareRoot {
   };
   let ratio = trigRatios[basicAngle];
   if (ratio === undefined) {
-    throw new RangeError('angle is not a variation of the special angles (0, 30, 45, 60, 90)')
+    throw new RangeError('angle is not a variation of the special angles (0, 30, 45, 60, 90)');
   }
   if (x.degrees < 0 || x.degrees > 180) {
     ratio = ratio.negative();

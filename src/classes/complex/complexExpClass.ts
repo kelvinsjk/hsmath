@@ -52,7 +52,7 @@ export default class ComplexExp {
    * negative of this complex number: -r e^{i \\theta} = r e^{i (\\theta + \\pi)}
    */
   negative(): ComplexExp {
-    return new ComplexExp(this.r, this.theta.plus(180), {principalArgFromZero: this.principalArgFromZero});
+    return new ComplexExp(this.r, this.theta.plus(180), { principalArgFromZero: this.principalArgFromZero });
   }
 
   /**
@@ -111,7 +111,7 @@ export default class ComplexExp {
 
   /**
    * @returns the LaTeX string of this complex number in cartesian form x + yi
-   * 
+   *
    * WARNING: at the moment this only works if theta is a special angle
    */
   toCartesianString(): string {
@@ -120,11 +120,12 @@ export default class ComplexExp {
     const xTerm = x.isRational() ? new Term(x.toFraction()) : `${x}`;
     const absY = y.abs();
     const plusMinus1 = y.isEqual(absY) ? 1 : -1;
-    const yTerm = y.isRational() ? new Term(y.toFraction(), '\\mathrm{i}') : new Term(plusMinus1, `${absY} \\mathrm{i}`);
-    const cartesianExpression = new Expression(xTerm, yTerm)
+    const yTerm = y.isRational()
+      ? new Term(y.toFraction(), '\\mathrm{i}')
+      : new Term(plusMinus1, `${absY} \\mathrm{i}`);
+    const cartesianExpression = new Expression(xTerm, yTerm);
     return `${cartesianExpression}`;
   }
-
 
   ///**
   // * the purely imaginary unit i (0+1i)
@@ -132,8 +133,8 @@ export default class ComplexExp {
   //static I = new Complex(0, 1);
 }
 
-interface ComplexExpOptions{
-  principalArgFromZero?: boolean,
+interface ComplexExpOptions {
+  principalArgFromZero?: boolean;
 }
 
 /// convertNumberToComplex

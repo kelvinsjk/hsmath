@@ -124,7 +124,6 @@ export default class Term {
   toExpression(): Expression {
     return new Expression(this);
   }
-
 }
 
 /**

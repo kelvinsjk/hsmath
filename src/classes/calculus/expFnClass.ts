@@ -2,7 +2,7 @@ import Fraction from '../fractionClass';
 import Term from '../algebra/termClass';
 import Polynomial from '../algebra/polynomialClass';
 import Expression from '../algebra/expressionClass';
-import {Exp} from '../exponential/index';
+import { Exp } from '../exponential/index';
 
 export default class ExpFn extends Term {
   /**

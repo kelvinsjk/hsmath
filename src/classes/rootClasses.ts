@@ -175,19 +175,19 @@ class SquareRoot extends NthRoot {
   /**
    * tests for equality
    */
-  isEqual(y: number | Fraction | SquareRoot): boolean{
+  isEqual(y: number | Fraction | SquareRoot): boolean {
     y = y instanceof SquareRoot ? y : new SquareRoot(1, y);
-    return (y.coeff.isEqual(this.coeff) && y.radicand === this.radicand);
+    return y.coeff.isEqual(this.coeff) && y.radicand === this.radicand;
   }
   /**
    * tests if this is an integer
    */
-  isRational(): boolean{
+  isRational(): boolean {
     return this.radicand === 1;
   }
   /**
    * converts to Fraction class
-   * 
+   *
    * WARNING: throws if this is not an integer
    */
   toFraction(): Fraction {

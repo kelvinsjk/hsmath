@@ -1,7 +1,7 @@
-import PowerFn from "./powerFnClass";
+import PowerFn from './powerFnClass';
 import { default as Polynomial, PolynomialTerm } from '../algebra/polynomialClass';
 import Fraction from '../fractionClass';
-import Expression from "../algebra/expressionClass";
+import Expression from '../algebra/expressionClass';
 import type Term from '../algebra/termClass';
 
 export default class PolynomialFn extends Polynomial {
@@ -38,7 +38,7 @@ export default class PolynomialFn extends Polynomial {
   valueAt(x: number | Fraction): Fraction {
     let sum = new Fraction(0);
     for (const powerFn of this.powerFns) {
-      sum = sum.plus(powerFn.valueAt(x))
+      sum = sum.plus(powerFn.valueAt(x));
     }
     return sum;
   }
@@ -65,7 +65,7 @@ export default class PolynomialFn extends Polynomial {
         sum = sum + powerFn.valueAt(x).valueOf();
       }
       return sum;
-    }
+    };
   }
   /**
    * replaces 'x' in this Polynomial with 'ax+b' and returns the expanded form
@@ -79,7 +79,7 @@ export default class PolynomialFn extends Polynomial {
   /**
    * replaces 'x' in this Polynomial with 'x+a' and returns the expanded form
    */
-  shift(a: number | Fraction): PolynomialFn{
+  shift(a: number | Fraction): PolynomialFn {
     return this.transform(1, a);
   }
   /**
@@ -91,7 +91,7 @@ export default class PolynomialFn extends Polynomial {
 
   /**
    * derivative
-   * 
+   *
    * TODO: recover Polynomials from PowerFns to return a PolynomialFn type
    */
   derivative(): PolynomialFn {
@@ -123,7 +123,10 @@ export default class PolynomialFn extends Polynomial {
   definiteIntegral(lower: number | Fraction | Term, upper: number | Fraction | Term): Expression {
     let expression: Expression | undefined = undefined;
     for (const powerFn of this.powerFns) {
-      expression = expression === undefined? powerFn.definiteIntegral(lower, upper) : expression.add(powerFn.definiteIntegral(lower, upper));
+      expression =
+        expression === undefined
+          ? powerFn.definiteIntegral(lower, upper)
+          : expression.add(powerFn.definiteIntegral(lower, upper));
     }
     return expression as Expression;
   }

@@ -38,7 +38,7 @@ test('Angles', () => {
   expect(twoTen.togglePrincipalRange()).toMatch('0 to 2pi');
 
   expect(() => oneEighty.divide(0)).toThrow();
-  expect(() => new Angle(1/6)).toThrow();
+  expect(() => new Angle(1 / 6)).toThrow();
 });
 
 test('Angles', () => {

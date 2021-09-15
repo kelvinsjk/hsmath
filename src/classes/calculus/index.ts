@@ -6,5 +6,4 @@ import CosFn from './cosFnClass';
 import SinFn from './sinFnClass';
 import maclaurin from './maclaurin/index';
 
-
 export { ExpFn, LnFn, PowerFn, CosFn, SinFn, PolynomialFn, maclaurin };

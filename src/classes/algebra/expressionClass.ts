@@ -130,9 +130,9 @@ export default class Expression {
   }
   /**
    * solves a linear expression $ax+b=0$ where this expression is $ax+b$
-   * 
+   *
    * only works if this expression is made up of a single constant term and a variable term
-   * 
+   *
    * @returns -b/a given this expression $ax+b$
    */
   solveLinear(): Fraction {
@@ -144,7 +144,7 @@ export default class Expression {
         return b.divide(a).times(-1);
       }
     }
-    throw new TypeError(`Expression ${this} is not linear`)
+    throw new TypeError(`Expression ${this} is not linear`);
   }
   /**
    * clones the object, creating a new instance of this expression

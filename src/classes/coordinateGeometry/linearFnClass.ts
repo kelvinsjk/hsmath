@@ -1,4 +1,4 @@
-import PolynomialFn from "../calculus/polynomialFnClass";
+import PolynomialFn from '../calculus/polynomialFnClass';
 import convertNumberToFraction from '../../internal/convertNumberToFraction';
 
 import Fraction from '../fractionClass';
@@ -19,7 +19,7 @@ export default class LinearFn extends PolynomialFn {
    * Creates a new linearFn instance
    *
    * @param parameterObject defaults to `{m: 1, c: 0, x1: 0, y1: 0, x2: 1, y2: 1}`
-   * @param options defaults to `{mode: 'mc'}` representing m and c provided in parameterObject. 
+   * @param options defaults to `{mode: 'mc'}` representing m and c provided in parameterObject.
    * Other modes: 'mp' representing m and a point provided, 'pp' representing two points provided.
    *
    */
@@ -46,7 +46,7 @@ export default class LinearFn extends PolynomialFn {
 
   /**
    * x-intercept
-   * 
+   *
    * @returns x-coordinate of x-intercept
    */
   xIntercept(): Fraction {
@@ -55,7 +55,7 @@ export default class LinearFn extends PolynomialFn {
 
   /**
    * y-intercept
-   * 
+   *
    * @returns y-coordinate of y-intercept
    */
   yIntercept(): Fraction {
@@ -64,9 +64,9 @@ export default class LinearFn extends PolynomialFn {
 
   /**
    * toString
-   * 
+   *
    * @returns 'y = mx + c' with m and c subbed in by default
-   * 
+   *
    */
   toString(): string {
     return `y = ${this.m} x + ${this.c}`;
@@ -74,25 +74,25 @@ export default class LinearFn extends PolynomialFn {
 
   /**
    * toIntegerString
-   * 
+   *
    * @return 'ax + by = c', where $a,b,c$ are integers
    */
-  toIntegerString(): string{
+  toIntegerString(): string {
     const [[a, b, c]] = Fraction.factorize(this.m.times(-1), 1, this.c);
     const lineNExpression = new Expression(new Term(a, 'x'), new Term(b, 'y'));
     return `${lineNExpression} = ${c}`;
   }
 }
 
-interface LinearFnParameters{
-  m?: number | Fraction,
-  c?: number | Fraction,
-  x1?: number | Fraction,
-  y1?: number | Fraction,
-  x2?: number | Fraction,
-  y2?: number | Fraction,  
+interface LinearFnParameters {
+  m?: number | Fraction;
+  c?: number | Fraction;
+  x1?: number | Fraction;
+  y1?: number | Fraction;
+  x2?: number | Fraction;
+  y2?: number | Fraction;
 }
 
-interface LinearFnOptions{
-  mode: 'mc' | 'mp' | 'pp',
+interface LinearFnOptions {
+  mode: 'mc' | 'mp' | 'pp';
 }

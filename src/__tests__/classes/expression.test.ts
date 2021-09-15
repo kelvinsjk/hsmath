@@ -60,5 +60,4 @@ test('clone', () => {
   xPlusTwoV2.reverse();
   expect(`${xPlusTwo}`).toBe('x + 2');
   expect(`${xPlusTwoV2}`).toBe('2 + x');
-
-})
+});

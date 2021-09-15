@@ -143,12 +143,12 @@ export default class Polynomial extends Expression {
   }
   /**
    * substitutes an expression into this polynomial
-   * 
+   *
    * for example, if this is 3x^2 + x + 1, substituting x+1 returns 3(x+1)^2+x+1 after expansion
    */
   substitute(x: number | Fraction | Polynomial): Polynomial {
     x = typeof x === 'number' || x instanceof Fraction ? new Polynomial([x]) : x;
-    let newPoly = new Polynomial([0], {variableAtom: this.polynomialTerms[0].variableAtom});
+    let newPoly = new Polynomial([0], { variableAtom: this.polynomialTerms[0].variableAtom });
     for (let i = 0; i < this.polynomialTerms.length; i++) {
       const newTerm = x.pow(this.polynomialTerms[i].n).multiply(this.polynomialTerms[i].coeff);
       newPoly = newPoly.add(newTerm);
@@ -159,7 +159,7 @@ export default class Polynomial extends Expression {
   /**
    * replaces 'x' in this Polynomial with 'x+a' and returns the expanded form
    */
-  shift(a: number | Fraction): Polynomial{
+  shift(a: number | Fraction): Polynomial {
     a = typeof a === 'number' ? new Fraction(a) : a;
     const substitutedPoly = new Polynomial([1, a], { variableAtom: this.polynomialTerms[0].variableAtom });
     return this.substitute(substitutedPoly);
@@ -167,15 +167,18 @@ export default class Polynomial extends Expression {
   /**
    * replaces 'x' in this Polynomial with 'ax' and returns the expanded form
    */
-  scale(a: number | Fraction): Polynomial{
+  scale(a: number | Fraction): Polynomial {
     a = typeof a === 'number' ? new Fraction(a) : a;
-    const substitutedPoly = new Polynomial([a], { variableAtom: this.polynomialTerms[0].variableAtom, initialDegree: 1 });
+    const substitutedPoly = new Polynomial([a], {
+      variableAtom: this.polynomialTerms[0].variableAtom,
+      initialDegree: 1,
+    });
     return this.substitute(substitutedPoly);
   }
   /**
    * replaces 'x' in this Polynomial with 'ax+b' and returns the expanded form
    */
-  transform(a: number | Fraction, b: number | Fraction): Polynomial{
+  transform(a: number | Fraction, b: number | Fraction): Polynomial {
     a = typeof a === 'number' ? new Fraction(a) : a;
     b = typeof b === 'number' ? new Fraction(b) : b;
     const substitutedPoly = new Polynomial([a, b], { variableAtom: this.polynomialTerms[0].variableAtom });
@@ -198,13 +201,15 @@ export default class Polynomial extends Expression {
 
   /**
    * find the roots if this polynomial is a quadratic $ax^2+bx+c$
-   * 
+   *
    * warning: at the moment only real roots are supported so the user will have to check to ensure that to prevent errors
    */
   solveQuadratic(): [Expression, Expression] {
     if (this.polynomialTerms.length === 3) {
       const [t1, t2, t3] = this.polynomialTerms;
-      let a: Fraction|null = null, b: Fraction|null = null, c: Fraction|null = null;
+      let a: Fraction | null = null,
+        b: Fraction | null = null,
+        c: Fraction | null = null;
       // assign a, b, c
       if (t1.variable === '') {
         c = t1.coeff;
@@ -237,7 +242,7 @@ export default class Polynomial extends Expression {
         const root1 = new Expression(b.times(-1).divide(a.times(2)), sqrt.divide(a.times(2)));
         const root2 = new Expression(b.times(-1).divide(a.times(2)), sqrt.divide(a.times(-2)));
         return a.valueOf() < 0 ? [root1, root2] : [root2, root1];
-      }  
+      }
     }
     throw new TypeError(`this polynomial ${this} is not a quadratic`);
   }
@@ -297,13 +302,14 @@ export default class Polynomial extends Expression {
 
   /**
    * long division
-   * 
+   *
    * @param quotient should be left blank. it is used internally to recursively obtain our result
-   * 
+   *
    * @return `[quotient, remainder]`
    */
   longDivide(divisor: Polynomial, quotient?: Polynomial): [Polynomial, Polynomial] {
-    if (quotient === undefined) { // start of long division
+    if (quotient === undefined) {
+      // start of long division
       quotient = new Polynomial([0]);
       divisor.sort(false);
     }
@@ -312,18 +318,21 @@ export default class Polynomial extends Expression {
     dividend.sort(false);
     const divisorPower = divisor.polynomialTerms[0].n;
     const dividendPower = dividend.polynomialTerms[0].n;
-    if (dividendPower < divisorPower) { // done with division
+    if (dividendPower < divisorPower) {
+      // done with division
       return [quotient, dividend];
-    } else { // proceed recursively
+    } else {
+      // proceed recursively
       const divisorLeadingCoefficient = divisor.polynomialTerms[0].coeff;
       const dividendLeadingCoefficient = dividend.polynomialTerms[0].coeff;
-      const quotientToAdd = new Polynomial([dividendLeadingCoefficient.divide(divisorLeadingCoefficient)], { initialDegree: dividendPower - divisorPower });
+      const quotientToAdd = new Polynomial([dividendLeadingCoefficient.divide(divisorLeadingCoefficient)], {
+        initialDegree: dividendPower - divisorPower,
+      });
       const newQuotient = quotient.add(quotientToAdd);
       const newDividend = dividend.subtract(divisor.multiply(quotientToAdd));
       return newDividend.longDivide(divisor, newQuotient);
     }
   }
-
 } // end of Polynomial
 
 //// PolynomialTerm class (internal?)
@@ -415,11 +424,11 @@ export class PolynomialTerm extends Term {
 } // end of PolynomialTerm
 
 /// internal function
-function trimZeros(poly: PolynomialTerm[]): PolynomialTerm[]{
+function trimZeros(poly: PolynomialTerm[]): PolynomialTerm[] {
   const newPolyTerms: PolynomialTerm[] = [];
   for (const polyTerm of poly) {
     if (!polyTerm.coeff.isEqual(0)) {
-      newPolyTerms.push(polyTerm)
+      newPolyTerms.push(polyTerm);
     }
   }
   if (newPolyTerms.length === 0) {

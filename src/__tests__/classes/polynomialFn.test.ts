@@ -17,6 +17,7 @@ test('PolynomialFn', () => {
   expect(`${xMinus1.definiteIntegral(0, 1)}`).toBe('- \\frac{1}{2}');
   expect(`${minus5_PLUS_3x_PLUS_x2.scale(2)}`).toBe('4 x^2 + 6 x - 5');
   expect(`${minus5_PLUS_3x_PLUS_x2.shift(1)}`).toBe('x^2 + 5 x - 1');
-  expect(`${minus5_PLUS_3x_PLUS_x2.transform(new Fraction(1,2), new Fraction(1,3))}`).toBe('\\frac{1}{4} x^2 + \\frac{11}{6} x - \\frac{35}{9}');
+  expect(`${minus5_PLUS_3x_PLUS_x2.transform(new Fraction(1, 2), new Fraction(1, 3))}`).toBe(
+    '\\frac{1}{4} x^2 + \\frac{11}{6} x - \\frac{35}{9}',
+  );
 });
-

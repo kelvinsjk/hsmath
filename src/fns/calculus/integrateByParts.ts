@@ -6,7 +6,7 @@ import { ExpFn, PowerFn, CosFn, SinFn, LnFn } from '../../classes/calculus/index
 
 /**
  * integration by parts
- * 
+ *
  * @param limits is an array [lower, upper] or the number/Fraction/Angle type;
  *
  * currently only support (ax+b)^n e^(a'x+b') type with n a non-negative

@@ -238,11 +238,11 @@ export default class Vector {
    *
    * Example: 45.7^{\circ}
    *
-   * @param angleOptions defaults to { acute: false, sineMode: false }.  
-   * acute will cause us to always return the acute angle, assuming the vectors can be of opposite direction.  
+   * @param angleOptions defaults to { acute: false, sineMode: false }.
+   * acute will cause us to always return the acute angle, assuming the vectors can be of opposite direction.
    * sineMode uses arcsin instead of arccos (useful for angle between line and plane)
    */
-  angle(v2: Vector, angleOptions?: { acute?: boolean, sineMode?: boolean}): string {
+  angle(v2: Vector, angleOptions?: { acute?: boolean; sineMode?: boolean }): string {
     if (this.isZero() || v2.isZero()) {
       throw new Error('Vector ERROR: angle is not defined for zero vectors');
     }
@@ -278,9 +278,9 @@ export default class Vector {
       } else if (cosThetaSquared.isEqual(1)) {
         return this.dot(v2).valueOf() < 0 && !options.acute ? '180^{\\circ}' : '0^{\\circ}';
       } else {
-        const angle =
-          options.acute ? (Math.acos(Math.pow(cosThetaSquared.valueOf(), 1 / 2)) / Math.PI) * 180
-            : (Math.acos(Math.sign(this.dot(v2).valueOf()) * Math.pow(cosThetaSquared.valueOf(), 1 / 2)) / Math.PI) * 180;
+        const angle = options.acute
+          ? (Math.acos(Math.pow(cosThetaSquared.valueOf(), 1 / 2)) / Math.PI) * 180
+          : (Math.acos(Math.sign(this.dot(v2).valueOf()) * Math.pow(cosThetaSquared.valueOf(), 1 / 2)) / Math.PI) * 180;
         return angle.toFixed(1) + '^{\\circ}';
       }
     }
