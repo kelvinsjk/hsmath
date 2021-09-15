@@ -1,4 +1,4 @@
-import Term from './expressions/termClass';
+import Term from './algebra/termClass';
 import Fraction from './fractionClass';
 
 /**
@@ -140,9 +140,11 @@ class SquareRoot extends NthRoot {
   /**
    * multiplication (by a number/Fraction)
    */
-  times(k: number | Fraction): SquareRoot {
-    const newCoeff = this.coeff.times(k);
-    return new SquareRoot(this.radicand, newCoeff);
+  times(k: number | Fraction | SquareRoot): SquareRoot {
+    k = k instanceof SquareRoot ? k : new SquareRoot(1, k);
+    const newCoeff = this.coeff.times(k.coeff);
+    const newRadicand = this.radicand * k.radicand;
+    return new SquareRoot(newRadicand, newCoeff);
   }
 
   /**
@@ -168,6 +170,37 @@ class SquareRoot extends NthRoot {
 
   clone(): SquareRoot {
     return new SquareRoot(this.radicand, this.coeff.clone());
+  }
+
+  /**
+   * tests for equality
+   */
+  isEqual(y: number | Fraction | SquareRoot): boolean{
+    y = y instanceof SquareRoot ? y : new SquareRoot(1, y);
+    return (y.coeff.isEqual(this.coeff) && y.radicand === this.radicand);
+  }
+  /**
+   * tests if this is an integer
+   */
+  isRational(): boolean{
+    return this.radicand === 1;
+  }
+  /**
+   * converts to Fraction class
+   * 
+   * WARNING: throws if this is not an integer
+   */
+  toFraction(): Fraction {
+    if (!this.isRational()) {
+      throw new Error('this square root is not an integer');
+    }
+    return this.coeff.clone();
+  }
+  /**
+   * returns the absolute value of this square root
+   */
+  abs(): SquareRoot {
+    return new SquareRoot(this.radicand, Fraction.abs(this.coeff));
   }
 }
 

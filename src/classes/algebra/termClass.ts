@@ -1,9 +1,10 @@
 import Fraction from '../fractionClass';
+import Expression from './expressionClass';
 
 /**
- * term class `{coeff: Fraction, variable: string}`
+ * Term class `{coeff: Fraction, variable: string}`
  *
- * let $a$ be `coeff` (the coefficient) and $x$ be the `variable`.
+ * Let $a$ be `coeff` (the coefficient) and $x$ be the `variable`.
  * Then this term class is the representation of the 'term' $ax$.
  *
  * For example, `Term(new Fraction(2,3), '')` represents the constant term $\frac{2}{3}$ and `Term(5, 'x^2')` represents the $x^2$ term $5x^2$.
@@ -117,7 +118,13 @@ export default class Term {
     return new Term(new Fraction(this.coeff.num, this.coeff.den), this.variable);
   }
 
-  /// note: addition is handled by the Expression class
+  /**
+   * @returns itself, useful for situations to convert a Term class to an Expression class
+   */
+  toExpression(): Expression {
+    return new Expression(this);
+  }
+
 }
 
 /**

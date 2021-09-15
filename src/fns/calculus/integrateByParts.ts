@@ -1,16 +1,13 @@
-// import { Fraction } from 'math-edu'; TODO:
-import {
-  Fraction,
-  Expression,
-  Angle,
-  Term,
-  // from 'math-edu';
-} from '../../../../math-edu/src/index';
-
+import Fraction from '../../classes/fractionClass';
+import Expression from '../../classes/algebra/expressionClass';
+import Term from '../../classes/algebra/termClass';
+import Angle from '../../classes/trig/angleClass';
 import { ExpFn, PowerFn, CosFn, SinFn, LnFn } from '../../classes/calculus/index';
 
 /**
  * integration by parts
+ * 
+ * @param limits is an array [lower, upper] or the number/Fraction/Angle type;
  *
  * currently only support (ax+b)^n e^(a'x+b') type with n a non-negative
  */

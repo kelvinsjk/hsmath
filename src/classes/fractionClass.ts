@@ -1,13 +1,13 @@
 import gcd from '../fns/arithmetic/gcd';
-import Term from './expressions/termClass';
-import Polynomial from './expressions/polynomialClass';
+import Term from './algebra/termClass';
+import Polynomial from './algebra/polynomialClass';
 import convertNumberToFraction from '../internal/convertNumberToFraction';
 /**
  * Fraction class `{num: numerator, den: denominator}`
  *
- * `num` is an integer
+ * `num` represents the numerator and is an integer
  *
- * `den` is a positive integer (any negative signs are "hoisted" to `num`)
+ * `den` represents the denominator and is a positive integer (any negative signs are "hoisted" to `num`)
  */
 export default class Fraction {
   //// instance properties
@@ -72,7 +72,7 @@ export default class Fraction {
   }
   /**
    * negative
-   * @returns -ve of this fraction
+   * @returns negative of this fraction
    */
   negative(): Fraction {
     return this.times(-1);

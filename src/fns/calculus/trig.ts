@@ -1,6 +1,6 @@
 import Fraction from '../../classes/fractionClass';
-import Term from '../../classes/expressions/termClass';
-import Expression from '../../classes/expressions/expressionClass';
+import Term from '../../classes/algebra/termClass';
+import Expression from '../../classes/algebra/expressionClass';
 import Angle from '../../classes/trig/angleClass';
 
 import { CosFn, SinFn } from '../../classes/calculus/index';

@@ -1,5 +1,5 @@
 import Fraction from '../../classes/fractionClass';
-import Polynomial from '../../classes/expressions/polynomialClass';
+import Polynomial from '../../classes/algebra/polynomialClass';
 import gcd from '../arithmetic/gcd';
 
 /**

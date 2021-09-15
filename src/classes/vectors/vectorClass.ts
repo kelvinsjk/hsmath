@@ -1,6 +1,6 @@
 import Fraction from '../fractionClass';
-import Term from '../expressions/termClass';
-import Expression from '../expressions/expressionClass';
+import Term from '../algebra/termClass';
+import Expression from '../algebra/expressionClass';
 import { SquareRoot } from '../rootClasses';
 import convertNumberToFraction from '../../internal/convertNumberToFraction';
 
@@ -238,12 +238,17 @@ export default class Vector {
    *
    * Example: 45.7^{\circ}
    *
-   * @param sineMode if true, uses arcsin instead of arccos (useful for angle between line and plane)
+   * @param angleOptions defaults to { acute: false, sineMode: false }.  
+   * acute will cause us to always return the acute angle, assuming the vectors can be of opposite direction.  
+   * sineMode uses arcsin instead of arccos (useful for angle between line and plane)
    */
-  angle(v2: Vector, sineMode = false): string {
+  angle(v2: Vector, angleOptions?: { acute?: boolean, sineMode?: boolean}): string {
     if (this.isZero() || v2.isZero()) {
       throw new Error('Vector ERROR: angle is not defined for zero vectors');
     }
+    const defaultOptions = { acute: false, sineMode: false };
+    const options = { ...defaultOptions, ...angleOptions };
+    const sineMode = options.sineMode;
     const cosThetaSquared = this.dot(v2).square().divide(this.dot().times(v2.dot()));
     if (sineMode) {
       if (cosThetaSquared.isEqual(0)) {
@@ -265,16 +270,17 @@ export default class Vector {
       if (cosThetaSquared.isEqual(0)) {
         return '90^{\\circ}';
       } else if (cosThetaSquared.isEqual(new Fraction(1, 4))) {
-        return this.dot(v2).valueOf() < 0 ? '120^{\\circ}' : '60^{\\circ}';
+        return this.dot(v2).valueOf() < 0 && !options.acute ? '120^{\\circ}' : '60^{\\circ}';
       } else if (cosThetaSquared.isEqual(new Fraction(1, 2))) {
-        return this.dot(v2).valueOf() < 0 ? '135^{\\circ}' : '45^{\\circ}';
+        return this.dot(v2).valueOf() < 0 && !options.acute ? '135^{\\circ}' : '45^{\\circ}';
       } else if (cosThetaSquared.isEqual(new Fraction(3, 4))) {
-        return this.dot(v2).valueOf() < 0 ? '150^{\\circ}' : '30^{\\circ}';
+        return this.dot(v2).valueOf() < 0 && !options.acute ? '150^{\\circ}' : '30^{\\circ}';
       } else if (cosThetaSquared.isEqual(1)) {
-        return this.dot(v2).valueOf() < 0 ? '180^{\\circ}' : '0^{\\circ}';
+        return this.dot(v2).valueOf() < 0 && !options.acute ? '180^{\\circ}' : '0^{\\circ}';
       } else {
         const angle =
-          (Math.acos(Math.sign(this.dot(v2).valueOf()) * Math.pow(cosThetaSquared.valueOf(), 1 / 2)) / Math.PI) * 180;
+          options.acute ? (Math.acos(Math.pow(cosThetaSquared.valueOf(), 1 / 2)) / Math.PI) * 180
+            : (Math.acos(Math.sign(this.dot(v2).valueOf()) * Math.pow(cosThetaSquared.valueOf(), 1 / 2)) / Math.PI) * 180;
         return angle.toFixed(1) + '^{\\circ}';
       }
     }

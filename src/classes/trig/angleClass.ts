@@ -1,5 +1,5 @@
 import Fraction from '../fractionClass';
-import Term from '../expressions/termClass';
+import Term from '../algebra/termClass';
 
 /**
  * angle class
@@ -27,12 +27,11 @@ export default class Angle extends Term {
    * @degrees angle in degrees
    * @rangeMinisZero if true (default), angle will be converted to be between 0 (inclusive) and 360 (exclusive). Otherwise we will be between -180 (exclusive) and 180 (inclusive).
    *
-   * we currently only support multiples of 30 and/or 45 degrees
    */
   constructor(degrees: number, rangeMinIsZero = true) {
-    if (!(degrees % 45 === 0 || degrees % 30 === 0)) {
-      throw new Error('angle ERROR: angle must be a multiple of 35/45');
-    }
+    //if (!(degrees % 45 === 0 || degrees % 30 === 0)) {
+    //  throw new Error('angle ERROR: angle must be a multiple of 35/45');
+    //}
     degrees = degrees % 360;
     if (rangeMinIsZero) {
       degrees = degrees < 0 ? degrees + 360 : degrees;
@@ -65,7 +64,8 @@ export default class Angle extends Term {
   /**
    * addition
    */
-  plus(B: Angle): Angle {
+  plus(B: Angle | number): Angle {
+    B = typeof B === 'number' ? new Angle(B) : B;
     return new Angle(this.degrees + B.degrees, this.rangeMinIsZero);
   }
   /**
@@ -73,7 +73,8 @@ export default class Angle extends Term {
    *
    * @return this minus B
    */
-  minus(B: Angle): Angle {
+  minus(B: Angle | number): Angle {
+    B = typeof B === 'number' ? new Angle(B) : B;
     return new Angle(this.degrees - B.degrees, this.rangeMinIsZero);
   }
   /**

@@ -2,16 +2,18 @@
 import Fraction from './classes/fractionClass';
 import { NthRoot, SquareRoot } from './classes/rootClasses';
 // Term, Expressions, Polynomials
-import Term from './classes/expressions/termClass';
-import Expression from './classes/expressions/expressionClass';
-import Polynomial from './classes/expressions/polynomialClass';
+import Term from './classes/algebra/termClass';
+import Expression from './classes/algebra/expressionClass';
+import Polynomial from './classes/algebra/polynomialClass';
 // Trig
 import Angle from './classes/trig/angleClass';
 import { Trig } from './fns/trig/trigFunctions';
 // Exp/Ln
 import { Exp, Ln } from './classes/exponential/index';
+// Coordinate geometry
+import LinearFn from './classes/coordinateGeometry/linearFnClass';
 // Calculus
-import { ExpFn, LnFn, PowerFn, CosFn, SinFn } from './classes/calculus/index';
+import { ExpFn, LnFn, PowerFn, CosFn, SinFn, PolynomialFn, maclaurin } from './classes/calculus/index';
 import {
   integrateCosSquare,
   integrateSinSquare,
@@ -20,9 +22,10 @@ import {
   integrateCosCos,
   integrateSinSin,
 } from './fns/calculus/trig';
+import differentiate from './fns/calculus/differentiate';
 import integrateByParts from './fns/calculus/integrateByParts';
 // Complex
-import Complex from './classes/complex/complexClass';
+import { Complex, ComplexExp } from './classes/complex/index';
 // Vector
 import { Vector, Line, Plane } from './classes/vectors/index';
 // arithmetic functions
@@ -57,16 +60,17 @@ export {
   Trig,
   Exp,
   Ln,
-  Complex,
+  Complex, ComplexExp,
   Vector,
   Line,
   Plane,
   ExpFn,
   LnFn,
   PowerFn,
+  PolynomialFn, LinearFn,
   CosFn,
   SinFn,
-  integrate,
+  integrate, differentiate, maclaurin,
   gcd,
   factorize,
   solveQuadratic,

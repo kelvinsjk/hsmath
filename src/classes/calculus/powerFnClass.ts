@@ -1,11 +1,7 @@
-// import { Fraction } from 'math-edu'; TODO:
-import {
-  Fraction,
-  Term,
-  Polynomial,
-  Expression,
-  // from 'math-edu';
-} from '../../../../math-edu/src/index';
+import Fraction from '../fractionClass';
+import Term from '../algebra/termClass';
+import Polynomial from '../algebra/polynomialClass';
+import Expression from '../algebra/expressionClass';
 
 export default class PowerFn extends Term {
   /**
@@ -20,7 +16,7 @@ export default class PowerFn extends Term {
   // constructor
   ////
   /**
-   * Creates a new powerFn instance
+   * Creates a new powerFn instance representing k (ax + b)^n
    *
    * @options defaults to `a: 1, b: 0, n: 1, variableAtom: 'x', coeff: 1`
    *
@@ -48,7 +44,7 @@ export default class PowerFn extends Term {
         coeff = coeff.times(a);
         a = Fraction.ONE;
         super(coeff, optionsObject.variableAtom);
-      } else {
+      } else { // b non-zero
         if (coeff.isEqual(1)) {
           super(coeff, `${axPLUSb}`);
         } else {
@@ -93,17 +89,20 @@ export default class PowerFn extends Term {
     if (!(this.n.isInteger() && this.n.num >= 0)) {
       throw new Error('powerFn ERROR: non-negative integral power n not supported at this point');
     }
+    if (this.n.num === 0) {
+      return new Term(this.coeff);
+    }
     if (this.b.isEqual(0)) {
-      // ( a(kx) )^n
-      const newCoeff = this.coeff.times(x.coeff).pow(this.n.num);
+      // k1 ( a(kx) )^n
+      const newCoeff = this.coeff.times(x.coeff.times(this.a).pow(this.n.num));
       return this.n.isEqual(1)
         ? new Term(newCoeff, `${x.variable}`)
         : new Term(newCoeff, `\\left( ${x.variable} \\right)^{ ${this.n.num} }`);
     } else {
       const akxPLUSb = new Expression(new Term(this.a.times(x.coeff), x.variable), this.b);
       return this.n.isEqual(1)
-        ? new Term(1, `${akxPLUSb}`)
-        : new Term(1, `\\left( ${akxPLUSb} \\right)^{ ${this.n.num} }`);
+        ? this.coeff.isEqual(1) ? new Term(this.coeff, `${akxPLUSb}`) : new Term(this.coeff, `\\left( ${akxPLUSb} \\right)`)
+        : new Term(this.coeff, `\\left( ${akxPLUSb} \\right)^{ ${this.n.num} }`);
     }
   }
   /**
@@ -124,7 +123,7 @@ export default class PowerFn extends Term {
       a: this.a,
       b: this.b,
       variableAtom: this.variableAtom,
-      coeff: this.coeff.times(this.n),
+      coeff: this.coeff.times(this.n).times(this.a),
       n: this.n.minus(1),
     });
   }
@@ -150,11 +149,21 @@ export default class PowerFn extends Term {
   /**
    * definite integral
    */
-  definiteIntegral(lower: number | Fraction, upper: number | Fraction): Expression {
-    lower = convertNumberToFraction(lower);
-    upper = convertNumberToFraction(upper);
-    const upperExpression = new Expression(this.integral().valueAt(upper));
-    return upperExpression.subtract(this.integral().valueAt(lower));
+  definiteIntegral(lower: number | Fraction | Term, upper: number | Fraction | Term): Expression {
+    let upperExpression: Expression, lowerExpression: Expression;
+    if (lower instanceof Term) {
+      lowerExpression = new Expression(this.integral().algebraicValueAt(lower));
+    } else {
+      lower = convertNumberToFraction(lower);
+      lowerExpression = new Expression(this.integral().valueAt(lower));
+    }
+    if (upper instanceof Term) {
+      upperExpression = new Expression(this.integral().algebraicValueAt(upper));
+    } else {
+      upper = convertNumberToFraction(upper);
+      upperExpression = new Expression(this.integral().valueAt(upper));
+    }
+    return upperExpression.subtract(lowerExpression);
   }
 }
 

@@ -2,7 +2,10 @@
 //  Term, Polynomial
 //  // Ln, Fraction
 //} from 'math-edu';
-import { Ln, Fraction, Term, Polynomial } from '../../../../math-edu/src/index';
+import Fraction from '../fractionClass';
+import Term from '../algebra/termClass';
+import Polynomial from '../algebra/polynomialClass';
+import { Ln } from '../exponential/index';
 import PowerFn from './powerFnClass';
 
 export default class LnFn extends Term {

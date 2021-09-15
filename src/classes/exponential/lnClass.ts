@@ -1,5 +1,5 @@
 import Fraction from '../fractionClass';
-import Term from '../expressions/termClass';
+import Term from '../algebra/termClass';
 import convertNumberToFraction from '../../internal/convertNumberToFraction';
 import Exp from './expClass';
 

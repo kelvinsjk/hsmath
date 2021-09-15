@@ -54,16 +54,74 @@ test('toString', () => {
   expect(`${sinXTen}`).toBe('( \\sin x )^{10}');
 });
 
-test('fromRoots', () => {
+test('fromRoots, add', () => {
   const xPlus1 = Polynomial.fromRoots(-1);
   const twoX2_PLUS_x_MINUS_1 = Polynomial.fromRoots(oneHalf, -1);
   const x3_MINUS_x = Polynomial.fromRoots(0, xMinus1, xPlus1);
 
   expect(`${xPlus1}`).toBe('x + 1');
   expect(`${twoX2_PLUS_x_MINUS_1}`).toBe('2 x^2 + x - 1');
+  expect(`${twoX2_PLUS_x_MINUS_1.add(1)}`).toBe('2 x^2 + x');
+  expect(`${twoX2_PLUS_x_MINUS_1.add(new Fraction(1, 2))}`).toBe('2 x^2 + x - \\frac{1}{2}');
+  expect(`${twoX2_PLUS_x_MINUS_1.add(xPlus1)}`).toBe('2 x^2 + 2 x');
+  expect(`${twoX2_PLUS_x_MINUS_1.subtract(1)}`).toBe('2 x^2 + x - 2');
+  expect(`${twoX2_PLUS_x_MINUS_1.subtract(new Fraction(1, 2))}`).toBe('2 x^2 + x - \\frac{3}{2}');
+  expect(`${twoX2_PLUS_x_MINUS_1.subtract(xPlus1)}`).toBe('2 x^2 - 2');
   expect(`${x3_MINUS_x}`).toBe('x^3 - x');
 
   expect(() => {
     Polynomial.fromRoots();
   }).toThrow();
 });
+
+test('square, pow, substitute, truncate', () => {
+  const xPlus1 = new Polynomial([1, 1]);
+  expect(()=>`${xPlus1.pow(2.1)}`).toThrow();
+  expect(()=>`${xPlus1.pow(-2)}`).toThrow();
+  expect(`${xPlus1.square()}`).toBe(`x^2 + 2 x + 1`);
+  expect(`${xPlus1.pow(3)}`).toBe(`x^3 + 3 x^2 + 3 x + 1`);
+  const x2Plus2xMinus1 = new Polynomial([1, 2, -1]);
+  expect(`${x2Plus2xMinus1.substitute(1)}`).toBe('2');
+  expect(`${x2Plus2xMinus1.substitute(new Fraction(1,2))}`).toBe('\\frac{1}{4}');
+  expect(`${x2Plus2xMinus1.substitute(xPlus1)}`).toBe('x^2 + 4 x + 2');
+  expect(`${x2Plus2xMinus1.shift(1)}`).toBe('x^2 + 4 x + 2');
+  expect(`${x2Plus2xMinus1.shift(new Fraction(-1,2))}`).toBe('x^2 + x - \\frac{7}{4}');
+  expect(`${x2Plus2xMinus1.truncate(1)}`).toBe('2 x - 1');
+  expect(`${x2Plus2xMinus1.scale(2)}`).toBe('4 x^2 + 4 x - 1');
+  expect(`${x2Plus2xMinus1.scale(new Fraction(1,2))}`).toBe('\\frac{1}{4} x^2 + x - 1');
+})
+
+test('solve quadratic', () => {
+  const x2Plus2xMinus1 = new Polynomial([1, 2, -1]);
+  const x2Plus2Minus3 = new Polynomial([-1, -2, 3]);
+  const x2Plus2Plus2 = new Polynomial([1, 2, 2]);
+  const [root1, root2] = x2Plus2xMinus1.solveQuadratic();
+  const [root3, root4] = x2Plus2Minus3.solveQuadratic();
+  expect(() => x2Plus2Plus2.solveQuadratic()).toThrow(); // complex roots
+  const cubic = new Polynomial([1, 2, 3, 4]);
+  const cubic3 = new Polynomial([1, 2, 0, 4]);
+  const cubic2 = new Polynomial([1, 2, 3], { initialDegree: 3 });
+  const linear = new Polynomial([1, 2]);
+  expect(() => cubic.solveQuadratic()).toThrow(); // cubic
+  expect(() => cubic2.solveQuadratic()).toThrow(); // cubic
+  expect(() => cubic3.solveQuadratic()).toThrow(); // cubic
+  expect(() => linear.solveQuadratic()).toThrow(); // linear
+  expect(`${root1}`).toBe('- 1 - \\sqrt{2}');
+  expect(`${root2}`).toBe('- 1 + \\sqrt{2}');
+  expect(`${root3}`).toBe('- 3');
+  expect(`${root4}`).toBe('1');
+  x2Plus2Minus3.sort();
+  const [root5] = x2Plus2Minus3.solveQuadratic();
+  expect(`${root5}`).toBe('- 3');
+  const quadratic1 = new Polynomial([1, 2, 3], { initialDegree: 1 });
+  expect(() => quadratic1.solveQuadratic()).toThrow();
+})
+
+test('long division', () => {
+  const x2Plus2xMinus1 = new Polynomial([1, 2, -1]);
+  const xPlusOne = new Polynomial([1, 1]);
+  const [quotient, remainder] = x2Plus2xMinus1.longDivide(xPlusOne);
+  //const [quotient, remainder] = xPlusOne.longDivide(x2Plus2xMinus1);
+  expect(`${quotient}`).toBe('x + 1');
+  expect(`${remainder}`).toBe('- 2');
+})

@@ -1,8 +1,8 @@
 import Fraction from '../fractionClass';
 //import { SquareRoot } from './rootClasses';
-import Expression from '../expressions/expressionClass';
-import Term from '../expressions/termClass';
-import Polynomial from '../expressions/polynomialClass';
+import Expression from '../algebra/expressionClass';
+import Term from '../algebra/termClass';
+import Polynomial from '../algebra/polynomialClass';
 
 /**
  * complex class

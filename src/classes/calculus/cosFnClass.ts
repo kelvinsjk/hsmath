@@ -1,14 +1,11 @@
-// import { Fraction } from 'math-edu'; TODO:
-import {
-  Fraction,
-  Term,
-  Angle,
-  SquareRoot,
-  Trig,
-  Polynomial,
-  Expression,
-  // from 'math-edu';
-} from '../../../../math-edu/src/index';
+import Fraction from '../fractionClass';
+import Term from '../algebra/termClass';
+import { SquareRoot } from '../rootClasses';
+import Angle from '../trig/angleClass';
+import { Trig } from '../../fns/trig/trigFunctions';
+import Polynomial from '../algebra/polynomialClass';
+import Expression from '../algebra/expressionClass';
+
 import SinFn from './sinFnClass';
 
 export default class CosFn extends Term {

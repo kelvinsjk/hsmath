@@ -1,6 +1,6 @@
 import Fraction from '../fractionClass';
 import Ln from './lnClass';
-import Term from '../expressions/termClass';
+import Term from '../algebra/termClass';
 import convertNumberToFraction from '../../internal/convertNumberToFraction';
 
 /**

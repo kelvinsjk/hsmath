@@ -1,4 +1,4 @@
-import { Angle, ExpFn, PowerFn, CosFn, SinFn, LnFn, integrate } from '../../index';
+import { Angle, ExpFn, PowerFn, CosFn, SinFn, LnFn, integrate, Term } from '../../index';
 
 const ex = new ExpFn();
 const one = new PowerFn({ n: 0 });
@@ -6,7 +6,9 @@ const x = new PowerFn();
 const nineX2 = new PowerFn({ coeff: 9, n: 2 });
 
 const sinX = new SinFn();
+const sin4X = new SinFn({a:4});
 const cos2X = new CosFn({ a: 2 });
+const piOver4 = new Angle(45);
 const piOver2 = new Angle(90);
 
 const exp2xIntegral = new ExpFn({ a: 2 }).definiteIntegral(4, 5);
@@ -14,11 +16,27 @@ const x_exIntegral = integrate.byParts(x, ex, [4, 5]).multiply(6);
 const nineX2Integral = nineX2.definiteIntegral(4, 5);
 const definite = exp2xIntegral.subtract(x_exIntegral).add(nineX2Integral);
 
+test('powerFn', () => {
+  expect(`${x.integral()}`).toBe('\\frac{1}{2} x^{ 2 }');
+  expect(`${x.definiteIntegral(piOver4, piOver2)}`).toBe('\\frac{3}{32} \\left( \\pi \\right)^{ 2 }');
+  const twoXPlus1 = new PowerFn({ a: 2, b: 1 });
+  const five_twoXPlus1 = new PowerFn({ a: 2, b: 1, coeff: 5 });
+  const twoXPlus1Square = new PowerFn({ a: 2, b: 1, n: 2 });
+  const five_twoXPlus1Square = new PowerFn({ a: 2, b: 1, n: 2, coeff: 5 });
+  expect(`${twoXPlus1.algebraicValueAt(new Term(1, 'y^2'))}`).toBe('2 y^2 + 1');
+  expect(`${five_twoXPlus1.algebraicValueAt(new Term(1, 'y^2'))}`).toBe('5 \\left( 2 y^2 + 1 \\right)');
+  expect(`${twoXPlus1Square.algebraicValueAt(new Term(1, 'y^2'))}`).toBe('\\left( 2 y^2 + 1 \\right)^{ 2 }');
+  expect(`${five_twoXPlus1Square.algebraicValueAt(new Term(1, 'y^2'))}`).toBe('5 \\left( 2 y^2 + 1 \\right)^{ 2 }');
+  expect(() => new PowerFn({ a: 0 })).toThrow();
+  expect(twoXPlus1.toNumberFunction()(2)).toBe(5);
+})
+
 test('by parts', () => {
   expect(`${integrate.byParts(one, cos2X)}`).toBe('\\frac{1}{2} \\sin ( 2 x )');
   expect(`${integrate.byParts(x, sinX)}`).toBe('- x \\cos x + \\sin x');
   expect(`${integrate.byParts(x, sinX)}`).toBe('- x \\cos x + \\sin x');
   expect(`${integrate.byParts(x, sinX, [0, piOver2])}`).toBe('1');
+  expect(`${integrate.byParts(x, sin4X, [0, 90])}`).toBe('- \\frac{1}{8} \\pi');
   expect(`${integrate.byParts(x, sinX, [piOver2, 0])}`).toBe('- 1');
   expect(`${integrate.byParts(one, ex)}`).toBe('\\mathrm{e}^{x}');
   expect(`${integrate.byParts(x, ex)}`).toBe('x \\mathrm{e}^{x} - \\mathrm{e}^{x}');

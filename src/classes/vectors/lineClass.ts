@@ -1,6 +1,6 @@
 import Vector from './vectorClass';
 import Fraction from '../fractionClass';
-import Polynomial from '../expressions/polynomialClass';
+import Polynomial from '../algebra/polynomialClass';
 import type { SquareRoot } from '../rootClasses';
 
 /**

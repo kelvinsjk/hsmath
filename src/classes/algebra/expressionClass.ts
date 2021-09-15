@@ -77,7 +77,7 @@ export default class Expression {
   /**
    * reverse the order of the terms
    * warning: mutates object
-   * @returns a reference to the object
+   * @returns a reference to this expression after reversal
    */
   reverse(): Expression {
     this.terms.reverse();
@@ -128,13 +128,39 @@ export default class Expression {
       return new Expression(...this.terms, newTerm);
     }
   }
-
+  /**
+   * solves a linear expression $ax+b=0$ where this expression is $ax+b$
+   * 
+   * only works if this expression is made up of a single constant term and a variable term
+   * 
+   * @returns -b/a given this expression $ax+b$
+   */
+  solveLinear(): Fraction {
+    if (this.terms.length === 2) {
+      const [t1, t2] = this.terms;
+      if (t1.variable === '' || t2.variable === '') {
+        const b = t1.variable === '' ? t1.coeff : t2.coeff;
+        const a = t1.variable === '' ? t2.coeff : t1.coeff;
+        return b.divide(a).times(-1);
+      }
+    }
+    throw new TypeError(`Expression ${this} is not linear`)
+  }
+  /**
+   * clones the object, creating a new instance of this expression
+   */
   clone(): Expression {
     const terms: Term[] = [];
     for (const term of this.terms) {
       terms.push(term.clone());
     }
     return new Expression(...terms);
+  }
+  /**
+   * @returns itself, useful for situations to convert a Term class to an Expression class
+   */
+  toExpression(): Expression {
+    return this;
   }
 }
 

@@ -84,15 +84,15 @@ test('angle', () => {
   const thirty3 = thirty.negative({ changeK: true });
 
   expect(x.angle(fortyFive)).toBe('45^{\\circ}');
-  expect(x.angle(fortyFive, true)).toBe('45^{\\circ}');
+  expect(x.angle(fortyFive, { sineMode: true })).toBe('45^{\\circ}');
   expect(x.angle(fortyFive2)).toBe('135^{\\circ}');
   expect(sixty.angle(fortyFive)).toBe('60^{\\circ}');
-  expect(sixty.angle(fortyFive, true)).toBe('30^{\\circ}');
+  expect(sixty.angle(fortyFive, { sineMode: true })).toBe('30^{\\circ}');
   expect(fortyFive.angle(fortyFive2)).toBe('120^{\\circ}');
   expect(x.angle(x)).toBe('0^{\\circ}');
-  expect(x.angle(x, true)).toBe('90^{\\circ}');
+  expect(x.angle(x, { sineMode: true })).toBe('90^{\\circ}');
   expect(fortyFive.angle(thirty)).toBe('30^{\\circ}');
-  expect(fortyFive.angle(thirty, true)).toBe('60^{\\circ}');
+  expect(fortyFive.angle(thirty, { sineMode: true })).toBe('60^{\\circ}');
   expect(fortyFive.angle(thirty2)).toBe('150^{\\circ}');
   expect(fortyFive.angle(thirty3)).toBe('150^{\\circ}');
 
