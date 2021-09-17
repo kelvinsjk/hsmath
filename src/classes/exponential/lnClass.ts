@@ -81,10 +81,10 @@ export default class Ln extends Term {
   }
 
   /**
-   * simplifies the logarithm using two rules:  
-   * (a) if x is a perfect square y^2, in k ln x = k ln y^2, then returns 2k ln y (done recursively)  
+   * simplifies the logarithm using two rules:
+   * (a) if x is a perfect square y^2, in k ln x = k ln y^2, then returns 2k ln y (done recursively)
    * (b) if x is a reciprocal 1/y, in k ln x = k ln 1/y, then returns to -k ln y
-   * 
+   *
    * @returns a reference to this object
    */
   simplify(): Ln {
@@ -96,7 +96,7 @@ export default class Ln extends Term {
     if (squareRoot.isRational() && !squareRoot.isEqual(1)) {
       this.argument = squareRoot.coeff;
       this.coeff = this.coeff.times(2);
-      return new Ln(this.coeff.clone(), this.argument.clone())
+      return new Ln(this.coeff.clone(), this.argument.clone());
     }
     return this.clone();
   }

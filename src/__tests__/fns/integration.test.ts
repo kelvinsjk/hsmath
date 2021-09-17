@@ -34,8 +34,7 @@ test('powerFn', () => {
   expect(() => twoOver3xPlus4.integral()).toThrow();
   expect(() => twoXPlus1.lnIntegral()).toThrow();
   expect(`${twoOver3xPlus4.lnIntegral()}`).toBe('\\frac{2}{3} \\ln \\left| 3 x + 4 \\right|');
-  expect(`${twoOver3xPlus4.lnDefiniteIntegral(0,1)}`).toBe('\\frac{2}{3} \\ln \\frac{7}{4}');
-
+  expect(`${twoOver3xPlus4.lnDefiniteIntegral(0, 1)}`).toBe('\\frac{2}{3} \\ln \\frac{7}{4}');
 });
 
 test('by parts', () => {

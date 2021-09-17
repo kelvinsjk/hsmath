@@ -26,34 +26,34 @@ class AP {
 
   /**
    * u_n
-   * 
+   *
    * @param n variable name (defaults to `n`)
-   * 
+   *
    * returns the nth term a+(n-1)d = a-d + n d as a linear polynomial in n
    */
-  uN(n='n'): PolynomialFn{
-    return new PolynomialFn([this.d, this.a.minus(this.d)], {variableAtom: n})
+  uN(n = 'n'): PolynomialFn {
+    return new PolynomialFn([this.d, this.a.minus(this.d)], { variableAtom: n });
   }
 
   /**
    * @returns the value of u_n
    */
-  uNValueAt(n: number): Fraction{
+  uNValueAt(n: number): Fraction {
     return this.uN().valueAt(n);
   }
 
   /**
    * S_n
-   * 
+   *
    * @param n variable name (defaults to `n`)
-   * 
+   *
    * returns the sum of n terms 1/2 (n)(2a + (n-1)d)
    * = 1/2 (2an + dn^2 - dn)
    * = d/2 n^2 + (a-d/2) n
    *  as a linear polynomial in n
    */
-  sN(n='n'): PolynomialFn{
-    return new PolynomialFn([this.d.divide(2), this.a.minus(this.d.divide(2)), 0], {variableAtom: n})
+  sN(n = 'n'): PolynomialFn {
+    return new PolynomialFn([this.d.divide(2), this.a.minus(this.d.divide(2)), 0], { variableAtom: n });
   }
 
   /**
@@ -88,12 +88,12 @@ class GP {
 
   /**
    * u_n
-   * 
+   *
    * @param n variable name (defaults to `n`)
-   * 
+   *
    * returns the nth term as a `Term` class for typesetting
    */
-  uN(n = 'n'): Term{
+  uN(n = 'n'): Term {
     const nMinus1 = new PolynomialFn([1, -1], { variableAtom: n });
     const rPower = `\\left( ${this.r} \\right)^{${nMinus1}}`;
     return new Term(this.a, rPower);
@@ -102,18 +102,18 @@ class GP {
   /**
    * @returns the value of u_n
    */
-  uNValueAt(n: number): Fraction{
+  uNValueAt(n: number): Fraction {
     return this.a.times(this.r.pow(n - 1));
   }
 
   /**
    * S_n
-   * 
+   *
    * @param n variable name (defaults to `n`)
-   * 
+   *
    * returns the sum of n terms as a `Term` class for typesetting
    */
-  sN(n='n'): Term {
+  sN(n = 'n'): Term {
     const coeff = this.a.divide(Fraction.ONE.minus(this.r));
     const variable = `\\left( 1 - ${this.r}^${n} \\right)`;
     return new Term(coeff, variable);
@@ -135,4 +135,4 @@ class GP {
   }
 }
 
-export {AP, GP}
+export { AP, GP };

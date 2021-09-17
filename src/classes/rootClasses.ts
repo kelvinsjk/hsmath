@@ -39,7 +39,7 @@ class NthRoot extends Term {
     // 'rationalizes' our radical, converting a*nroot(b/c) to a/c * nroot(b^{n-1} *c)
     if (typeof radicand !== 'number') {
       coeff = coeff.divide(radicand.den);
-      radicand = radicand.num * Math.pow(radicand.den, n-1);
+      radicand = radicand.num * Math.pow(radicand.den, n - 1);
     }
     // throws if radicand not integer
     if (!Number.isInteger(radicand) || radicand < 0) {

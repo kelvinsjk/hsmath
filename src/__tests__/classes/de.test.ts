@@ -8,4 +8,4 @@ test('de', () => {
   expect(`${de1.generalSolution()}`).toBe('P = A \\mathrm{e}^{- \\frac{3}{100} t}');
   expect(`${de2.generalSolution()}`).toBe('P = A \\mathrm{e}^{- \\frac{3}{100} t} + 500');
   expect(`${de2.particularSolution(600)}`).toBe('P = 100 \\mathrm{e}^{- \\frac{3}{100} t} + 500');
-})
+});

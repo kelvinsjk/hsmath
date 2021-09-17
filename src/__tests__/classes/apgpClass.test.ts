@@ -16,4 +16,4 @@ test('ap,gp', () => {
   expect(`${gp1.sNValueAt(2)}`).toBe('\\frac{36}{5}');
   expect(`${gp1.uN()}`).toBe('4 \\left( \\frac{4}{5} \\right)^{n - 1}');
   expect(`${gp1.sN()}`).toBe('20 \\left( 1 - \\frac{4}{5}^n \\right)');
-})
+});

@@ -217,14 +217,14 @@ export default class Fraction {
   /**
    * @returns the absolute value of this Fraction
    */
-  abs(): Fraction{
+  abs(): Fraction {
     return Fraction.abs(this);
   }
 
   /**
    * @returns the reciprocal of this Fraction
    */
-  reciprocal(): Fraction{
+  reciprocal(): Fraction {
     return new Fraction(this.den, this.num);
   }
 

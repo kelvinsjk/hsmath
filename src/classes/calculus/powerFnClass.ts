@@ -134,9 +134,9 @@ export default class PowerFn extends Term {
 
   /**
    * integral
-   * 
+   *
    * integrate k (ax+b)^n to be k/(a(n+1)) (ax+b)^{n+1}
-   * 
+   *
    * WARNING: will throw if n==1. use lnIntegral for this use case
    *
    * TODO: integration of power -1 to ln not yet implemented
@@ -176,7 +176,7 @@ export default class PowerFn extends Term {
 
   /**
    * ln integral (indefinite)
-   * 
+   *
    * integrate k/(ax+b) to be k/a ln | ax + b |
    */
   lnIntegral(): Term {
@@ -198,8 +198,6 @@ export default class PowerFn extends Term {
     const lnUpper = new Ln(upperX, newCoeff);
     return lnUpper.minus(lnLower);
   }
-
-
 }
 
 interface PowerOptions {

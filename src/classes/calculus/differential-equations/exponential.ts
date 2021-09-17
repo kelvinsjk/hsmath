@@ -8,7 +8,7 @@ import ExpFn from '../expFnClass';
 /**
  * DE of the form dxdt = k (x+b) which gives a solution
  * x = A e^{kt} - b
- * 
+ *
  */
 export default class exponential {
   k: Fraction;
@@ -19,8 +19,8 @@ export default class exponential {
   /**
    * creates a new DE.exponential instance representing
    * dxdt = k (x+b)
-   * 
-   * @param params defaults to 
+   *
+   * @param params defaults to
    * `{k: 1, b: 0, x: 'x', t: 't' }`
    */
   constructor(params: ExpDEParameters) {
@@ -45,7 +45,7 @@ export default class exponential {
   /**
    * @returns the particular solution of this DE
    * x = Ae^{kt}-b
-   * 
+   *
    * @param initialValue the value of x at t=0
    */
   particularSolution(initialValue: number | Fraction): string {
@@ -66,8 +66,8 @@ export default class exponential {
 }
 
 interface ExpDEParameters {
-  k?: number | Fraction,
-  b?: number | Fraction,
-  x?: string,
-  t?: string,
+  k?: number | Fraction;
+  b?: number | Fraction;
+  x?: string;
+  t?: string;
 }

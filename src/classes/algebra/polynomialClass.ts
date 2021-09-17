@@ -196,7 +196,7 @@ export default class Polynomial extends Expression {
         arr.push(e);
       }
     });
-    return new Polynomial(arr, { ascending: true, variableAtom: this.variableAtom});
+    return new Polynomial(arr, { ascending: true, variableAtom: this.variableAtom });
   }
 
   /**
@@ -325,7 +325,8 @@ export default class Polynomial extends Expression {
       const divisorLeadingCoefficient = divisor.polynomialTerms[0].coeff;
       const dividendLeadingCoefficient = dividend.polynomialTerms[0].coeff;
       const quotientToAdd = new Polynomial([dividendLeadingCoefficient.divide(divisorLeadingCoefficient)], {
-        initialDegree: dividendPower - divisorPower, variableAtom: this.variableAtom,
+        initialDegree: dividendPower - divisorPower,
+        variableAtom: this.variableAtom,
       });
       const newQuotient = quotient.add(quotientToAdd);
       const newDividend = dividend.subtract(divisor.multiply(quotientToAdd));

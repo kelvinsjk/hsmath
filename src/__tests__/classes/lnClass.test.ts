@@ -9,7 +9,6 @@ const ln4 = ln2.plus(ln2);
 const lnTwoThird = ln2.minus(ln3);
 const negativeLn2 = ln2.negative();
 
-
 test('ln class', () => {
   expect(() => new Ln(-1)).toThrow();
   expect(() => twoLn3.plus(ln2)).toThrow();
@@ -20,4 +19,4 @@ test('ln class', () => {
   expect(`${lnOneSixth.simplify()}`).toBe('- \\ln 6');
   expect(`${negativeLn2}`).toBe('- \\ln 2');
   expect(ln2.valueOf()).toBeCloseTo(Math.LN2);
-})
+});

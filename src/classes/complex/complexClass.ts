@@ -72,11 +72,11 @@ export default class Complex extends Expression {
 
   /**
    * complex powers
-   * 
+   *
    * @returns z^n
    */
-  pow(n: number): Complex{
-    if (!(Number.isInteger(n) && n >=0)) {
+  pow(n: number): Complex {
+    if (!(Number.isInteger(n) && n >= 0)) {
       throw new RangeError('n must be a non-negative integer');
     }
     let w = new Complex(1, 0);
@@ -88,10 +88,10 @@ export default class Complex extends Expression {
 
   /**
    * square
-   * 
+   *
    * @returns z^2
    */
-  square(): Complex{
+  square(): Complex {
     return this.pow(2);
   }
 

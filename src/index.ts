@@ -16,7 +16,13 @@ import { Exp, Ln } from './classes/exponential/index';
 import LinearFn from './classes/coordinate-geometry/linearFnClass';
 // Calculus
 import { ExpFn, LnFn, PowerFn, CosFn, SinFn, PolynomialFn, maclaurin } from './classes/calculus/index';
-import { integrateCosSquare, integrateSinSquare, integrateSinCos, integrateCosSin, integrateCosCos, integrateSinSin,
+import {
+  integrateCosSquare,
+  integrateSinSquare,
+  integrateSinCos,
+  integrateCosSin,
+  integrateCosCos,
+  integrateSinSin,
 } from './fns/calculus/trig';
 import differentiate from './fns/calculus/differentiate';
 import integrateByParts from './fns/calculus/integrateByParts';
@@ -53,7 +59,8 @@ export {
   Term,
   Expression,
   Polynomial,
-  AP, GP,
+  AP,
+  GP,
   Angle,
   Trig,
   Exp,

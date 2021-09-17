@@ -89,7 +89,7 @@ test('square, pow, substitute, truncate', () => {
   expect(`${x2Plus2xMinus1.truncate(1)}`).toBe('2 x - 1');
   expect(`${x2Plus2xMinus1.scale(2)}`).toBe('4 x^2 + 4 x - 1');
   expect(`${x2Plus2xMinus1.scale(new Fraction(1, 2))}`).toBe('\\frac{1}{4} x^2 + x - 1');
-  const n = new Polynomial([1,0], { variableAtom: 'n' });
+  const n = new Polynomial([1, 0], { variableAtom: 'n' });
   expect(`${n}`).toBe('n');
   expect(`${n.shift(1)}`).toBe('n + 1');
 });
