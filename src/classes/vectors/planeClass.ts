@@ -27,7 +27,7 @@ export default class Plane {
    * @param n normal vector of the plane (for modes that are not 'd' or 'pt', will be simplified)
    * @param options defaults to `{mode: 'd', d: 0, point: (0,0,0), v2: Vector}`
    *
-   * @param mode 'd': supplies the scalar d
+   * 'd': supplies the scalar d
    * 'pt': derives d from the point on the plane
    * '2d': uses n as a direction vector, and derives the plane using point, and v2 (a second direction vector)
    * '2pt': uses n as a direction vector, and derives the plane using point, and v2 (a second point)

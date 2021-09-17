@@ -2,6 +2,7 @@ import Fraction from '../fractionClass';
 import Term from '../algebra/termClass';
 import Polynomial from '../algebra/polynomialClass';
 import Expression from '../algebra/expressionClass';
+import { Ln } from '../exponential/index';
 
 export default class PowerFn extends Term {
   /**
@@ -80,7 +81,7 @@ export default class PowerFn extends Term {
       const power = axPLUSb.pow(this.n.num);
       return power.times(this.coeff);
     } else {
-      throw new Error('powerFn ERROR: non-negative integral power n not supported at this point');
+      throw new Error('powerFn ERROR: non-negative or non-integral power n not supported at this point');
     }
   }
   /**
@@ -88,7 +89,7 @@ export default class PowerFn extends Term {
    */
   algebraicValueAt(x: Term): Term {
     if (!(this.n.isInteger() && this.n.num >= 0)) {
-      throw new Error('powerFn ERROR: non-negative integral power n not supported at this point');
+      throw new Error('powerFn ERROR: non-negative or non-integral power n not supported at this point');
     }
     if (this.n.num === 0) {
       return new Term(this.coeff);
@@ -133,12 +134,16 @@ export default class PowerFn extends Term {
 
   /**
    * integral
+   * 
+   * integrate k (ax+b)^n to be k/(a(n+1)) (ax+b)^{n+1}
+   * 
+   * WARNING: will throw if n==1. use lnIntegral for this use case
    *
    * TODO: integration of power -1 to ln not yet implemented
    */
   integral(): PowerFn {
     if (this.n.isEqual(-1)) {
-      throw new Error('powerFn ERROR: integration of power -1 to ln not yet implemented');
+      throw new Error('power is -1: use the `.lnIntegral()` method instead');
     }
     return new PowerFn({
       a: this.a,
@@ -168,6 +173,33 @@ export default class PowerFn extends Term {
     }
     return upperExpression.subtract(lowerExpression);
   }
+
+  /**
+   * ln integral (indefinite)
+   * 
+   * integrate k/(ax+b) to be k/a ln | ax + b |
+   */
+  lnIntegral(): Term {
+    if (!this.n.isEqual(-1)) {
+      throw new Error(`n must be -1 for this method. Current n: ${this.n}`);
+    }
+    const aXPlusB = new Polynomial([this.a, this.b]);
+    return new Term(this.coeff.divide(this.a), `\\ln \\left| ${aXPlusB} \\right|`);
+  }
+
+  /**
+   * ln integral (definite)
+   */
+  lnDefiniteIntegral(lower: number | Fraction, upper: number | Fraction): Ln {
+    const lowerX = this.a.times(lower).plus(this.b);
+    const upperX = this.a.times(upper).plus(this.b);
+    const newCoeff = this.coeff.divide(this.a);
+    const lnLower = new Ln(lowerX, newCoeff);
+    const lnUpper = new Ln(upperX, newCoeff);
+    return lnUpper.minus(lnLower);
+  }
+
+
 }
 
 interface PowerOptions {

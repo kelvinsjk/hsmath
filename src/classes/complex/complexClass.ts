@@ -71,6 +71,31 @@ export default class Complex extends Expression {
   }
 
   /**
+   * complex powers
+   * 
+   * @returns z^n
+   */
+  pow(n: number): Complex{
+    if (!(Number.isInteger(n) && n >=0)) {
+      throw new RangeError('n must be a non-negative integer');
+    }
+    let w = new Complex(1, 0);
+    for (let i = 0; i < n; i++) {
+      w = w.times(this);
+    }
+    return w;
+  }
+
+  /**
+   * square
+   * 
+   * @returns z^2
+   */
+  square(): Complex{
+    return this.pow(2);
+  }
+
+  /**
    * complex conjugate
    */
   conjugate(): Complex {

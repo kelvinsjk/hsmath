@@ -23,7 +23,7 @@ test('toString', () => {
   expect(`${cubeRoot5}`).toBe('\\sqrt[3]{5}');
   expect(`${twoFifthRoot64}`).toBe('4 \\sqrt[5]{2}');
   expect(`${negativeTwoFifthCubeRoot5}`).toBe('- \\frac{2}{5} \\sqrt[3]{5}');
-  expect(`${cubeRootHalf}`).toBe('\\frac{1}{2} \\sqrt[3]{2}');
+  expect(`${cubeRootHalf}`).toBe('\\frac{1}{2} \\sqrt[3]{4}');
   expect(`${cubeRootEight}`).toBe('2');
   expect(`${cubeRootSixteen}`).toBe('2 \\sqrt[3]{2}');
   expect(`${sqrt2}`).toBe('\\sqrt{2}');

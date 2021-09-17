@@ -29,6 +29,13 @@ test('powerFn', () => {
   expect(`${five_twoXPlus1Square.algebraicValueAt(new Term(1, 'y^2'))}`).toBe('5 \\left( 2 y^2 + 1 \\right)^{ 2 }');
   expect(() => new PowerFn({ a: 0 })).toThrow();
   expect(twoXPlus1.toNumberFunction()(2)).toBe(5);
+
+  const twoOver3xPlus4 = new PowerFn({ a: 3, b: 4, coeff: 2, n: -1 });
+  expect(() => twoOver3xPlus4.integral()).toThrow();
+  expect(() => twoXPlus1.lnIntegral()).toThrow();
+  expect(`${twoOver3xPlus4.lnIntegral()}`).toBe('\\frac{2}{3} \\ln \\left| 3 x + 4 \\right|');
+  expect(`${twoOver3xPlus4.lnDefiniteIntegral(0,1)}`).toBe('\\frac{2}{3} \\ln \\frac{7}{4}');
+
 });
 
 test('by parts', () => {

@@ -214,6 +214,20 @@ export default class Fraction {
     return new Fraction(this.num, this.den);
   }
 
+  /**
+   * @returns the absolute value of this Fraction
+   */
+  abs(): Fraction{
+    return Fraction.abs(this);
+  }
+
+  /**
+   * @returns the reciprocal of this Fraction
+   */
+  reciprocal(): Fraction{
+    return new Fraction(this.den, this.num);
+  }
+
   //// static properties
   /**
    * the fraction class instance of 1

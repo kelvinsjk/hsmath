@@ -5,25 +5,22 @@ import { NthRoot, SquareRoot } from './classes/rootClasses';
 import Term from './classes/algebra/termClass';
 import Expression from './classes/algebra/expressionClass';
 import Polynomial from './classes/algebra/polynomialClass';
+// Sequences and Series
+import { AP, GP } from './classes/sequences/apgpClasses';
 // Trig
 import Angle from './classes/trig/angleClass';
 import { Trig } from './fns/trig/trigFunctions';
 // Exp/Ln
 import { Exp, Ln } from './classes/exponential/index';
 // Coordinate geometry
-import LinearFn from './classes/coordinateGeometry/linearFnClass';
+import LinearFn from './classes/coordinate-geometry/linearFnClass';
 // Calculus
 import { ExpFn, LnFn, PowerFn, CosFn, SinFn, PolynomialFn, maclaurin } from './classes/calculus/index';
-import {
-  integrateCosSquare,
-  integrateSinSquare,
-  integrateSinCos,
-  integrateCosSin,
-  integrateCosCos,
-  integrateSinSin,
+import { integrateCosSquare, integrateSinSquare, integrateSinCos, integrateCosSin, integrateCosCos, integrateSinSin,
 } from './fns/calculus/trig';
 import differentiate from './fns/calculus/differentiate';
 import integrateByParts from './fns/calculus/integrateByParts';
+import { DE } from './classes/calculus/differential-equations';
 // Complex
 import { Complex, ComplexExp } from './classes/complex/index';
 // Vector
@@ -56,6 +53,7 @@ export {
   Term,
   Expression,
   Polynomial,
+  AP, GP,
   Angle,
   Trig,
   Exp,
@@ -75,6 +73,7 @@ export {
   integrate,
   differentiate,
   maclaurin,
+  DE,
   gcd,
   factorize,
   solveQuadratic,

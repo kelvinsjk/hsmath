@@ -16,19 +16,19 @@ export default class ExpFn extends Term {
   // constructor
   ////
   /**
-   * Creates a new expFn instance
+   * Creates a new expFn instance representing k e^{ax+b}
    *
    * @options defaults to `a: 1, b: 0, variableAtom: 'x', coeff: 1`
    *
    */
-  constructor(options?: ExpOptions) {
+  constructor(params?: ExpParameters) {
     const defaultOptions = {
       a: 1,
       b: 0,
       variableAtom: 'x',
       coeff: 1,
     };
-    const optionsObject = { ...defaultOptions, ...options };
+    const optionsObject = { ...defaultOptions, ...params };
     const a = convertNumberToFraction(optionsObject.a);
     const b = convertNumberToFraction(optionsObject.b);
     const coeff = convertNumberToFraction(optionsObject.coeff);
@@ -95,7 +95,7 @@ export default class ExpFn extends Term {
   }
 }
 
-interface ExpOptions {
+interface ExpParameters {
   a?: number | Fraction;
   b?: number | Fraction;
   coeff?: number | Fraction;

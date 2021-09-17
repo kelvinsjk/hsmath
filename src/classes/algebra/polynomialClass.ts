@@ -8,6 +8,7 @@ import { SquareRoot } from '../rootClasses';
  */
 export default class Polynomial extends Expression {
   polynomialTerms: PolynomialTerm[];
+  variableAtom: string;
   //// constructor
   /**
    * Creates a new `Polynomial` instance
@@ -54,9 +55,10 @@ export default class Polynomial extends Expression {
         }
       }
     }
-    polynomialTerms = trimZeros(polynomialTerms);
+    polynomialTerms = trimZeros(polynomialTerms, optionsObject.variableAtom);
     super(...polynomialTerms);
     this.polynomialTerms = polynomialTerms;
+    this.variableAtom = optionsObject.variableAtom;
   }
 
   //// class methods
@@ -69,11 +71,10 @@ export default class Polynomial extends Expression {
    */
   add(polynomial2: Polynomial | number | Fraction): Polynomial {
     if (typeof polynomial2 === 'number' || polynomial2 instanceof Fraction) {
-      polynomial2 = new Polynomial([polynomial2], { variableAtom: this.polynomialTerms[0].variableAtom });
+      polynomial2 = new Polynomial([polynomial2], { variableAtom: this.variableAtom });
     }
-    const firstTerm = this.polynomialTerms[0];
     const termsArray = [...this.clone().polynomialTerms, ...polynomial2.clone().polynomialTerms];
-    return new Polynomial(termsArray, { variableAtom: firstTerm.variableAtom });
+    return new Polynomial(termsArray, { variableAtom: this.variableAtom });
   }
   /**
    * finds the difference between two polynomials
@@ -82,7 +83,7 @@ export default class Polynomial extends Expression {
    */
   subtract(polynomial2: Polynomial | number | Fraction): Polynomial {
     if (typeof polynomial2 === 'number' || polynomial2 instanceof Fraction) {
-      polynomial2 = new Polynomial([polynomial2], { variableAtom: this.polynomialTerms[0].variableAtom });
+      polynomial2 = new Polynomial([polynomial2], { variableAtom: this.variableAtom });
     }
     const minusP2 = polynomial2.multiply(-1);
     return this.add(minusP2);
@@ -116,8 +117,7 @@ export default class Polynomial extends Expression {
       }
     }
     // set variable atom using first term of this
-    const firstTerm = this.polynomialTerms[0];
-    const product = new Polynomial(newPolynomialTerms, { variableAtom: firstTerm.variableAtom });
+    const product = new Polynomial(newPolynomialTerms, { variableAtom: this.variableAtom });
     // order ascending/descending
     product.sort(optionsObject.ascending);
     return product;
@@ -135,7 +135,7 @@ export default class Polynomial extends Expression {
     if (!(Number.isInteger(n) && n >= 0)) {
       throw new RangeError(`only non-negative integers allowed for n (${n} received)`);
     }
-    let newPoly = new Polynomial([1]);
+    let newPoly = new Polynomial([1], { variableAtom: this.variableAtom });
     for (let i = 0; i < n; i++) {
       newPoly = newPoly.multiply(this);
     }
@@ -147,8 +147,8 @@ export default class Polynomial extends Expression {
    * for example, if this is 3x^2 + x + 1, substituting x+1 returns 3(x+1)^2+x+1 after expansion
    */
   substitute(x: number | Fraction | Polynomial): Polynomial {
-    x = typeof x === 'number' || x instanceof Fraction ? new Polynomial([x]) : x;
-    let newPoly = new Polynomial([0], { variableAtom: this.polynomialTerms[0].variableAtom });
+    x = typeof x === 'number' || x instanceof Fraction ? new Polynomial([x], { variableAtom: this.variableAtom }) : x;
+    let newPoly = new Polynomial([0], { variableAtom: this.variableAtom });
     for (let i = 0; i < this.polynomialTerms.length; i++) {
       const newTerm = x.pow(this.polynomialTerms[i].n).multiply(this.polynomialTerms[i].coeff);
       newPoly = newPoly.add(newTerm);
@@ -161,7 +161,7 @@ export default class Polynomial extends Expression {
    */
   shift(a: number | Fraction): Polynomial {
     a = typeof a === 'number' ? new Fraction(a) : a;
-    const substitutedPoly = new Polynomial([1, a], { variableAtom: this.polynomialTerms[0].variableAtom });
+    const substitutedPoly = new Polynomial([1, a], { variableAtom: this.variableAtom });
     return this.substitute(substitutedPoly);
   }
   /**
@@ -170,7 +170,7 @@ export default class Polynomial extends Expression {
   scale(a: number | Fraction): Polynomial {
     a = typeof a === 'number' ? new Fraction(a) : a;
     const substitutedPoly = new Polynomial([a], {
-      variableAtom: this.polynomialTerms[0].variableAtom,
+      variableAtom: this.variableAtom,
       initialDegree: 1,
     });
     return this.substitute(substitutedPoly);
@@ -181,7 +181,7 @@ export default class Polynomial extends Expression {
   transform(a: number | Fraction, b: number | Fraction): Polynomial {
     a = typeof a === 'number' ? new Fraction(a) : a;
     b = typeof b === 'number' ? new Fraction(b) : b;
-    const substitutedPoly = new Polynomial([a, b], { variableAtom: this.polynomialTerms[0].variableAtom });
+    const substitutedPoly = new Polynomial([a, b], { variableAtom: this.variableAtom });
     return this.substitute(substitutedPoly);
   }
   /**
@@ -196,7 +196,7 @@ export default class Polynomial extends Expression {
         arr.push(e);
       }
     });
-    return new Polynomial(arr, { ascending: true });
+    return new Polynomial(arr, { ascending: true, variableAtom: this.variableAtom});
   }
 
   /**
@@ -258,7 +258,7 @@ export default class Polynomial extends Expression {
     this.polynomialTerms.sort((firstTerm, secondTerm) => {
       return ascending ? firstTerm.n - secondTerm.n : secondTerm.n - firstTerm.n;
     });
-    const newPolynomial = new Polynomial(this.polynomialTerms, { variableAtom: this.polynomialTerms[0].variableAtom });
+    const newPolynomial = new Polynomial(this.polynomialTerms, { variableAtom: this.variableAtom });
     this.terms = newPolynomial.terms;
     return this;
   }
@@ -268,12 +268,11 @@ export default class Polynomial extends Expression {
    * @returns a new instance of this
    */
   clone(): Polynomial {
-    const firstTerm = this.polynomialTerms[0];
     const terms: PolynomialTerm[] = [];
     for (const term of this.polynomialTerms) {
       terms.push(term.clone());
     }
-    return new Polynomial(terms, { variableAtom: firstTerm.variableAtom });
+    return new Polynomial(terms, { variableAtom: this.variableAtom });
   }
 
   ////
@@ -310,7 +309,7 @@ export default class Polynomial extends Expression {
   longDivide(divisor: Polynomial, quotient?: Polynomial): [Polynomial, Polynomial] {
     if (quotient === undefined) {
       // start of long division
-      quotient = new Polynomial([0]);
+      quotient = new Polynomial([0], { variableAtom: this.variableAtom });
       divisor.sort(false);
     }
     const dividend = this.clone();
@@ -326,7 +325,7 @@ export default class Polynomial extends Expression {
       const divisorLeadingCoefficient = divisor.polynomialTerms[0].coeff;
       const dividendLeadingCoefficient = dividend.polynomialTerms[0].coeff;
       const quotientToAdd = new Polynomial([dividendLeadingCoefficient.divide(divisorLeadingCoefficient)], {
-        initialDegree: dividendPower - divisorPower,
+        initialDegree: dividendPower - divisorPower, variableAtom: this.variableAtom,
       });
       const newQuotient = quotient.add(quotientToAdd);
       const newDividend = dividend.subtract(divisor.multiply(quotientToAdd));
@@ -424,7 +423,7 @@ export class PolynomialTerm extends Term {
 } // end of PolynomialTerm
 
 /// internal function
-function trimZeros(poly: PolynomialTerm[]): PolynomialTerm[] {
+function trimZeros(poly: PolynomialTerm[], variableAtom: string): PolynomialTerm[] {
   const newPolyTerms: PolynomialTerm[] = [];
   for (const polyTerm of poly) {
     if (!polyTerm.coeff.isEqual(0)) {
@@ -432,7 +431,7 @@ function trimZeros(poly: PolynomialTerm[]): PolynomialTerm[] {
     }
   }
   if (newPolyTerms.length === 0) {
-    newPolyTerms.push(new PolynomialTerm(0, poly[0].variableAtom, 0));
+    newPolyTerms.push(new PolynomialTerm(0, variableAtom, 0));
   }
   return newPolyTerms;
 }

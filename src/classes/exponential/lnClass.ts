@@ -2,6 +2,7 @@ import Fraction from '../fractionClass';
 import Term from '../algebra/termClass';
 import convertNumberToFraction from '../../internal/convertNumberToFraction';
 import Exp from './expClass';
+import { SquareRoot } from '../rootClasses';
 
 /**
  * ln class
@@ -20,7 +21,7 @@ export default class Ln extends Term {
   // constructor
   ////
   /**
-   * Creates a new ln instance
+   * Creates a new ln instance representing $k \ln x$
    *
    * @argument argument number | Fraction | Exp
    *
@@ -76,7 +77,28 @@ export default class Ln extends Term {
    * @returns '- k ln x', where this is 'k ln x'
    */
   negative(): Ln {
-    return new Ln(this.coeff.negative(), this.argument);
+    return new Ln(this.argument, this.coeff.negative());
+  }
+
+  /**
+   * simplifies the logarithm using two rules:  
+   * (a) if x is a perfect square y^2, in k ln x = k ln y^2, then returns 2k ln y (done recursively)  
+   * (b) if x is a reciprocal 1/y, in k ln x = k ln 1/y, then returns to -k ln y
+   * 
+   * @returns a reference to this object
+   */
+  simplify(): Ln {
+    if (this.argument.num === 1 && this.argument.den !== 1) {
+      this.argument = new Fraction(this.argument.den);
+      this.coeff = this.coeff.negative();
+    }
+    const squareRoot = new SquareRoot(this.argument);
+    if (squareRoot.isRational() && !squareRoot.isEqual(1)) {
+      this.argument = squareRoot.coeff;
+      this.coeff = this.coeff.times(2);
+      return new Ln(this.coeff.clone(), this.argument.clone())
+    }
+    return this.clone();
   }
 
   /**
@@ -87,6 +109,6 @@ export default class Ln extends Term {
   }
 
   clone(): Ln {
-    return new Ln(this.argument, this.coeff);
+    return new Ln(this.argument.clone(), this.coeff.clone());
   }
 }
